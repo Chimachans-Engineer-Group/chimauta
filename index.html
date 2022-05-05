@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>ちまうた｜町田ちま非公式ファンサイト</title>
+  <meta name="description" content="にじさんじ所属のバーチャルライバーである町田ちまさんを応援する非公式ファンサイトです。町田ちまさんが歌った楽曲を探しやすく、再生しやすいようにまとめています。">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#edddbb">
+
+  <!--Noto Sans JP-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+
+  <link href="css/style_l.css" rel="stylesheet" type="text/css" media="only screen and (min-width:961px)">
+  <link href="css/style_s.css" rel="stylesheet" type="text/css" media="only screen and (max-width:960px)">
+  <script defer src="js/script.js" type="text/javascript"></script>
+
+  <!--Font Awesome-->
+  <script defer src="https://kit.fontawesome.com/ddd08aa620.js" crossorigin="anonymous"></script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YPCDHTZKXC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-YPCDHTZKXC');
+  </script>
+</head>
+
+<body>
+
+  <header>
+    <h1 class="logo">ちまうた</h1>
+    <div class="loading">
+      <div class="loading-icon"></div>
+      <span class="loading-text">読込中...</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="youtube">
+      <div class="player" id="player"></div>
+    </section>
+
+    <section class="message">
+      <details open>
+        <summary class="clickable">はじめに</summary>
+        <p class="read">
+          本サイト「ちまうた」は、<a href="https://www.nijisanji.jp/" target="_blank" rel="noopener noreferrer">にじさんじ</a>所属のバーチャルライバーである<a href="https://www.nijisanji.jp/members/chima-machita" target="_blank" rel="noopener noreferrer">町田ちま</a>さんが歌った楽曲を、再生しやすいようにまとめた非公式ファンサイトです。
+        </p>
+        <p class="read">
+          表から曲名をそれぞれ選択すると、該当動画のその曲の部分を再生します。<br>
+          また、動画タイトルはその曲が歌われた元動画にリンクしています。よければ元動画に飛んで高評価やコメントなどをしていただけると嬉しいです。
+        </p>
+        <p class="read">
+          表の内容について、<a href="https://docs.google.com/spreadsheets/d/1jiwNpuEQP44sQTRkUZmn2qimoG_5s42_SyIdIopKaRA/edit?usp=sharing" target="_blank" rel="noopener noreferrer">どなたでも編集に参加することができます</a>。ご協力をお願いします。
+        </p>
+      </details>
+    </section>
+
+    <section class="song-table">
+      <form class="search" id="searchForm">
+        <div class="search-icon search-loupe"><i class="fa fa-search"></i></div>
+        <input type="text" class="search-input" id="searchText" placeholder="検索">
+        <button type="button" title="消去" class="search-icon search-clear invisible" id="toClearSearchValue"><i class="fas fa-times"></i></button>
+
+        <!-- <div class="search-detail">
+          <h3>検索条件：</h3>
+
+          <label class="search-detail-option">
+            <input type="checkbox" class="checkbox">
+            <div class="checkmark"></div>
+            <span>曲名</span>
+          </label>
+
+          <label class="search-detail-option">
+            <input type="checkbox" class="checkbox">
+            <div class="checkmark"></div>
+            <span>アーティスト</span>
+          </label>
+
+          <label class="search-detail-option">
+            <input type="checkbox" class="checkbox">
+            <div class="checkmark"></div>
+            <span>動画タイトル</span>
+          </label>
+
+          <label class="search-detail-option">
+            <input type="checkbox" class="checkbox">
+            <div class="checkmark"></div>
+            <span>投稿日時</span>
+          </label>
+        </div> -->
+      </form>
+
+      <div class="table-information">全<span class="table-information-number" id="entireNum"></span>件中、<span class="table-information-number" id="searchResultNum"></span>件を表示中</div>
+
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>曲名</th>
+            <th>アーティスト</th>
+            <th>動画タイトル</th>
+            <th>投稿日時</th>
+          </tr>
+        </thead>
+
+        <tbody id="tableArea"></tbody>
+      </table>
+
+      <address>&copy; 2021 <a href="https://twitter.com/DontMakeItSpicy" target="_blank" rel="noopener noreferrer">ヤータムペットナ</a></address>
+    </section>
+  </main>
+
+  <nav class="playing-bar">
+    <button type="button" title="一番上に戻る" class="to-page-top invisible" id="toPageTop">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <input type="range" class="seek-bar" value="100" min="0" max="200">
+
+    <div class="playing-bar-information">
+      <button type="button" title="該当する行までスクロール" class="playing-bar-thumb-button" id="playingBarThumbButton">
+        <img id="playingBarThumb">
+      </button>
+
+      <div class="playing-bar-text">
+        <span class="playing-bar-song-title" id="playingBarSongTitle"></span>
+        <span class="playing-bar-artist" id="playingBarArtist"></span>
+      </div>
+    </div>
+
+    <button type="button" title="再生" class="playing-bar-button" id="playingBarStatus">
+      <i class="fas fa-play" id="playingBarPlay"></i>
+      <i class="fas fa-pause to-hide" id="playingBarPause"></i>
+    </button>
+
+    <button type="button" title="メニューを開く" class="playing-bar-button menu-btn" id="menuButton" aria-controls="menuContent" aria-expanded="false">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+
+      <span class="menu-btn-open">MENU</span>
+      <span class="menu-btn-close">CLOSE</span>
+    </button>
+
+    <div class="menu-content" id="menuContent">
+      <div class="menu-controller">
+        <button type="button" title="1曲リピートを有効にする" class="menu-controller-button disabled" id="menuControllerRepeat">
+          <i class="fas fa-retweet"></i>
+          <div class="menu-controller-repeat-text">1</div>
+        </button>
+
+        <button type="button" title="はじめから" class="menu-controller-button" id="menuControllerPrev">
+          <i class="fas fa-step-backward"></i>
+        </button>
+
+        <button type="button" title="再生" class="menu-controller-button menu-controller-status" id="menuControllerStatus">
+          <i class="fas fa-play-circle" id="menuControllerPlay"></i>
+          <i class="fas fa-pause-circle to-hide" id="menuControllerPause"></i>
+        </button>
+
+        <button type="button" title="次の曲へ" class="menu-controller-button" id="menuControllerNext">
+          <i class="fas fa-step-forward"></i>
+        </button>
+
+        <button type="button" title="シャッフルを有効にする" class="menu-controller-button disabled" id="menuControllerShuffle">
+          <i class="fas fa-random"></i>
+        </button>
+      </div>
+
+      <ul class="menu-share">
+        <li class="menu-share-item">
+          <a class="icon icon-twitter" href="https://twitter.com/share?url=http://chimauta.html.xdomain.jp/&text=ちまうた｜町田ちま非公式ファンサイト" title="ツイート" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+</body>
+
+</html>

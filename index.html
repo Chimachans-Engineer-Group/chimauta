@@ -90,12 +90,12 @@
     </section>
   </main>
 
-  <nav class="playing-bar">
+  <div class="playing-bar">
     <button type="button" title="一番上に戻る" class="to-page-top invisible" id="toPageTop">
       <i class="fa-solid fa-chevron-up"></i>
     </button>
 
-    <input type="range" class="seek-bar" value="100" min="0" max="200">
+    <!-- <input type="range" class="seek-bar" value="100" min="0" max="200"> -->
 
     <div class="playing-bar-information">
       <button type="button" title="該当する行までスクロール" class="playing-bar-thumb-button" id="playingBarThumbButton">
@@ -109,8 +109,8 @@
     </div>
 
     <button type="button" title="再生" class="playing-bar-button" id="playingBarStatus">
-      <i class="fa-solid fa-circle-play" id="playingBarPlay"></i>
-      <i class="fa-solid fa-circle-pause to-hide" id="playingBarPause"></i>
+      <i class="fa-solid fa-play" id="playingBarPlay"></i>
+      <i class="fa-solid fa-pause to-hide" id="playingBarPause"></i>
     </button>
 
     <button type="button" title="メニューを開く" class="playing-bar-button menu-btn" id="menuButton" aria-controls="menuContent" aria-expanded="false">
@@ -157,7 +157,7 @@
         </li>
       </ul>
     </div>
-  </nav>
+  </div>
 
 </body>
 

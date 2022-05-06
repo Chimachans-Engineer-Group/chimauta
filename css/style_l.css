@@ -343,7 +343,7 @@ address {
 }
 
 .playing-bar-information {
-  width: 30%;
+  flex: 4;
   display: flex;
   align-items: center;
 }
@@ -382,12 +382,12 @@ address {
 }
 
 .menu-content {
+  flex: 7;
   display: flex;
-  width: 70%;
 }
 
 .menu-controller {
-  flex: 4;
+  flex: 3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -399,8 +399,8 @@ address {
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   margin: 0 4px;
 }
 
@@ -419,8 +419,8 @@ address {
   display: flex;
   justify-content: center;
   align-items: center;
-  top: -9px;
-  right: -9px;
+  top: 11px;
+  right: -4px;
   border: 2px solid var(--main-bg);
   color: var(--main-bg);
 }
@@ -432,6 +432,8 @@ address {
 .menu-controller-status {
   font-size: 2em;
   margin: 0 12px;
+  width: 60px;
+  height: 60px;
 }
 
 .disabled {
@@ -439,7 +441,7 @@ address {
 }
 
 .menu-share {
-  flex: 3;
+  flex: 4;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

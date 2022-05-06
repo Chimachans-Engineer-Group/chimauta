@@ -343,7 +343,7 @@ address {
 }
 
 .playing-bar-information {
-  flex: 4;
+  width: calc(100% / 11 * 4);
   display: flex;
   align-items: center;
 }

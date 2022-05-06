@@ -320,7 +320,7 @@ address {
   box-sizing: border-box;
 }
 
-.seek-bar {
+/* .seek-bar {
   cursor: pointer;
   background-color: #c7c7c7;
   height: 2px;
@@ -340,7 +340,7 @@ address {
   display: block;
   background-color: #262626;
   border-radius: 50%;
-}
+} */
 
 .playing-bar-information {
   width: calc(100% / 11 * 4);
@@ -431,7 +431,6 @@ address {
 
 .menu-controller-status {
   font-size: 2em;
-  margin: 0 12px;
   width: 60px;
   height: 60px;
 }

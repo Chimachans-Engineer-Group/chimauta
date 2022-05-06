@@ -7,24 +7,20 @@ let playerFlag = 0;
 let repeatFlag = 0;
 let shuffleFlag = 0;
 let repeatCount = 1;
-// let songHistory = [];
-// let historyFlag = 0;
 
 
-function escapeHTML(str) {
+function unescapeHTML(str) {
   if (typeof str !== 'string') {
     return str;
   }
-  return str.replace(/[&'`"<>]/g, function (match) {
-    return {
-      '&': '&amp;',
-      "'": '&#x27;',
-      '`': '&#x60;',
-      '"': '&quot;',
-      '<': '&lt;',
-      '>': '&gt;',
-    }[match]
-  });
+  return str
+    .replace(/&gt;/g, '>')
+    .replace(/&lt;/g, '<')
+    .replace(/&quot;/g, '"')
+    .replace(/&#x60;/g, '`')
+    .replace(/&#x27;/g, "'")
+    .replace(/&amp;/g, '<')
+    ;
 }
 
 
@@ -127,13 +123,6 @@ function toPauseIcon() {
 }
 
 
-// function pushToSongHistory(songNum) {
-//   if (songNum !== songHistory.slice(-1)[0]) {
-//     songHistory.push(songNum);
-//   }
-// }
-
-
 // プレーヤーの状態が変更されたとき
 function onPlayerStateChange(e) {
   // 再生終了のとき
@@ -153,10 +142,7 @@ function onPlayerStateChange(e) {
   else if (e.data == 1 || e.data == 3) {
     toPauseIcon();
     playerFlag = 1;
-    // pushToSongHistory(nowSongNum);
-    // console.log(songHistory);
   }
-  // console.log(e.data);
 }
 
 
@@ -251,7 +237,7 @@ function playSong(songNum) {
 
 searchForm.addEventListener('input', searchSong);
 function searchSong() {
-  const searchWord = escapeHTML(searchText.value);
+  const searchWord = searchText.value;
 
   if (searchWord == '') {
     toClearSearchValue.classList.add('invisible');
@@ -261,7 +247,7 @@ function searchSong() {
   }
 
   searchResult = songList.flatMap((value, index) => {
-    if (value.songTitle.indexOf(searchWord) > -1 || value.artist.indexOf(searchWord) > -1) {
+    if (unescapeHTML(value.songTitle).indexOf(searchWord) > -1 || unescapeHTML(value.artist).indexOf(searchWord) > -1) {
       document.getElementById('rowOfSongNum' + index).classList.remove('to-hide');
 
       return index;
@@ -371,18 +357,6 @@ menuControllerRepeat.addEventListener('click', function () {
 
 menuControllerPrev.addEventListener('click', function () {
   playSong(nowSongNum);
-
-  // console.log('getCurrentTime: ' + player.getCurrentTime());
-  // console.log('startSeconds: ' + songList[nowSongNum]['startSeconds']);
-
-  // const elapsedTime = player.getCurrentTime() - songList[nowSongNum]['startSeconds'];
-
-  // if (elapsedTime < 4) {
-  //   playSong(nowSongNum + 1);
-  // }
-  // else {
-  //   playSong(nowSongNum);
-  // }
 });
 
 

@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width">
   <meta name="theme-color" content="#edddbb">
 
-  <!--Noto Sans JP-->
+  <!--Google Fonts-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
@@ -65,37 +65,9 @@
 
     <section class="song-table">
       <form class="search" id="searchForm">
-        <div class="search-icon search-loupe"><i class="fa fa-search"></i></div>
+        <div class="search-icon search-loupe"><i class="fa-solid fa-magnifying-glass"></i></div>
         <input type="text" class="search-input" id="searchText" placeholder="検索">
-        <button type="button" title="消去" class="search-icon search-clear invisible" id="toClearSearchValue"><i class="fas fa-times"></i></button>
-
-        <!-- <div class="search-detail">
-          <h3>検索条件：</h3>
-
-          <label class="search-detail-option">
-            <input type="checkbox" class="checkbox">
-            <div class="checkmark"></div>
-            <span>曲名</span>
-          </label>
-
-          <label class="search-detail-option">
-            <input type="checkbox" class="checkbox">
-            <div class="checkmark"></div>
-            <span>アーティスト</span>
-          </label>
-
-          <label class="search-detail-option">
-            <input type="checkbox" class="checkbox">
-            <div class="checkmark"></div>
-            <span>動画タイトル</span>
-          </label>
-
-          <label class="search-detail-option">
-            <input type="checkbox" class="checkbox">
-            <div class="checkmark"></div>
-            <span>投稿日時</span>
-          </label>
-        </div> -->
+        <button type="button" title="消去" class="search-icon search-clear invisible" id="toClearSearchValue"><i class="fa-solid fa-xmark"></i></button>
       </form>
 
       <div class="table-information">全<span class="table-information-number" id="entireNum"></span>件中、<span class="table-information-number" id="searchResultNum"></span>件を表示中</div>
@@ -120,7 +92,7 @@
 
   <nav class="playing-bar">
     <button type="button" title="一番上に戻る" class="to-page-top invisible" id="toPageTop">
-      <i class="fas fa-chevron-up"></i>
+      <i class="fa-solid fa-chevron-up"></i>
     </button>
 
     <input type="range" class="seek-bar" value="100" min="0" max="200">
@@ -137,8 +109,8 @@
     </div>
 
     <button type="button" title="再生" class="playing-bar-button" id="playingBarStatus">
-      <i class="fas fa-play" id="playingBarPlay"></i>
-      <i class="fas fa-pause to-hide" id="playingBarPause"></i>
+      <i class="fa-solid fa-circle-play" id="playingBarPlay"></i>
+      <i class="fa-solid fa-circle-pause to-hide" id="playingBarPause"></i>
     </button>
 
     <button type="button" title="メニューを開く" class="playing-bar-button menu-btn" id="menuButton" aria-controls="menuContent" aria-expanded="false">
@@ -155,32 +127,32 @@
     <div class="menu-content" id="menuContent">
       <div class="menu-controller">
         <button type="button" title="1曲リピートを有効にする" class="menu-controller-button disabled" id="menuControllerRepeat">
-          <i class="fas fa-retweet"></i>
+          <i class="fa-solid fa-repeat"></i>
           <div class="menu-controller-repeat-text">1</div>
         </button>
 
         <button type="button" title="はじめから" class="menu-controller-button" id="menuControllerPrev">
-          <i class="fas fa-step-backward"></i>
+          <i class="fa-solid fa-backward-step"></i>
         </button>
 
         <button type="button" title="再生" class="menu-controller-button menu-controller-status" id="menuControllerStatus">
-          <i class="fas fa-play-circle" id="menuControllerPlay"></i>
-          <i class="fas fa-pause-circle to-hide" id="menuControllerPause"></i>
+          <i class="fa-solid fa-circle-play" id="menuControllerPlay"></i>
+          <i class="fa-solid fa-circle-pause to-hide" id="menuControllerPause"></i>
         </button>
 
         <button type="button" title="次の曲へ" class="menu-controller-button" id="menuControllerNext">
-          <i class="fas fa-step-forward"></i>
+          <i class="fa-solid fa-forward-step"></i>
         </button>
 
         <button type="button" title="シャッフルを有効にする" class="menu-controller-button disabled" id="menuControllerShuffle">
-          <i class="fas fa-random"></i>
+          <i class="fa-solid fa-shuffle"></i>
         </button>
       </div>
 
       <ul class="menu-share">
         <li class="menu-share-item">
           <a class="icon icon-twitter" href="https://twitter.com/share?url=http://chimauta.html.xdomain.jp/&text=ちまうた｜町田ちま非公式ファンサイト" title="ツイート" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-twitter"></i>
+            <i class="fa-brands fa-twitter"></i>
           </a>
         </li>
       </ul>

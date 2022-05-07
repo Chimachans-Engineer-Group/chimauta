@@ -343,6 +343,10 @@ address {
   margin-left: 1rem;
 }
 
+.playing-bar-text br {
+  display: none;
+}
+
 .playing-bar-text span {
   overflow: hidden;
   white-space: nowrap;

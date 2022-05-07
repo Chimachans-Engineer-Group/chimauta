@@ -84,10 +84,10 @@ function insertSongInfo() {
   playingBarThumb.setAttribute('src', 'https://i.ytimg.com/vi_webp/' + songList[nowSongNum]['videoId'] + '/default.webp');
 
   playingBarSongTitle.innerHTML = songList[nowSongNum]['songTitle'];
-  playingBarSongTitle.setAttribute('title', songList[nowSongNum]['songTitle']);
+  playingBarSongTitle.setAttribute('title', unescapeHTML(songList[nowSongNum]['songTitle']));
 
   playingBarArtist.innerHTML = songList[nowSongNum]['artist'];
-  playingBarArtist.setAttribute('title', songList[nowSongNum]['artist']);
+  playingBarArtist.setAttribute('title', unescapeHTML(songList[nowSongNum]['artist']));
 
   playingBarPostDate.innerHTML = songList[nowSongNum]['postDate'].substring(0, 10) + ' 配信';
 }

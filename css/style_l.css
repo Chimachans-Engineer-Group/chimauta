@@ -341,7 +341,7 @@ address {
 .playing-bar-text {
   width: calc(100% - 96px - 2rem);
   max-height: 54px;
-  line-height: 1;
+  line-height: 1.3;
   margin: 0 1rem;
 }
 

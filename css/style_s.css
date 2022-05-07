@@ -207,52 +207,6 @@ summary {
   right: 0;
 }
 
-.search-detail {
-  margin: .75rem;
-}
-
-.search-detail-option {
-  display: inline-flex;
-  margin-top: .75em;
-  cursor: pointer;
-}
-
-.checkmark {
-  height: 1.375rem;
-  width: 1.375rem;
-  border: solid .125rem #d4dae2;
-  border-radius: .25rem;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.checkbox:focus+.checkmark {
-  border-color: #2e80ff;
-}
-
-.checkmark:after {
-  content: "";
-  position: absolute;
-  left: .3125rem;
-  top: .0625rem;
-  width: .375rem;
-  height: .625rem;
-  border: solid #FFF;
-  border-width: 0 .125rem .125rem 0;
-  transform: rotate(45deg);
-  opacity: 0;
-}
-
-.checkbox:checked+.checkmark {
-  background: #2e80ff;
-  border-color: #2e80ff;
-}
-
-/* チェックが入ったときの✓ */
-.checkbox:checked+.checkmark:after {
-  opacity: 1;
-}
-
 .table-information-number {
   padding: 0 .25rem;
 }
@@ -399,6 +353,10 @@ address {
   color: var(--gray3);
 }
 
+.playing-bar-post-date {
+  display: none;
+}
+
 .playing-bar-button {
   width: 54px;
   display: flex;
@@ -500,6 +458,7 @@ address {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 8px;
   font-size: calc(16px * 1.414);
   border-top: 1px solid var(--gray1);
 }
@@ -511,7 +470,6 @@ address {
   position: relative;
   width: 45px;
   height: 45px;
-  margin: 0 4px;
 }
 
 .menu-controller-repeat-text {

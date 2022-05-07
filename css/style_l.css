@@ -121,7 +121,7 @@ header {
 
 main {
   margin-top: 56px;
-  margin-bottom: 84px;
+  margin-bottom: 87px;
   display: grid;
   align-items: start;
   grid-template-rows: calc((100vw / 2.414 - 24px) / 16 * 9) auto;
@@ -320,61 +320,58 @@ address {
   box-sizing: border-box;
 }
 
-/* .seek-bar {
-  cursor: pointer;
-  background-color: #c7c7c7;
-  height: 2px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.seek-bar::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  position: relative;
-  border: none;
-  width: 12px;
-  height: 12px;
-  display: block;
-  background-color: #262626;
-  border-radius: 50%;
-} */
-
 .playing-bar-information {
-  width: 30%;
+  width: calc(100% /11 * 4);
   display: flex;
   align-items: center;
 }
 
 .playing-bar-thumb-button {
-  height: 54px;
   width: 96px;
+  height: 54px;
 }
 
 .playing-bar-thumb-button img {
   object-fit: cover;
   width: 100%;
   height: 100%;
+  display: block;
 }
 
 .playing-bar-text {
-  width: calc(100% - 96px - 1rem);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 1rem;
+  width: calc(100% - 96px - 2rem);
+  max-height: 54px;
+  line-height: 1;
+  margin: 0 1rem;
 }
 
-.playing-bar span {
+.playing-bar-text span {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  display: inline-block;
+}
+
+.playing-bar-text-top {
+  font-size: 1.125rem;
+}
+
+.playing-bar-song-title {
+  max-width: 50%;
+}
+
+.playing-bar-artist::before {
+  content: "/";
+  margin: 0 0.5rem;
 }
 
 .playing-bar-artist {
+  max-width: 50%;
+}
+
+.playing-bar-text-bottom {
   color: var(--gray3);
+  font-size: 0.875rem;
 }
 
 .playing-bar-button {
@@ -387,10 +384,11 @@ address {
 }
 
 .menu-controller {
-  flex: 4;
+  flex: 3;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 8px;
   font-size: calc(16px * 1.414);
 }
 
@@ -401,7 +399,6 @@ address {
   position: relative;
   width: 45px;
   height: 45px;
-  margin: 0 4px;
 }
 
 .to-hide {
@@ -440,11 +437,12 @@ address {
 }
 
 .menu-share {
-  flex: 3;
+  flex: 4;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  gap: 1rem;
   list-style: none;
 }
 

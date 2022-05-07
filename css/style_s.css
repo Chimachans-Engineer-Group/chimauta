@@ -498,9 +498,9 @@ address {
   padding: .75rem 1.5rem;
   background-color: var(--main-bg);
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  font-size: 1.414rem;
+  font-size: calc(16px * 1.414);
   border-top: 1px solid var(--gray1);
 }
 
@@ -509,6 +509,9 @@ address {
   justify-content: center;
   align-items: center;
   position: relative;
+  width: 45px;
+  height: 45px;
+  margin: 0 4px;
 }
 
 .menu-controller-repeat-text {
@@ -522,8 +525,8 @@ address {
   display: flex;
   justify-content: center;
   align-items: center;
-  top: -9px;
-  right: -9px;
+  bottom: 5px;
+  right: 2px;
   border: 2px solid var(--main-bg);
   color: var(--main-bg);
 }
@@ -533,7 +536,9 @@ address {
 }
 
 .menu-controller-status {
-  font-size: 3.464rem;
+  font-size: 2em;
+  width: 60px;
+  height: 60px;
 }
 
 .disabled {

@@ -343,7 +343,7 @@ address {
 } */
 
 .playing-bar-information {
-  width: calc(100% / 11 * 4);
+  width: 30%;
   display: flex;
   align-items: center;
 }
@@ -387,7 +387,7 @@ address {
 }
 
 .menu-controller {
-  flex: 3;
+  flex: 4;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -399,8 +399,8 @@ address {
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 30px;
-  height: 30px;
+  width: 45px;
+  height: 45px;
   margin: 0 4px;
 }
 
@@ -419,8 +419,8 @@ address {
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 11px;
-  right: -4px;
+  bottom: 5px;
+  right: 2px;
   border: 2px solid var(--main-bg);
   color: var(--main-bg);
 }
@@ -440,7 +440,7 @@ address {
 }
 
 .menu-share {
-  flex: 4;
+  flex: 3;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

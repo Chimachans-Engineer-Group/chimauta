@@ -352,10 +352,6 @@ address {
   display: inline-block;
 }
 
-.playing-bar-text-top {
-  font-size: 1.125rem;
-}
-
 .playing-bar-song-title {
   max-width: 50%;
 }

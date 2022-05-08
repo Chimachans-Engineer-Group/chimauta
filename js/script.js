@@ -379,3 +379,15 @@ menuControllerShuffle.addEventListener('click', function () {
     shuffleFlag = 1;
   }
 });
+
+
+menuTimeSeekBar.addEventListener('input', function () {
+  const inputSeconds = menuTimeSeekBar.value;
+
+  menuTimeTextNow.innerText = inputSeconds;
+  console.log(inputSeconds);
+
+  const percent = inputSeconds / 100 * 100;
+
+  menuTimeSeekBar.style.backgroundImage = 'linear-gradient(to right, red ' + percent + '%, #fff ' + percent + '%)';
+});

@@ -443,14 +443,14 @@ address {
 }
 
 .menu-share-item {
-  height: 40px;
-  line-height: 40px;
+  height: 45px;
+  line-height: 45px;
   text-align: center;
+  aspect-ratio: 1 / 1;
 }
 
 .icon {
   display: block;
-  padding: 0 20px;
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
@@ -458,14 +458,6 @@ address {
 
 .icon::before {
   font-size: 16px;
-}
-
-.icon::after {
-  margin-left: .5rem;
-  font-size: 1rem;
-  font-weight: 700;
-  vertical-align: top;
-  content: attr(title);
 }
 
 .icon-twitter {

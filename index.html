@@ -95,8 +95,6 @@
       <i class="fa-solid fa-chevron-up"></i>
     </button>
 
-    <!-- <input type="range" class="seek-bar" value="100" min="0" max="200"> -->
-
     <div class="playing-bar-information">
       <button type="button" title="該当する行までスクロール" class="playing-bar-thumb-button" id="playingBarThumbButton">
         <img id="playingBarThumb">
@@ -108,7 +106,7 @@
       </div>
     </div>
 
-    <button type="button" title="再生" class="playing-bar-button" id="playingBarStatus">
+    <button type="button" title="再生" class="playing-bar-button playing-bar-status" id="playingBarStatus">
       <i class="fa-solid fa-play" id="playingBarPlay"></i>
       <i class="fa-solid fa-pause to-hide" id="playingBarPause"></i>
     </button>
@@ -147,6 +145,15 @@
         <button type="button" title="シャッフルを有効にする" class="menu-controller-button disabled" id="menuControllerShuffle">
           <i class="fa-solid fa-shuffle"></i>
         </button>
+      </div>
+
+      <div class="menu-time">
+        <input type="range" class="menu-time-seek-bar" id="menuTimeSeekBar" value="0" min="0" max="100">
+
+        <div class="menu-time-text">
+          <span class="menu-time-text-now" id="menuTimeTextNow">0:00</span>
+          <span class="menu-time-text-whole">4:32</span>
+        </div>
       </div>
 
       <ul class="menu-share">

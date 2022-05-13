@@ -1,8 +1,12 @@
 let songList;
 let searchResult = [];
-let prevSongNum;
 let nowSongNum;
 let player;
+let prevSongNum;
+let wholeSeconds;
+let currentSeconds;
+let countUpSecondsInterval;
+let countUpSecondsFlag = 0;
 let playerFlag = 0;
 let repeatFlag = 0;
 let shuffleFlag = 0;
@@ -38,14 +42,14 @@ fetch('https://script.google.com/macros/s/AKfycbxjLZhe1S-tRL5lBLuQjv_cFj2WffT0RU
 
     let tableInsert = '';
     for (let i = songList.length - 1; i >= 0; i--) {
-      tableInsert += '<tr id="rowOfSongNum' + i + '"><td class="video-thumb"><label class="clickable video-thumb-area" for="buttonOfSongNum' + i + '"><img class="video-thumb-img" src="https://i.ytimg.com/vi_webp/' + songList[i]['videoId'] + '/default.webp"></label></td><td class="song-title"><label class="clickable" title="' + songList[i]['songTitle'] + '"><button type="button" class="song-title-button" id="buttonOfSongNum' + i + '" value="' + i + '">' + songList[i]['songTitle'] + '</button></label></td><td class="artist"><label class="clickable" for="buttonOfSongNum' + i + '" title="' + songList[i]['artist'] + '"><span class="artist-text">' + songList[i]['artist'] + '</span></label></td><td class="video-title"><a class="video-title-link" href="https://youtu.be/' + songList[i]['videoId'] + '?t=' + songList[i]['startSeconds'] + '" target="_blank" rel="noopener noreferrer" title="' + songList[i]['videoTitle'] + '">' + songList[i]['videoTitle'] + '</a></td><td class="post-time"><span class="post-time-text">' + songList[i]['postDate'] + '</span></td></tr>';
+      tableInsert += '<tr id="rowOfSongNum' + i + '"><td class="video-thumb"><label class="clickable video-thumb-area" for="buttonOfSongNum' + i + '"><img class="video-thumb-img" src="https://i.ytimg.com/vi_webp/' + songList[i]['videoId'] + '/default.webp"></label></td><td class="song-title"><label class="song-title-label clickable" title="' + songList[i]['songTitle'] + '"><button type="button" class="song-title-button" id="buttonOfSongNum' + i + '" value="' + i + '">' + songList[i]['songTitle'] + '</button></label></td><td class="artist"><label class="clickable" for="buttonOfSongNum' + i + '" title="' + songList[i]['artist'] + '"><span class="artist-text">' + songList[i]['artist'] + '</span></label></td><td class="video-title"><a class="video-title-link" href="https://youtu.be/' + songList[i]['videoId'] + '?t=' + songList[i]['startSeconds'] + '" target="_blank" rel="noopener noreferrer" title="' + songList[i]['videoTitle'] + '">' + songList[i]['videoTitle'] + '</a></td><td class="post-time"><span class="post-time-text">' + songList[i]['postDate'] + '</span></td></tr>';
 
       searchResult[i] = i;
     }
 
     tableArea.innerHTML = tableInsert;
-    entireNum.innerText = songList.length;
-    searchResultNum.innerText = searchResult.length;
+    entireNum.textContent = songList.length;
+    searchResultNum.textContent = searchResult.length;
 
     const songButtons = document.getElementsByClassName('song-title-button');
     for (let songButton of songButtons) {
@@ -75,6 +79,27 @@ function onYouTubeIframeAPIReady() {
 }
 
 
+function insertSeekBarValue(seconds) {
+  if (typeof seconds == 'number') {
+    menuTimeSeekBar.value = seconds;
+  }
+  else {
+    seconds = menuTimeSeekBar.value;
+  }
+
+  const percent = seconds / wholeSeconds * 100;
+  menuTimeSeekBar.style.backgroundImage = 'linear-gradient(to right, var(--brand-color) ' + percent + '%, var(--gray1) ' + percent + '%)';
+}
+
+
+function formatSeconds(seconds) {
+  const minutes = Math.floor(seconds / 60) === 0 ? 0 : Math.floor(seconds / 60);
+  const remainderSeconds = seconds % 60 < 10 ? '0' + String(seconds % 60) : seconds % 60;
+
+  return minutes + ':' + remainderSeconds;
+}
+
+
 function insertSongInfo() {
   if (typeof (prevSongNum) == 'number') {
     document.getElementById('rowOfSongNum' + prevSongNum).classList.remove('now-song-row');
@@ -89,9 +114,13 @@ function insertSongInfo() {
   playingBarArtist.innerHTML = songList[nowSongNum]['artist'];
   playingBarArtist.setAttribute('title', unescapeHTML(songList[nowSongNum]['artist']));
 
-  playingBarPostDate.innerHTML = songList[nowSongNum]['postDate'].substring(0, 10) + ' 配信';
-}
+  playingBarPostDate.textContent = songList[nowSongNum]['postDate'].substring(0, 10) + ' 配信';
 
+  wholeSeconds = songList[nowSongNum]['endSeconds'] - songList[nowSongNum]['startSeconds'];
+  insertSeekBarValue(0);
+  menuTimeSeekBar.max = wholeSeconds;
+  menuTimeTextWhole.textContent = formatSeconds(wholeSeconds);
+}
 
 function onPlayerReady() {
   player.cueVideoById({
@@ -127,6 +156,25 @@ function toPauseIcon() {
 }
 
 
+function getSongCurrentTime() {
+  currentSeconds = Math.round(player.getCurrentTime() - songList[nowSongNum]['startSeconds']);
+  insertSeekBarValue(currentSeconds);
+  menuTimeTextNow.textContent = formatSeconds(currentSeconds);
+}
+
+
+function startCountingUpSeconds() {
+  countUpSecondsFlag = 1;
+  countUpSecondsInterval = setInterval(getSongCurrentTime, 250);
+}
+
+
+function stopCountingUpSeconds() {
+  clearInterval(countUpSecondsInterval);
+  countUpSecondsFlag = 0;
+}
+
+
 // プレーヤーの状態が変更されたとき
 function onPlayerStateChange(e) {
   // 再生終了のとき
@@ -134,18 +182,28 @@ function onPlayerStateChange(e) {
     toPlayIcon();
     playSong();
     playerFlag = 0;
+    stopCountingUpSeconds();
   }
 
   // 一時停止のとき
   else if (e.data == 2) {
     toPlayIcon();
     playerFlag = 0;
+    stopCountingUpSeconds();
+  }
+
+  // バッファリング中
+  else if (e.data == 3) {
+    toPauseIcon();
   }
 
   // 再生中のとき
-  else if (e.data == 1 || e.data == 3) {
+  else if (e.data == 1) {
     toPauseIcon();
     playerFlag = 1;
+    if (countUpSecondsFlag == 0) {
+      startCountingUpSeconds();
+    }
   }
 }
 
@@ -263,7 +321,7 @@ function searchSong() {
     }
   });
 
-  searchResultNum.innerText = searchResult.length;
+  searchResultNum.textContent = searchResult.length;
 }
 
 
@@ -275,18 +333,14 @@ toClearSearchValue.addEventListener('click', function () {
 
 
 searchForm.addEventListener('keypress', function (e) {
-  const key = e.keyCode || e.charCode || 0;
-  // 13はEnterキーのキーコード
-  if (key == 13) {
-    // アクションを行わない
+  if (e.key == 'Enter') {
     e.preventDefault();
   }
 });
 
 
-const screenHeight = window.innerHeight;
 window.addEventListener('scroll', function () {
-  if (window.pageYOffset > screenHeight) {
+  if (window.pageYOffset > window.innerHeight) {
     toPageTop.classList.remove('invisible');
   }
   else {
@@ -378,4 +432,23 @@ menuControllerShuffle.addEventListener('click', function () {
     menuControllerShuffle.setAttribute('title', 'シャッフルを無効にする');
     shuffleFlag = 1;
   }
+});
+
+
+menuTimeSeekBar.addEventListener('input', onInputSeekBar);
+function onInputSeekBar() {
+  stopCountingUpSeconds();
+  insertSeekBarValue();
+  menuTimeTextNow.textContent = formatSeconds(menuTimeSeekBar.value);
+}
+
+
+menuTimeSeekBar.addEventListener('change', function () {
+  playerFlag = 0;
+
+  player.loadVideoById({
+    videoId: songList[nowSongNum]['videoId'],
+    startSeconds: songList[nowSongNum]['startSeconds'] + Number(menuTimeSeekBar.value),
+    endSeconds: songList[nowSongNum]['endSeconds']
+  });
 });

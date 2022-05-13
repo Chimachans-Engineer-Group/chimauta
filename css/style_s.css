@@ -1,9 +1,11 @@
 @charset "utf-8";
 
 :root {
+  --brand-color: #edddbb;
+
   --main-bg: #fff;
   --main-text: #333;
-  --brand-bg: #edddbb;
+  --brand-bg: var(--brand-color);
   --brand-text: #333;
   --gray1: #ebebeb;
   --gray2: #ccc;
@@ -12,10 +14,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --main-bg: #000;
+    --main-bg: #181818;
     --main-text: #ddd;
-    --brand-bg: #333;
-    --brand-text: #edddbb;
+    --brand-bg: #212121;
+    --brand-text: var(--brand-color);
     --gray1: #535353;
     --gray2: #6F6F6F;
     --gray3: #A6A6A6;
@@ -40,7 +42,8 @@
   }
 }
 
-@media screen and (min-width:641px), print {
+@media screen and (min-width:641px),
+print {
   .message {
     margin: 1.5rem 10%;
   }
@@ -86,12 +89,13 @@ p {
   margin-top: 1rem;
 }
 
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   background: none;
   border: none;
   border-radius: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
   font: inherit;
   color: inherit;
@@ -295,6 +299,7 @@ address {
   background: var(--brand-bg);
   border-radius: 50%;
   box-shadow: 0px 0px 5px 3px var(--gray1);
+  transition: all .3s;
 }
 
 .to-page-top .fa-chevron-up {
@@ -303,8 +308,6 @@ address {
   left: 50%;
   font-size: 1.4em;
   color: var(--brand-text);
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
@@ -369,6 +372,10 @@ address {
   flex-direction: column;
 }
 
+.playing-bar-status {
+  font-size: 16px;
+}
+
 .menu-btn span {
   font-size: 10px;
 }
@@ -420,51 +427,14 @@ address {
   opacity: 1;
 }
 
-.menu-share {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  list-style: none;
-}
-
-.menu-share-item {
-  height: 45px;
-  line-height: 45px;
-  text-align: center;
-}
-
-.icon {
-  display: block;
-  padding: 0 20px;
-  color: #fff;
-  text-decoration: none;
-}
-
-.icon::before {
-  font-size: 16px;
-}
-
-.icon::after {
-  margin-left: 5px;
-  font-size: 14px;
-  font-weight: 700;
-  vertical-align: top;
-  content: attr(title);
-}
-
-.icon-twitter {
-  background: #55acee;
-}
-
 .menu-controller {
-  padding: .75rem 1.5rem;
+  padding: 6px 24px;
   background-color: var(--main-bg);
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
   font-size: calc(16px * 1.414);
-  border-top: 1px solid var(--gray1);
 }
 
 .menu-controller-button {
@@ -505,4 +475,84 @@ address {
 
 .disabled {
   color: var(--gray2);
+}
+
+.menu-time {
+  background-color: var(--main-bg);
+  padding: 12px 24px 0;
+  border-top: 1px solid var(--gray1);
+}
+
+.menu-time-text span {
+  color: var(--gray3);
+}
+
+.menu-time-seek-bar {
+  height: 5px;
+  width: 100%;
+  background-color: var(--gray1);
+}
+
+.menu-time-seek-bar::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: var(--gray3);
+  cursor: pointer;
+  border: none;
+  display: block;
+  border-radius: 50%;
+}
+
+/* ↑まとめると適用されない↓ */
+
+.menu-time-seek-bar::-moz-range-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: var(--gray3);
+  cursor: pointer;
+  border: none;
+  display: block;
+  border-radius: 50%;
+}
+
+.menu-time-text {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu-share {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  list-style: none;
+}
+
+.menu-share-item {
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
+}
+
+.icon {
+  display: block;
+  padding: 0 20px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.icon::before {
+  font-size: 16px;
+}
+
+.icon::after {
+  margin-left: 8px;
+  font-weight: 700;
+  vertical-align: top;
+  content: attr(title);
+}
+
+.icon-twitter {
+  background: #55acee;
 }

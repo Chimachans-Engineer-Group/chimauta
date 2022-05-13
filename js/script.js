@@ -92,6 +92,14 @@ function insertSeekBarValue(seconds) {
 }
 
 
+function formatSeconds(seconds) {
+  const minutes = Math.floor(seconds / 60) === 0 ? 0 : Math.floor(seconds / 60);
+  const remainderSeconds = seconds % 60 < 10 ? '0' + String(seconds % 60) : seconds % 60;
+
+  return minutes + ':' + remainderSeconds;
+}
+
+
 function insertSongInfo() {
   if (typeof (prevSongNum) == 'number') {
     document.getElementById('rowOfSongNum' + prevSongNum).classList.remove('now-song-row');
@@ -106,12 +114,12 @@ function insertSongInfo() {
   playingBarArtist.innerHTML = songList[nowSongNum]['artist'];
   playingBarArtist.setAttribute('title', unescapeHTML(songList[nowSongNum]['artist']));
 
-  playingBarPostDate.innerHTML = songList[nowSongNum]['postDate'].substring(0, 10) + ' 配信';
+  playingBarPostDate.textContent = songList[nowSongNum]['postDate'].substring(0, 10) + ' 配信';
 
   wholeSeconds = songList[nowSongNum]['endSeconds'] - songList[nowSongNum]['startSeconds'];
   insertSeekBarValue(0);
   menuTimeSeekBar.max = wholeSeconds;
-  menuTimeTextWhole.textContent = Math.floor(wholeSeconds / 60) + ':' + wholeSeconds % 60;
+  menuTimeTextWhole.textContent = formatSeconds(wholeSeconds);
 }
 
 function onPlayerReady() {
@@ -148,17 +156,10 @@ function toPauseIcon() {
 }
 
 
-function insertTime(seconds) {
-  const minutes = Math.floor(seconds / 60) === 0 ? 0 : Math.floor(seconds / 60);
-  const remainderSeconds = seconds % 60 < 10 ? '0' + String(seconds % 60) : seconds % 60;
-  menuTimeTextNow.textContent = minutes + ':' + remainderSeconds;
-}
-
-
 function getSongCurrentTime() {
   currentSeconds = Math.round(player.getCurrentTime() - songList[nowSongNum]['startSeconds']);
   insertSeekBarValue(currentSeconds);
-  insertTime(currentSeconds);
+  menuTimeTextNow.textContent = formatSeconds(currentSeconds);
 }
 
 
@@ -296,6 +297,7 @@ function playSong(songNum) {
 }
 
 
+searchForm.addEventListener('input', searchSong);
 function searchSong() {
   const searchWord = searchText.value;
 
@@ -321,7 +323,6 @@ function searchSong() {
 
   searchResultNum.textContent = searchResult.length;
 }
-searchForm.addEventListener('input', searchSong);
 
 
 toClearSearchValue.addEventListener('click', function () {
@@ -338,9 +339,8 @@ searchForm.addEventListener('keypress', function (e) {
 });
 
 
-const screenHeight = window.innerHeight;
 window.addEventListener('scroll', function () {
-  if (window.pageYOffset > screenHeight) {
+  if (window.pageYOffset > window.innerHeight) {
     toPageTop.classList.remove('invisible');
   }
   else {
@@ -435,12 +435,12 @@ menuControllerShuffle.addEventListener('click', function () {
 });
 
 
+menuTimeSeekBar.addEventListener('input', onInputSeekBar);
 function onInputSeekBar() {
   stopCountingUpSeconds();
   insertSeekBarValue();
-  insertTime(menuTimeSeekBar.value);
+  menuTimeTextNow.textContent = formatSeconds(menuTimeSeekBar.value);
 }
-menuTimeSeekBar.addEventListener('input', onInputSeekBar);
 
 
 menuTimeSeekBar.addEventListener('change', function () {

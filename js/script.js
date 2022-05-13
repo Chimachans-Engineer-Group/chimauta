@@ -42,14 +42,14 @@ fetch('https://script.google.com/macros/s/AKfycbxjLZhe1S-tRL5lBLuQjv_cFj2WffT0RU
 
     let tableInsert = '';
     for (let i = songList.length - 1; i >= 0; i--) {
-      tableInsert += '<tr id="rowOfSongNum' + i + '"><td class="video-thumb"><label class="clickable video-thumb-area" for="buttonOfSongNum' + i + '"><img class="video-thumb-img" src="https://i.ytimg.com/vi_webp/' + songList[i]['videoId'] + '/default.webp"></label></td><td class="song-title"><label class="clickable" title="' + songList[i]['songTitle'] + '"><button type="button" class="song-title-button" id="buttonOfSongNum' + i + '" value="' + i + '">' + songList[i]['songTitle'] + '</button></label></td><td class="artist"><label class="clickable" for="buttonOfSongNum' + i + '" title="' + songList[i]['artist'] + '"><span class="artist-text">' + songList[i]['artist'] + '</span></label></td><td class="video-title"><a class="video-title-link" href="https://youtu.be/' + songList[i]['videoId'] + '?t=' + songList[i]['startSeconds'] + '" target="_blank" rel="noopener noreferrer" title="' + songList[i]['videoTitle'] + '">' + songList[i]['videoTitle'] + '</a></td><td class="post-time"><span class="post-time-text">' + songList[i]['postDate'] + '</span></td></tr>';
+      tableInsert += '<tr id="rowOfSongNum' + i + '"><td class="video-thumb"><label class="clickable video-thumb-area" for="buttonOfSongNum' + i + '"><img class="video-thumb-img" src="https://i.ytimg.com/vi_webp/' + songList[i]['videoId'] + '/default.webp"></label></td><td class="song-title"><label class="song-title-label clickable" title="' + songList[i]['songTitle'] + '"><button type="button" class="song-title-button" id="buttonOfSongNum' + i + '" value="' + i + '">' + songList[i]['songTitle'] + '</button></label></td><td class="artist"><label class="clickable" for="buttonOfSongNum' + i + '" title="' + songList[i]['artist'] + '"><span class="artist-text">' + songList[i]['artist'] + '</span></label></td><td class="video-title"><a class="video-title-link" href="https://youtu.be/' + songList[i]['videoId'] + '?t=' + songList[i]['startSeconds'] + '" target="_blank" rel="noopener noreferrer" title="' + songList[i]['videoTitle'] + '">' + songList[i]['videoTitle'] + '</a></td><td class="post-time"><span class="post-time-text">' + songList[i]['postDate'] + '</span></td></tr>';
 
       searchResult[i] = i;
     }
 
     tableArea.innerHTML = tableInsert;
-    entireNum.innerText = songList.length;
-    searchResultNum.innerText = searchResult.length;
+    entireNum.textContent = songList.length;
+    searchResultNum.textContent = searchResult.length;
 
     const songButtons = document.getElementsByClassName('song-title-button');
     for (let songButton of songButtons) {
@@ -111,7 +111,7 @@ function insertSongInfo() {
   wholeSeconds = songList[nowSongNum]['endSeconds'] - songList[nowSongNum]['startSeconds'];
   insertSeekBarValue(0);
   menuTimeSeekBar.max = wholeSeconds;
-  menuTimeTextWhole.innerText = Math.floor(wholeSeconds / 60) + ':' + wholeSeconds % 60;
+  menuTimeTextWhole.textContent = Math.floor(wholeSeconds / 60) + ':' + wholeSeconds % 60;
 }
 
 function onPlayerReady() {
@@ -151,7 +151,7 @@ function toPauseIcon() {
 function insertTime(seconds) {
   const minutes = Math.floor(seconds / 60) === 0 ? 0 : Math.floor(seconds / 60);
   const remainderSeconds = seconds % 60 < 10 ? '0' + String(seconds % 60) : seconds % 60;
-  menuTimeTextNow.innerText = minutes + ':' + remainderSeconds;
+  menuTimeTextNow.textContent = minutes + ':' + remainderSeconds;
 }
 
 
@@ -319,7 +319,7 @@ function searchSong() {
     }
   });
 
-  searchResultNum.innerText = searchResult.length;
+  searchResultNum.textContent = searchResult.length;
 }
 searchForm.addEventListener('input', searchSong);
 
@@ -332,10 +332,7 @@ toClearSearchValue.addEventListener('click', function () {
 
 
 searchForm.addEventListener('keypress', function (e) {
-  const key = e.keyCode || e.charCode || 0;
-  // 13はEnterキーのキーコード
-  if (key == 13) {
-    // アクションを行わない
+  if (e.key == 'Enter') {
     e.preventDefault();
   }
 });

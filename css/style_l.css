@@ -1,9 +1,12 @@
 @charset "utf-8";
 
 :root {
+  --header-height: 87px;
+  --brand-color: #edddbb;
+
   --main-bg: #fff;
   --main-text: #333;
-  --brand-bg: #edddbb;
+  --brand-bg: var(--brand-color);
   --brand-text: #333;
   --gray1: #ebebeb;
   --gray2: #ccc;
@@ -15,7 +18,7 @@
     --main-bg: #181818;
     --main-text: #ddd;
     --brand-bg: #212121;
-    --brand-text: #edddbb;
+    --brand-text: var(--brand-color);
     --gray1: #535353;
     --gray2: #6F6F6F;
     --gray3: #A6A6A6;
@@ -313,16 +316,16 @@ address {
   bottom: 0;
   background-color: var(--main-bg);
   width: 100%;
-  height: 87px;
+  height: 85px;
   border-top: 1px solid var(--gray1);
   display: flex;
-  padding: 0 16px;
+  padding: 4px 16px 0;
   z-index: 1;
   box-sizing: border-box;
 }
 
 .playing-bar-information {
-  width: calc(100% /11 * 4);
+  width: calc(100% /9 * 3);
   display: flex;
   align-items: center;
 }
@@ -376,7 +379,7 @@ address {
 }
 
 .menu-content {
-  flex: 7;
+  flex: 6;
   display: flex;
 }
 
@@ -433,8 +436,60 @@ address {
   color: var(--gray2);
 }
 
+.menu-time {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.menu-time-text {
+  text-align: center;
+}
+
+.menu-time-text span {
+  color: var(--gray3);
+}
+
+.menu-time-text-whole::before {
+  content: "/";
+  margin: 0 0.5rem;
+}
+
+.menu-time-seek-bar {
+  height: 4px;
+  width: 100%;
+  background-color: var(--gray1);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.menu-time-seek-bar::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: var(--gray3);
+  cursor: pointer;
+  border: none;
+  display: block;
+  border-radius: 50%;
+}
+
+/* ↑まとめると適用されない↓ */
+
+.menu-time-seek-bar::-moz-range-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: var(--gray3);
+  cursor: pointer;
+  border: none;
+  display: block;
+  border-radius: 50%;
+}
+
 .menu-share {
-  flex: 4;
+  flex: 2;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;

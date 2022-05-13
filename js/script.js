@@ -116,7 +116,7 @@ function insertSongInfo() {
 
   playingBarPostDate.textContent = songList[nowSongNum]['postDate'].substring(0, 10) + ' 配信';
 
-  wholeSeconds = songList[nowSongNum]['endSeconds'] - songList[nowSongNum]['startSeconds'];
+  wholeSeconds = songList[nowSongNum]['endSeconds'] - songList[nowSongNum]['startSeconds'] || Math.round(player.getDuration());
   insertSeekBarValue(0);
   menuTimeSeekBar.max = wholeSeconds;
   menuTimeTextWhole.textContent = formatSeconds(wholeSeconds);
@@ -199,6 +199,9 @@ function onPlayerStateChange(e) {
 
   // 再生中のとき
   else if (e.data == 1) {
+    if (nowSongNum !== prevSongNum) {
+      insertSongInfo();
+    }
     toPauseIcon();
     playerFlag = 1;
     if (countUpSecondsFlag == 0) {
@@ -293,7 +296,6 @@ function playSong(songNum) {
 
   prevSongNum = nowSongNum;
   nowSongNum = nextSongNum;
-  insertSongInfo();
 }
 
 

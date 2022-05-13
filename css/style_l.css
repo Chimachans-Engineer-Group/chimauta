@@ -12,9 +12,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --main-bg: #000;
+    --main-bg: #181818;
     --main-text: #ddd;
-    --brand-bg: #333;
+    --brand-bg: #212121;
     --brand-text: #edddbb;
     --gray1: #535353;
     --gray2: #6F6F6F;
@@ -55,12 +55,13 @@ p {
   margin-top: 1rem;
 }
 
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   background: none;
   border: none;
   border-radius: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
   font: inherit;
   color: inherit;

@@ -1,8 +1,12 @@
 let songList;
 let searchResult = [];
-let prevSongNum;
 let nowSongNum;
 let player;
+let prevSongNum;
+let wholeSeconds;
+let currentSeconds;
+let countUpSecondsInterval;
+let countUpSecondsFlag = 0;
 let playerFlag = 0;
 let repeatFlag = 0;
 let shuffleFlag = 0;
@@ -75,6 +79,19 @@ function onYouTubeIframeAPIReady() {
 }
 
 
+function insertSeekBarValue(seconds) {
+  if (typeof seconds == 'number') {
+    menuTimeSeekBar.value = seconds;
+  }
+  else {
+    seconds = menuTimeSeekBar.value;
+  }
+
+  const percent = seconds / wholeSeconds * 100;
+  menuTimeSeekBar.style.backgroundImage = 'linear-gradient(to right, var(--brand-color) ' + percent + '%, var(--gray1) ' + percent + '%)';
+}
+
+
 function insertSongInfo() {
   if (typeof (prevSongNum) == 'number') {
     document.getElementById('rowOfSongNum' + prevSongNum).classList.remove('now-song-row');
@@ -90,8 +107,12 @@ function insertSongInfo() {
   playingBarArtist.setAttribute('title', unescapeHTML(songList[nowSongNum]['artist']));
 
   playingBarPostDate.innerHTML = songList[nowSongNum]['postDate'].substring(0, 10) + ' 配信';
-}
 
+  wholeSeconds = songList[nowSongNum]['endSeconds'] - songList[nowSongNum]['startSeconds'];
+  insertSeekBarValue(0);
+  menuTimeSeekBar.max = wholeSeconds;
+  menuTimeTextWhole.innerText = Math.floor(wholeSeconds / 60) + ':' + wholeSeconds % 60;
+}
 
 function onPlayerReady() {
   player.cueVideoById({
@@ -127,6 +148,32 @@ function toPauseIcon() {
 }
 
 
+function insertTime(seconds) {
+  const minutes = Math.floor(seconds / 60) === 0 ? 0 : Math.floor(seconds / 60);
+  const remainderSeconds = seconds % 60 < 10 ? '0' + String(seconds % 60) : seconds % 60;
+  menuTimeTextNow.innerText = minutes + ':' + remainderSeconds;
+}
+
+
+function getSongCurrentTime() {
+  currentSeconds = Math.round(player.getCurrentTime() - songList[nowSongNum]['startSeconds']);
+  insertSeekBarValue(currentSeconds);
+  insertTime(currentSeconds);
+}
+
+
+function startCountingUpSeconds() {
+  countUpSecondsFlag = 1;
+  countUpSecondsInterval = setInterval(getSongCurrentTime, 250);
+}
+
+
+function stopCountingUpSeconds() {
+  clearInterval(countUpSecondsInterval);
+  countUpSecondsFlag = 0;
+}
+
+
 // プレーヤーの状態が変更されたとき
 function onPlayerStateChange(e) {
   // 再生終了のとき
@@ -134,18 +181,28 @@ function onPlayerStateChange(e) {
     toPlayIcon();
     playSong();
     playerFlag = 0;
+    stopCountingUpSeconds();
   }
 
   // 一時停止のとき
   else if (e.data == 2) {
     toPlayIcon();
     playerFlag = 0;
+    stopCountingUpSeconds();
+  }
+
+  // バッファリング中
+  else if (e.data == 3) {
+    toPauseIcon();
   }
 
   // 再生中のとき
-  else if (e.data == 1 || e.data == 3) {
+  else if (e.data == 1) {
     toPauseIcon();
     playerFlag = 1;
+    if (countUpSecondsFlag == 0) {
+      startCountingUpSeconds();
+    }
   }
 }
 
@@ -239,7 +296,6 @@ function playSong(songNum) {
 }
 
 
-searchForm.addEventListener('input', searchSong);
 function searchSong() {
   const searchWord = searchText.value;
 
@@ -265,6 +321,7 @@ function searchSong() {
 
   searchResultNum.innerText = searchResult.length;
 }
+searchForm.addEventListener('input', searchSong);
 
 
 toClearSearchValue.addEventListener('click', function () {
@@ -381,13 +438,20 @@ menuControllerShuffle.addEventListener('click', function () {
 });
 
 
-menuTimeSeekBar.addEventListener('input', function () {
-  const inputSeconds = menuTimeSeekBar.value;
+function onInputSeekBar() {
+  stopCountingUpSeconds();
+  insertSeekBarValue();
+  insertTime(menuTimeSeekBar.value);
+}
+menuTimeSeekBar.addEventListener('input', onInputSeekBar);
 
-  menuTimeTextNow.innerText = inputSeconds;
-  console.log(inputSeconds);
 
-  const percent = inputSeconds / 100 * 100;
+menuTimeSeekBar.addEventListener('change', function () {
+  playerFlag = 0;
 
-  menuTimeSeekBar.style.backgroundImage = 'linear-gradient(to right, red ' + percent + '%, #fff ' + percent + '%)';
+  player.loadVideoById({
+    videoId: songList[nowSongNum]['videoId'],
+    startSeconds: songList[nowSongNum]['startSeconds'] + Number(menuTimeSeekBar.value),
+    endSeconds: songList[nowSongNum]['endSeconds']
+  });
 });

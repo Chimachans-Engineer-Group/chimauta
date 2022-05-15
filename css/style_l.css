@@ -422,6 +422,10 @@ address {
   color: var(--main-bg);
 }
 
+.disabled {
+  color: var(--gray2);
+}
+
 .disabled .menu-controller-repeat-text {
   background-color: var(--gray2);
 }
@@ -430,10 +434,6 @@ address {
   font-size: 2em;
   width: 60px;
   height: 60px;
-}
-
-.disabled {
-  color: var(--gray2);
 }
 
 .menu-time {

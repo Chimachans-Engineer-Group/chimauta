@@ -23,7 +23,7 @@ function unescapeHTML(str) {
     .replace(/&quot;/g, '"')
     .replace(/&#x60;/g, '`')
     .replace(/&#x27;/g, "'")
-    .replace(/&amp;/g, '<')
+    .replace(/&amp;/g, '&')
     ;
 }
 
@@ -437,12 +437,11 @@ menuControllerShuffle.addEventListener('click', function () {
 });
 
 
-menuTimeSeekBar.addEventListener('input', onInputSeekBar);
-function onInputSeekBar() {
+menuTimeSeekBar.addEventListener('input', function () {
   stopCountingUpSeconds();
   insertSeekBarValue();
   menuTimeTextNow.textContent = formatSeconds(menuTimeSeekBar.value);
-}
+});
 
 
 menuTimeSeekBar.addEventListener('change', function () {

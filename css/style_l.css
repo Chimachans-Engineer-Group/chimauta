@@ -93,6 +93,7 @@ header {
   z-index: 2;
   transition: all .5s;
   box-sizing: border-box;
+  border-bottom: 1px solid var(--gray1);
 }
 
 .logo {

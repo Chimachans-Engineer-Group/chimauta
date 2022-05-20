@@ -192,7 +192,7 @@ function onPlayerStateChange(e) {
     stopCountingUpSeconds();
   }
 
-  // バッファリング中
+  // バッファリング中のとき
   else if (e.data == 3) {
     toPauseIcon();
   }
@@ -208,17 +208,6 @@ function onPlayerStateChange(e) {
       startCountingUpSeconds();
     }
   }
-}
-
-
-function onPlayerError() {
-  playerFlag = 0;
-
-  setTimeout(function () {
-    if (playerFlag == 0) {
-      playSong();
-    }
-  }, 5000);
 }
 
 
@@ -296,6 +285,17 @@ function playSong(songNum) {
 
   prevSongNum = nowSongNum;
   nowSongNum = nextSongNum;
+}
+
+
+function onPlayerError() {
+  playerFlag = 0;
+
+  setTimeout(function () {
+    if (playerFlag == 0) {
+      playSong();
+    }
+  }, 5000);
 }
 
 

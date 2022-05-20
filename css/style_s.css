@@ -119,6 +119,7 @@ header {
   align-items: center;
   flex-direction: column;
   transition: all .5s;
+  border-bottom: 1px solid var(--gray1);
 }
 
 .invisible,
@@ -256,6 +257,10 @@ td {
   object-fit: cover;
   width: 80px;
   height: 45px;
+}
+
+.song-title-label {
+  display: block;
 }
 
 .song-title-button,

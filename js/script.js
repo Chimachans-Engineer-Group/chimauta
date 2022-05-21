@@ -93,9 +93,8 @@ function insertSeekBarValue(seconds) {
 
 
 function formatSeconds(seconds) {
-  const minutes = Math.floor(seconds / 60) === 0 ? 0 : Math.floor(seconds / 60);
-  const remainderSeconds = seconds % 60 < 10 ? '0' + String(seconds % 60) : seconds % 60;
-
+  const minutes = Math.floor(seconds / 60);
+  const remainderSeconds = (seconds % 60).toString().padStart(2, '0');
   return minutes + ':' + remainderSeconds;
 }
 
@@ -310,15 +309,19 @@ function searchSong() {
     toClearSearchValue.classList.remove('invisible');
   }
 
-  searchResult = songList.flatMap((value, index) => {
-    if (unescapeHTML(value.songTitle).indexOf(searchWord) > -1 || unescapeHTML(value.artist).indexOf(searchWord) > -1) {
-      document.getElementById('rowOfSongNum' + index).classList.remove('to-hide');
+  const searchWordRegex = new RegExp(searchWord, 'i');
+  const testOfSongTitle = searchWordRegex.test(unescapeHTML(value.songTitle));
+  const testOfArtist = searchWordRegex.test(unescapeHTML(value.artist));
 
+  searchResult = songList.flatMap((value, index) => {
+    const rowOfIndexSongNum = document.getElementById('rowOfSongNum' + index);
+
+    if (testOfSongTitle || testOfArtist) {
+      rowOfIndexSongNum.classList.remove('to-hide');
       return index;
     }
     else {
-      document.getElementById('rowOfSongNum' + index).classList.add('to-hide');
-
+      rowOfIndexSongNum.classList.add('to-hide');
       return [];
     }
   });

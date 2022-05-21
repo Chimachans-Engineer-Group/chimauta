@@ -101,8 +101,13 @@ select {
   color: inherit;
 }
 
+label,
 button {
   cursor: pointer;
+}
+
+input[type="checkbox"] {
+  appearance: auto;
 }
 
 header {

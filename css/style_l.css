@@ -69,6 +69,7 @@ select {
   color: inherit;
 }
 
+label,
 button {
   cursor: pointer;
 }

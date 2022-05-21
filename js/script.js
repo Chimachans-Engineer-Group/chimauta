@@ -310,11 +310,11 @@ function searchSong() {
   }
 
   const searchWordRegex = new RegExp(searchWord, 'i');
-  const testOfSongTitle = searchWordRegex.test(unescapeHTML(value.songTitle));
-  const testOfArtist = searchWordRegex.test(unescapeHTML(value.artist));
 
   searchResult = songList.flatMap((value, index) => {
     const rowOfIndexSongNum = document.getElementById('rowOfSongNum' + index);
+    const testOfSongTitle = searchWordRegex.test(unescapeHTML(value.songTitle));
+    const testOfArtist = searchWordRegex.test(unescapeHTML(value.artist));
 
     if (testOfSongTitle || testOfArtist) {
       rowOfIndexSongNum.classList.remove('to-hide');

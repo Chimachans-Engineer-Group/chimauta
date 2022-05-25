@@ -290,6 +290,7 @@ function playSong(songNum) {
 function onPlayerError() {
   insertSongInfo();
   playerFlag = 0;
+  toPlayIcon();
 
   setTimeout(function () {
     if (playerFlag == 0) {

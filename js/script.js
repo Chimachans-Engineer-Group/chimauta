@@ -288,6 +288,7 @@ function playSong(songNum) {
 
 
 function onPlayerError() {
+  insertSongInfo();
   playerFlag = 0;
 
   setTimeout(function () {

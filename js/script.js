@@ -193,13 +193,13 @@ function onPlayerStateChange(e) {
   // バッファリング中のとき
   else if (e.data == 3) {
     toPauseIcon();
+    if (nowSongNum != prevSongNum) {
+      insertSongInfo();
+    }
   }
 
   // 再生中のとき
   else if (e.data == 1) {
-    if (nowSongNum !== prevSongNum) {
-      insertSongInfo();
-    }
     toPauseIcon();
     playerFlag = 1;
     if (countUpSecondsFlag == 0) {
@@ -210,11 +210,40 @@ function onPlayerStateChange(e) {
 
 
 function playSong(songNum) {
-  let nextSongNum;
+  // 同じ曲を2回以上連続で再生したとき
+  if (prevSongNum == nowSongNum) {
+    repeatCount++;
+  }
+  // 1つ前と異なる曲を再生したとき
+  else {
+    repeatCount = 1;
+  }
+
+  prevSongNum = nowSongNum;
 
   // 曲を指定されたとき
   if (typeof (songNum) == 'number') {
-    nextSongNum = songNum;
+    nowSongNum = songNum;
+  }
+  // 同じ曲聞きすぎアラート
+  else if (repeatCount > 5) {
+    const confirm = window.confirm('同じ曲を' + repeatCount + '回連続で再生しました。たまには他の曲もいかがですか？');
+
+    // 他の曲も聞きた～い
+    if (confirm) {
+      repeatCount = 1;
+      nowSongNum = searchResult[Math.floor(Math.random() * searchResult.length)];
+    }
+    // なんとしてもこの曲が聴きたいとき
+    else {
+      player.cueVideoById({
+        videoId: songList[nowSongNum]['videoId'],
+        startSeconds: songList[nowSongNum]['startSeconds'],
+        endSeconds: songList[nowSongNum]['endSeconds']
+      });
+
+      return;
+    }
   }
   // 連続で再生されたとき
   else if (repeatFlag == 0) {
@@ -224,69 +253,36 @@ function playSong(songNum) {
 
         // 通常再生で最後の曲になったとき
         if (checkForExistence <= 0) {
-          nextSongNum = searchResult[searchResult.length - 1];
+          nowSongNum = searchResult[searchResult.length - 1];
         }
         // 通常再生のとき
         else {
-          nextSongNum = searchResult[checkForExistence - 1];
+          nowSongNum = searchResult[checkForExistence - 1];
         }
       }
       // シャッフル再生のとき
       else {
-        nextSongNum = searchResult[Math.floor(Math.random() * searchResult.length)];
+        nowSongNum = searchResult[Math.floor(Math.random() * searchResult.length)];
       }
     }
     // 検索条件でリストが空のとき
     else {
       window.alert('検索条件に一致する項目がないため、次の曲を再生できません。');
-      return false;
+      return;
     }
   }
-  // リピート再生のとき
-  else {
-    nextSongNum = nowSongNum;
-  }
-
-  // 同じ曲を2回以上連続で再生したとき
-  if (prevSongNum == nowSongNum) {
-    repeatCount++;
-
-    // 同じ曲聞きすぎアラート
-    const maxRepeatCount = 5;
-    if (repeatCount > maxRepeatCount) {
-      const confirm = window.confirm('同じ曲を' + repeatCount + '回連続で再生しました。たまには他の曲もいかがですか？');
-
-      if (confirm) {
-        repeatCount = 1;
-        nextSongNum = searchResult[Math.floor(Math.random() * searchResult.length)];
-      }
-      else {
-        player.cueVideoById({
-          videoId: songList[nextSongNum]['videoId'],
-          startSeconds: songList[nextSongNum]['startSeconds'],
-          endSeconds: songList[nextSongNum]['endSeconds']
-        });
-
-        return false;
-      }
-    }
-  }
-  else {
-    repeatCount = 1;
-  }
+  // リピート再生のとき、nowSongNumは変化なし
 
   player.loadVideoById({
-    videoId: songList[nextSongNum]['videoId'],
-    startSeconds: songList[nextSongNum]['startSeconds'],
-    endSeconds: songList[nextSongNum]['endSeconds']
+    videoId: songList[nowSongNum]['videoId'],
+    startSeconds: songList[nowSongNum]['startSeconds'],
+    endSeconds: songList[nowSongNum]['endSeconds']
   });
-
-  prevSongNum = nowSongNum;
-  nowSongNum = nextSongNum;
 }
 
 
 function onPlayerError() {
+  toPlayIcon();
   playerFlag = 0;
 
   setTimeout(function () {

@@ -37,15 +37,11 @@ body {
 }
 
 h1 {
-  font-size: 4.236rem;
-}
-
-h2 {
-  font-size: 2.618rem;
+  font-size: 2.828rem;
 }
 
 h3 {
-  font-size: 1.618rem;
+  font-size: 1rem;
 }
 
 a {
@@ -67,6 +63,10 @@ select {
   appearance: none;
   font: inherit;
   color: inherit;
+}
+
+input[type="checkbox"] {
+  appearance: auto;
 }
 
 label,
@@ -210,6 +210,17 @@ summary {
 
 .search-clear {
   right: 0;
+}
+
+.search-option {
+  padding: 1rem;
+  background-color: var(--main-bg);
+  border-radius: 6px;
+  box-shadow: 0px 6px 16px -6px var(--gray3);
+}
+
+.search-option-label {
+  white-space: nowrap;
 }
 
 .table-information-number {

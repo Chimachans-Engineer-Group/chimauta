@@ -217,6 +217,14 @@ summary {
   right: 0;
 }
 
+.search-option {
+  padding: 1rem;
+}
+
+.search-option-label {
+  white-space: nowrap;
+}
+
 .table-information-number {
   padding: 0 .25rem;
 }

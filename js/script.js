@@ -4,13 +4,11 @@ let nowSongNum;
 let player;
 let prevSongNum;
 let wholeSeconds;
-let currentSeconds;
 let countUpSecondsInterval;
 let countUpSecondsFlag = 0;
 let playerFlag = 0;
 let repeatFlag = 0;
 let shuffleFlag = 0;
-let repeatCount = 1;
 
 
 function unescapeHTML(str) {
@@ -155,7 +153,7 @@ function toPauseIcon() {
 
 
 function getSongCurrentTime() {
-  currentSeconds = Math.round(player.getCurrentTime() - songList[nowSongNum]['startSeconds']);
+  const currentSeconds = Math.round(player.getCurrentTime() - songList[nowSongNum]['startSeconds']);
   insertSeekBarValue(currentSeconds);
   menuTimeTextNow.textContent = formatSeconds(currentSeconds);
 }
@@ -210,41 +208,11 @@ function onPlayerStateChange(e) {
 
 
 function playSong(songNum) {
-  // 同じ曲を2回以上連続で再生したとき
-  if (prevSongNum == nowSongNum) {
-    repeatCount++;
-  }
-  // 1つ前と異なる曲を再生したとき
-  else {
-    repeatCount = 1;
-  }
-
-  // ここから次の曲を決めるよ
   prevSongNum = nowSongNum;
 
   // 曲を指定されたとき
   if (typeof (songNum) == 'number') {
     nowSongNum = songNum;
-  }
-  // 同じ曲聞きすぎアラート
-  else if (repeatCount > 5) {
-    const confirm = window.confirm('同じ曲を' + repeatCount + '回連続で再生しました。たまには他の曲もいかがですか？');
-
-    // 他の曲も聞きた～い
-    if (confirm) {
-      repeatCount = 1;
-      nowSongNum = searchResult[Math.floor(Math.random() * searchResult.length)];
-    }
-    // なんとしてもこの曲が聴きたいとき
-    else {
-      player.cueVideoById({
-        videoId: songList[nowSongNum]['videoId'],
-        startSeconds: songList[nowSongNum]['startSeconds'],
-        endSeconds: songList[nowSongNum]['endSeconds']
-      });
-
-      return;
-    }
   }
   // 連続で再生されたとき
   else if (repeatFlag == 0) {

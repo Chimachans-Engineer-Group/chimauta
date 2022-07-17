@@ -219,6 +219,7 @@ function playSong(songNum) {
     repeatCount = 1;
   }
 
+  // ここから次の曲を決めるよ
   prevSongNum = nowSongNum;
 
   // 曲を指定されたとき

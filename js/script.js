@@ -40,13 +40,21 @@ fetch('https://script.google.com/macros/s/AKfycbxjLZhe1S-tRL5lBLuQjv_cFj2WffT0RU
 
     let tableInsert = '';
     for (let i = songList.length - 1; i >= 0; i--) {
-      tableInsert += '<tr id="rowOfSongNum' + i + '"><td class="video-thumb"><label class="clickable video-thumb-area" for="buttonOfSongNum' + i + '"><img class="video-thumb-img" src="https://i.ytimg.com/vi_webp/' + songList[i]['videoId'] + '/default.webp"></label></td><td class="song-title"><label class="song-title-label clickable" title="' + songList[i]['songTitle'] + '"><button type="button" class="song-title-button" id="buttonOfSongNum' + i + '" value="' + i + '">' + songList[i]['songTitle'] + '</button></label></td><td class="artist"><label class="clickable" for="buttonOfSongNum' + i + '" title="' + songList[i]['artist'] + '"><span class="artist-text">' + songList[i]['artist'] + '</span></label></td><td class="video-title"><a class="video-title-link" href="https://youtu.be/' + songList[i]['videoId'] + '?t=' + songList[i]['startSeconds'] + '" target="_blank" rel="noopener noreferrer" title="' + songList[i]['videoTitle'] + '">' + songList[i]['videoTitle'] + '</a></td><td class="post-time"><span class="post-time-text">' + songList[i]['postDate'] + '</span></td></tr>';
+      tableInsert += '<tr id="rowOfSongNum' + i + '"><td class="video-thumb"><label class="clickable video-thumb-area" for="buttonOfSongNum' + i + '"><img class="video-thumb-img" data-id="' + songList[i]['videoId'] + '" loading="lazy"></label></td><td class="song-title"><label class="song-title-label clickable" title="' + songList[i]['songTitle'] + '"><button type="button" class="song-title-button" id="buttonOfSongNum' + i + '" value="' + i + '">' + songList[i]['songTitle'] + '</button></label></td><td class="artist"><label class="clickable" for="buttonOfSongNum' + i + '" title="' + songList[i]['artist'] + '"><span class="artist-text">' + songList[i]['artist'] + '</span></label></td><td class="video-title"><a class="video-title-link" href="https://youtu.be/' + songList[i]['videoId'] + '?t=' + songList[i]['startSeconds'] + '" target="_blank" rel="noopener noreferrer" title="' + songList[i]['videoTitle'] + '">' + songList[i]['videoTitle'] + '</a></td><td class="post-time"><span class="post-time-text">' + songList[i]['postDate'] + '</span></td></tr>';
     }
-    searchResult = songList.map((v, index) => index);
+    searchResult = songList.map((_, index) => index);
 
     tableArea.innerHTML = tableInsert;
     entireNum.textContent = songList.length;
     searchResultNum.textContent = searchResult.length;
+
+    const videoThumbs = document.getElementsByClassName('video-thumb-img');
+    for (let videoThumb of videoThumbs) {
+      videoThumb.addEventListener('error', () => {
+        videoThumb.src = 'https://i.ytimg.com/vi/' + videoThumb.dataset.id + '/default.jpg';
+      });
+      videoThumb.src = 'https://i.ytimg.com/vi_webp/' + videoThumb.dataset.id + '/default.webp';
+    }
 
     const songButtons = document.getElementsByClassName('song-title-button');
     for (let songButton of songButtons) {

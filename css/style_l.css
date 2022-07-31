@@ -227,7 +227,8 @@ summary {
   opacity: 0;
 }
 
-.focused-search-form .search-option {
+.focused-search-form .search-option,
+.search-option:hover {
   visibility: visible;
   opacity: 1;
 }

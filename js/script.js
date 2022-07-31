@@ -312,13 +312,17 @@ function searchSong() {
     toClearSearchValue.classList.remove('invisible');
   }
 
+  const songTitleChecked = searchOptionSongTitle.checked;
+  const artistChecked = searchOptionArtist.checked;
+  const videoTitleChecked = searchOptionVideoTitle.checked;
+  const postDateChecked = searchOptionPostDate.checked;
   const searchWordRegex = new RegExp(searchWord, 'i');
 
   searchResult = songList.flatMap((value, index) => {
-    const testOfSongTitle = searchOptionSongTitle.checked && searchWordRegex.test(unescapeHTML(value.songTitle));
-    const testOfArtist = searchOptionArtist.checked && searchWordRegex.test(unescapeHTML(value.artist));
-    const testOfVideoTitle = searchOptionVideoTitle.checked && searchWordRegex.test(unescapeHTML(value.videoTitle));
-    const testOfPostDate = searchOptionPostDate.checked && searchWordRegex.test(unescapeHTML(value.postDate));
+    const testOfSongTitle = songTitleChecked && searchWordRegex.test(unescapeHTML(value.songTitle));
+    const testOfArtist = artistChecked && searchWordRegex.test(unescapeHTML(value.artist));
+    const testOfVideoTitle = videoTitleChecked && searchWordRegex.test(unescapeHTML(value.videoTitle));
+    const testOfPostDate = postDateChecked && searchWordRegex.test(unescapeHTML(value.postDate));
 
     const rowOfIndexSongNum = document.getElementById('rowOfSongNum' + index);
 
@@ -345,7 +349,7 @@ searchText.addEventListener('keypress', function (e) {
 
 {
   let focusFlag = 0;
-  const options = document.querySelectorAll('#searchOption input[type="checkbox"]')
+  const options = document.querySelectorAll('#searchOption input[type="checkbox"]');
 
   searchText.addEventListener('focus', onSearchFormFocus);
   searchText.addEventListener('blur', onSearchFormBlur);
@@ -374,7 +378,7 @@ toClearSearchValue.addEventListener('click', function () {
   searchText.value = '';
   searchText.focus();
   searchSong();
-})
+});
 
 
 window.addEventListener('scroll', function () {

@@ -279,7 +279,7 @@ td {
 }
 
 .song-title-button {
-  max-width: calc(70vw - 80px - 2.5rem);
+  max-width: min(70vw - 80px - 2.5rem, 20rem);
 }
 
 .artist-text {

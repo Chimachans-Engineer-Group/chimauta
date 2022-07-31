@@ -221,6 +221,12 @@ summary {
   padding: 1rem;
 }
 
+.search-option-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+
 .search-option-label {
   white-space: nowrap;
 }

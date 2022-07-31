@@ -68,6 +68,30 @@
         <div class="search-icon search-loupe"><i class="fa-solid fa-magnifying-glass"></i></div>
         <input type="text" class="search-input" id="searchText" placeholder="検索">
         <button type="button" title="消去" class="search-icon search-clear invisible" id="toClearSearchValue"><i class="fa-solid fa-xmark"></i></button>
+
+        <div id="searchOption" class="search-option">
+          <h3>検索条件</h3>
+
+          <div class="search-option-area">
+            <label class="search-option-label">
+              <input type="checkbox" id="searchOptionSongTitle" checked>
+              <span>曲名</span>
+            </label>
+            <label class="search-option-label">
+              <input type="checkbox" id="searchOptionArtist" checked>
+              <span>アーティスト</span>
+            </label>
+            <label class="search-option-label">
+              <input type="checkbox" id="searchOptionVideoTitle">
+              <span>動画タイトル</span>
+            </label>
+            <label class="search-option-label">
+              <input type="checkbox" id="searchOptionPostDate">
+              <span>投稿日時</span>
+            </label>
+          </div>
+
+        </div>
       </form>
 
       <div class="table-information">全<span class="table-information-number" id="entireNum"></span>件中、<span class="table-information-number" id="searchResultNum"></span>件を表示中</div>

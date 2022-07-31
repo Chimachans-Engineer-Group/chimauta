@@ -37,15 +37,11 @@ body {
 }
 
 h1 {
-  font-size: 4.236rem;
-}
-
-h2 {
-  font-size: 2.618rem;
+  font-size: 2.828rem;
 }
 
 h3 {
-  font-size: 1.618rem;
+  font-size: 1rem;
 }
 
 a {
@@ -69,6 +65,11 @@ select {
   color: inherit;
 }
 
+input[type="checkbox"] {
+  appearance: auto;
+}
+
+label,
 button {
   cursor: pointer;
 }
@@ -177,6 +178,7 @@ summary {
 }
 
 .search {
+  margin-top: 8px;
   position: fixed;
   top: 0;
   z-index: 2;
@@ -185,7 +187,6 @@ summary {
 .search-input {
   background-color: var(--main-bg);
   padding: 8px 40px;
-  margin: 8px 0;
   width: min(100vw / 2.414 * 1.414 - 40px, 640px);
   height: 40px;
   box-sizing: border-box;
@@ -193,9 +194,14 @@ summary {
   transition: all 0.5s;
 }
 
+.focused-search-form .search-input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 .search-icon {
   position: absolute;
-  top: 8px;
+  top: 0;
   width: 40px;
   height: 40px;
   display: flex;
@@ -209,6 +215,32 @@ summary {
 
 .search-clear {
   right: 0;
+}
+
+.search-option {
+  padding: 1rem;
+  background-color: var(--main-bg);
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  box-shadow: 0px 10px 16px -6px var(--gray2);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.focused-search-form .search-option,
+.search-option:hover {
+  visibility: visible;
+  opacity: 1;
+}
+
+.search-option-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+
+.search-option-label {
+  white-space: nowrap;
 }
 
 .table-information-number {

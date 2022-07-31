@@ -101,8 +101,13 @@ select {
   color: inherit;
 }
 
+label,
 button {
   cursor: pointer;
+}
+
+input[type="checkbox"] {
+  appearance: auto;
 }
 
 header {
@@ -210,6 +215,20 @@ summary {
 
 .search-clear {
   right: 0;
+}
+
+.search-option {
+  padding: 1rem;
+}
+
+.search-option-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+
+.search-option-label {
+  white-space: nowrap;
 }
 
 .table-information-number {

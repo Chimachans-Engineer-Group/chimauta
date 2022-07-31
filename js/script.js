@@ -251,8 +251,9 @@ function playSong(songNum) {
 
 
 function onPlayerError() {
-  toPlayIcon();
+  insertSongInfo();
   playerFlag = 0;
+  toPlayIcon();
 
   setTimeout(function () {
     if (playerFlag == 0) {
@@ -263,6 +264,7 @@ function onPlayerError() {
 
 
 searchForm.addEventListener('input', searchSong);
+document.querySelector('#searchOption input[type="checkbox"]').addEventListener('change', searchSong);
 function searchSong() {
   const searchWord = searchText.value;
 
@@ -273,14 +275,21 @@ function searchSong() {
     toClearSearchValue.classList.remove('invisible');
   }
 
+  const songTitleChecked = searchOptionSongTitle.checked;
+  const artistChecked = searchOptionArtist.checked;
+  const videoTitleChecked = searchOptionVideoTitle.checked;
+  const postDateChecked = searchOptionPostDate.checked;
   const searchWordRegex = new RegExp(searchWord, 'i');
 
   searchResult = songList.flatMap((value, index) => {
-    const rowOfIndexSongNum = document.getElementById('rowOfSongNum' + index);
-    const testOfSongTitle = searchWordRegex.test(unescapeHTML(value.songTitle));
-    const testOfArtist = searchWordRegex.test(unescapeHTML(value.artist));
+    const testOfSongTitle = songTitleChecked && searchWordRegex.test(unescapeHTML(value.songTitle));
+    const testOfArtist = artistChecked && searchWordRegex.test(unescapeHTML(value.artist));
+    const testOfVideoTitle = videoTitleChecked && searchWordRegex.test(unescapeHTML(value.videoTitle));
+    const testOfPostDate = postDateChecked && searchWordRegex.test(unescapeHTML(value.postDate));
 
-    if (testOfSongTitle || testOfArtist) {
+    const rowOfIndexSongNum = document.getElementById('rowOfSongNum' + index);
+
+    if (testOfSongTitle || testOfArtist || testOfVideoTitle || testOfPostDate) {
       rowOfIndexSongNum.classList.remove('to-hide');
       return index;
     }
@@ -294,17 +303,44 @@ function searchSong() {
 }
 
 
+searchText.addEventListener('keypress', function (e) {
+  if (e.key == 'Enter') {
+    e.preventDefault();
+  }
+});
+
+
+{
+  let focusFlag = 0;
+  const options = document.querySelectorAll('#searchOption input[type="checkbox"]');
+
+  searchText.addEventListener('focus', onSearchFormFocus);
+  searchText.addEventListener('blur', onSearchFormBlur);
+  for (let option of options) {
+    option.addEventListener('focus', onSearchFormFocus);
+    option.addEventListener('blur', onSearchFormBlur);
+  }
+
+  function onSearchFormFocus() {
+    focusFlag = 1;
+    document.querySelector('body').classList.add('focused-search-form');
+  }
+
+  function onSearchFormBlur() {
+    focusFlag = 0;
+    setTimeout(() => {
+      if (focusFlag == 0) {
+        document.querySelector('body').classList.remove('focused-search-form');
+      }
+    }, 1);
+  }
+}
+
+
 toClearSearchValue.addEventListener('click', function () {
   searchText.value = '';
   searchText.focus();
   searchSong();
-})
-
-
-searchForm.addEventListener('keypress', function (e) {
-  if (e.key == 'Enter') {
-    e.preventDefault();
-  }
 });
 
 

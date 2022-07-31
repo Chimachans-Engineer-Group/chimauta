@@ -4,13 +4,11 @@ let nowSongNum;
 let player;
 let prevSongNum;
 let wholeSeconds;
-let currentSeconds;
 let countUpSecondsInterval;
 let countUpSecondsFlag = 0;
 let playerFlag = 0;
 let repeatFlag = 0;
 let shuffleFlag = 0;
-let repeatCount = 1;
 
 
 function unescapeHTML(str) {
@@ -42,10 +40,9 @@ fetch('https://script.google.com/macros/s/AKfycbxjLZhe1S-tRL5lBLuQjv_cFj2WffT0RU
 
     let tableInsert = '';
     for (let i = songList.length - 1; i >= 0; i--) {
-      tableInsert += '<tr id="rowOfSongNum' + i + '"><td class="video-thumb"><label class="video-thumb-area" for="buttonOfSongNum' + i + '"><img class="video-thumb-img" src="https://i.ytimg.com/vi_webp/' + songList[i]['videoId'] + '/default.webp"></label></td><td class="song-title"><label class="song-title-label" title="' + songList[i]['songTitle'] + '"><button type="button" class="song-title-button" id="buttonOfSongNum' + i + '" value="' + i + '">' + songList[i]['songTitle'] + '</button></label></td><td class="artist"><label for="buttonOfSongNum' + i + '" title="' + songList[i]['artist'] + '"><span class="artist-text">' + songList[i]['artist'] + '</span></label></td><td class="video-title"><a class="video-title-link" href="https://youtu.be/' + songList[i]['videoId'] + '?t=' + songList[i]['startSeconds'] + '" target="_blank" rel="noopener noreferrer" title="' + songList[i]['videoTitle'] + '">' + songList[i]['videoTitle'] + '</a></td><td class="post-time"><span class="post-time-text">' + songList[i]['postDate'] + '</span></td></tr>';
-
-      searchResult[i] = i;
+      tableInsert += '<tr id="rowOfSongNum' + i + '"><td class="video-thumb"><label class="clickable video-thumb-area" for="buttonOfSongNum' + i + '"><img class="video-thumb-img" src="https://i.ytimg.com/vi_webp/' + songList[i]['videoId'] + '/default.webp" loading="lazy"></label></td><td class="song-title"><label class="song-title-label clickable" title="' + songList[i]['songTitle'] + '"><button type="button" class="song-title-button" id="buttonOfSongNum' + i + '" value="' + i + '">' + songList[i]['songTitle'] + '</button></label></td><td class="artist"><label class="clickable" for="buttonOfSongNum' + i + '" title="' + songList[i]['artist'] + '"><span class="artist-text">' + songList[i]['artist'] + '</span></label></td><td class="video-title"><a class="video-title-link" href="https://youtu.be/' + songList[i]['videoId'] + '?t=' + songList[i]['startSeconds'] + '" target="_blank" rel="noopener noreferrer" title="' + songList[i]['videoTitle'] + '">' + songList[i]['videoTitle'] + '</a></td><td class="post-time"><span class="post-time-text">' + songList[i]['postDate'] + '</span></td></tr>';
     }
+    searchResult = songList.map((v, index) => index);
 
     tableArea.innerHTML = tableInsert;
     entireNum.textContent = songList.length;
@@ -156,7 +153,7 @@ function toPauseIcon() {
 
 
 function getSongCurrentTime() {
-  currentSeconds = Math.round(player.getCurrentTime() - songList[nowSongNum]['startSeconds']);
+  const currentSeconds = Math.round(player.getCurrentTime() - songList[nowSongNum]['startSeconds']);
   insertSeekBarValue(currentSeconds);
   menuTimeTextNow.textContent = formatSeconds(currentSeconds);
 }
@@ -194,13 +191,13 @@ function onPlayerStateChange(e) {
   // バッファリング中のとき
   else if (e.data == 3) {
     toPauseIcon();
+    if (nowSongNum != prevSongNum) {
+      insertSongInfo();
+    }
   }
 
   // 再生中のとき
   else if (e.data == 1) {
-    if (nowSongNum !== prevSongNum) {
-      insertSongInfo();
-    }
     toPauseIcon();
     playerFlag = 1;
     if (countUpSecondsFlag == 0) {
@@ -211,11 +208,11 @@ function onPlayerStateChange(e) {
 
 
 function playSong(songNum) {
-  let nextSongNum;
+  prevSongNum = nowSongNum;
 
   // 曲を指定されたとき
   if (typeof (songNum) == 'number') {
-    nextSongNum = songNum;
+    nowSongNum = songNum;
   }
   // 連続で再生されたとき
   else if (repeatFlag == 0) {
@@ -225,65 +222,31 @@ function playSong(songNum) {
 
         // 通常再生で最後の曲になったとき
         if (checkForExistence <= 0) {
-          nextSongNum = searchResult[searchResult.length - 1];
+          nowSongNum = searchResult[searchResult.length - 1];
         }
         // 通常再生のとき
         else {
-          nextSongNum = searchResult[checkForExistence - 1];
+          nowSongNum = searchResult[checkForExistence - 1];
         }
       }
       // シャッフル再生のとき
       else {
-        nextSongNum = searchResult[Math.floor(Math.random() * searchResult.length)];
+        nowSongNum = searchResult[Math.floor(Math.random() * searchResult.length)];
       }
     }
     // 検索条件でリストが空のとき
     else {
       window.alert('検索条件に一致する項目がないため、次の曲を再生できません。');
-      return false;
+      return;
     }
   }
-  // リピート再生のとき
-  else {
-    nextSongNum = nowSongNum;
-  }
-
-  // 同じ曲を2回以上連続で再生したとき
-  if (prevSongNum == nowSongNum) {
-    repeatCount++;
-
-    // 同じ曲聞きすぎアラート
-    const maxRepeatCount = 5;
-    if (repeatCount > maxRepeatCount) {
-      const confirm = window.confirm('同じ曲を' + repeatCount + '回連続で再生しました。たまには他の曲もいかがですか？');
-
-      if (confirm) {
-        repeatCount = 1;
-        nextSongNum = searchResult[Math.floor(Math.random() * searchResult.length)];
-      }
-      else {
-        player.cueVideoById({
-          videoId: songList[nextSongNum]['videoId'],
-          startSeconds: songList[nextSongNum]['startSeconds'],
-          endSeconds: songList[nextSongNum]['endSeconds']
-        });
-
-        return false;
-      }
-    }
-  }
-  else {
-    repeatCount = 1;
-  }
+  // リピート再生のとき、nowSongNumは変化なし
 
   player.loadVideoById({
-    videoId: songList[nextSongNum]['videoId'],
-    startSeconds: songList[nextSongNum]['startSeconds'],
-    endSeconds: songList[nextSongNum]['endSeconds']
+    videoId: songList[nowSongNum]['videoId'],
+    startSeconds: songList[nowSongNum]['startSeconds'],
+    endSeconds: songList[nowSongNum]['endSeconds']
   });
-
-  prevSongNum = nowSongNum;
-  nowSongNum = nextSongNum;
 }
 
 

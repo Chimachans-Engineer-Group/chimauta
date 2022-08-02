@@ -126,14 +126,13 @@ header {
 
 main {
   margin-top: 56px;
-  margin-bottom: 87px;
+  margin-bottom: 84px;
   display: grid;
   align-items: start;
   grid-template-rows: calc((100vw / 2.414 - 24px) / 16 * 9) auto;
   grid-template-columns: calc(100vw / 2.414 - 24px) auto;
   padding: 16px;
   gap: 16px;
-  min-height: calc(100vh - 56px - 84px);
   box-sizing: border-box;
 }
 

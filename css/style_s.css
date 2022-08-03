@@ -30,11 +30,11 @@
   }
 
   .search {
-    margin: 1.5rem 1.5rem 0;
+    margin: 1.5rem;
   }
 
   .table-information {
-    margin: 0 1.5rem 1.5rem;
+    margin: 1.5rem;
   }
 
   address {
@@ -49,11 +49,11 @@ print {
   }
 
   .search {
-    margin: 1.5rem 10% 0;
+    margin: 1.5rem 10%;
   }
 
   .table-information {
-    margin: 0 10% 1.5rem;
+    margin: 1.5rem 10%;
   }
 
   address {
@@ -234,6 +234,10 @@ summary {
 
 .search-option {
   padding: 1rem;
+  border: 1px solid var(--gray2);
+  border-top: 0;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
 }
 
 .search-option-area {

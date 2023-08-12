@@ -1,29 +1,5 @@
 @charset "utf-8";
 
-:root {
-  --brand-color: #edddbb;
-
-  --main-bg: #fff;
-  --main-text: #333;
-  --brand-bg: var(--brand-color);
-  --brand-text: #333;
-  --gray1: #ebebeb;
-  --gray2: #ccc;
-  --gray3: #666;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --main-bg: #181818;
-    --main-text: #ddd;
-    --brand-bg: #212121;
-    --brand-text: var(--brand-color);
-    --gray1: #535353;
-    --gray2: #6f6f6f;
-    --gray3: #a6a6a6;
-  }
-}
-
 @media screen and (max-width: 640px) {
   .message {
     margin: 1.5rem;
@@ -58,55 +34,6 @@
   address {
     margin: 1.5rem 10%;
   }
-}
-
-* {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  color: var(--main-text);
-  background-color: var(--main-bg);
-  font-family: "Noto Sans JP", sans-serif;
-}
-
-h1 {
-  font-size: 2.828rem;
-}
-
-h3 {
-  font-size: 1rem;
-}
-
-a {
-  color: var(--main-text);
-}
-
-p {
-  line-height: 1.6;
-  margin-top: 1rem;
-}
-
-input,
-button,
-textarea,
-select {
-  background: none;
-  border: none;
-  border-radius: 0;
-  appearance: none;
-  font: inherit;
-  color: inherit;
-}
-
-label,
-button {
-  cursor: pointer;
-}
-
-input[type="checkbox"] {
-  appearance: auto;
 }
 
 header {

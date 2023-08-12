@@ -19,12 +19,12 @@
     --brand-bg: #212121;
     --brand-text: var(--brand-color);
     --gray1: #535353;
-    --gray2: #6F6F6F;
-    --gray3: #A6A6A6;
+    --gray2: #6f6f6f;
+    --gray3: #a6a6a6;
   }
 }
 
-@media screen and (max-width:640px) {
+@media screen and (max-width: 640px) {
   .message {
     margin: 1.5rem;
   }
@@ -42,8 +42,7 @@
   }
 }
 
-@media screen and (min-width:641px),
-print {
+@media screen and (min-width: 641px), print {
   .message {
     margin: 1.5rem 10%;
   }
@@ -123,7 +122,7 @@ header {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  transition: all .5s;
+  transition: all 0.5s;
   border-bottom: 1px solid var(--gray1);
 }
 
@@ -138,7 +137,7 @@ header {
   display: flex;
   align-items: center;
   transition: inherit;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 .loading-icon {
@@ -194,7 +193,7 @@ summary {
 .read-link::after {
   content: "\f08e";
   font-size: 0.5rem;
-  font-family: 'Font Awesome 6 Free';
+  font-family: "Font Awesome 6 Free";
   font-weight: 900;
   vertical-align: super;
   margin-right: 0.25rem;
@@ -251,7 +250,7 @@ summary {
 }
 
 .table-information-number {
-  padding: 0 .25rem;
+  padding: 0 0.25rem;
 }
 
 table {
@@ -342,7 +341,7 @@ address {
   background: var(--brand-bg);
   border-radius: 50%;
   box-shadow: 0px 0px 5px 3px var(--gray1);
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
 .to-page-top .fa-chevron-up {
@@ -382,7 +381,7 @@ address {
 }
 
 .playing-bar-text {
-  width: calc(100vw - 96px - 54px*2 - 1rem);
+  width: calc(100vw - 96px - 54px * 2 - 1rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -438,7 +437,7 @@ address {
   width: 27px;
   margin: 5px 0;
   background-color: var(--main-text);
-  transition: all .4s;
+  transition: all 0.4s;
 }
 
 .menu-btn[aria-expanded="true"] li:nth-child(1) {
@@ -459,7 +458,7 @@ address {
   position: fixed;
   left: 100%;
   bottom: 55px;
-  transition: all .5s;
+  transition: all 0.5s;
   opacity: 0;
   display: flex;
   flex-direction: column-reverse;

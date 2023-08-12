@@ -10,35 +10,65 @@ let playerFlag = 0;
 let repeatFlag = 0;
 let shuffleFlag = 0;
 
-
 function unescapeHTML(str) {
-  if (typeof str !== 'string') {
+  if (typeof str !== "string") {
     return str;
   }
   return str
-    .replace(/&gt;/g, '>')
-    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, ">")
+    .replace(/&lt;/g, "<")
     .replace(/&quot;/g, '"')
-    .replace(/&#x60;/g, '`')
+    .replace(/&#x60;/g, "`")
     .replace(/&#x27;/g, "'")
-    .replace(/&amp;/g, '&')
-    ;
+    .replace(/&amp;/g, "&");
 }
 
-
-fetch('https://script.google.com/macros/s/AKfycbxjLZhe1S-tRL5lBLuQjv_cFj2WffT0RUUfUILQGZOioj-IqiCV2uDHFeR1zUoMGjgN/exec')
-  .then(response => response.json())
-  .then(data => {
+fetch(
+  "https://script.google.com/macros/s/AKfycbxjLZhe1S-tRL5lBLuQjv_cFj2WffT0RUUfUILQGZOioj-IqiCV2uDHFeR1zUoMGjgN/exec"
+)
+  .then((response) => response.json())
+  .then((data) => {
     songList = data;
 
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName("script")[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    let tableInsert = '';
+    let tableInsert = "";
     for (let i = songList.length - 1; i >= 0; i--) {
-      tableInsert += '<tr id="rowOfSongNum' + i + '"><td class="video-thumb"><label class="clickable video-thumb-area" for="buttonOfSongNum' + i + '"><img class="video-thumb-img" src="https://i.ytimg.com/vi_webp/' + songList[i]['videoId'] + '/default.webp" loading="lazy"></label></td><td class="song-title"><label class="song-title-label clickable" title="' + songList[i]['songTitle'] + '"><button type="button" class="song-title-button" id="buttonOfSongNum' + i + '" value="' + i + '">' + songList[i]['songTitle'] + '</button></label></td><td class="artist"><label class="clickable" for="buttonOfSongNum' + i + '" title="' + songList[i]['artist'] + '"><span class="artist-text">' + songList[i]['artist'] + '</span></label></td><td class="video-title"><a class="video-title-link" href="https://youtu.be/' + songList[i]['videoId'] + '?t=' + songList[i]['startSeconds'] + '" target="_blank" rel="noopener noreferrer" title="' + songList[i]['videoTitle'] + '">' + songList[i]['videoTitle'] + '</a></td><td class="post-time"><span class="post-time-text">' + songList[i]['postDate'] + '</span></td></tr>';
+      tableInsert +=
+        '<tr id="rowOfSongNum' +
+        i +
+        '"><td class="video-thumb"><label class="clickable video-thumb-area" for="buttonOfSongNum' +
+        i +
+        '"><img class="video-thumb-img" src="https://i.ytimg.com/vi_webp/' +
+        songList[i]["videoId"] +
+        '/default.webp" loading="lazy"></label></td><td class="song-title"><label class="song-title-label clickable" title="' +
+        songList[i]["songTitle"] +
+        '"><button type="button" class="song-title-button" id="buttonOfSongNum' +
+        i +
+        '" value="' +
+        i +
+        '">' +
+        songList[i]["songTitle"] +
+        '</button></label></td><td class="artist"><label class="clickable" for="buttonOfSongNum' +
+        i +
+        '" title="' +
+        songList[i]["artist"] +
+        '"><span class="artist-text">' +
+        songList[i]["artist"] +
+        '</span></label></td><td class="video-title"><a class="video-title-link" href="https://youtu.be/' +
+        songList[i]["videoId"] +
+        "?t=" +
+        songList[i]["startSeconds"] +
+        '" target="_blank" rel="noopener noreferrer" title="' +
+        songList[i]["videoTitle"] +
+        '">' +
+        songList[i]["videoTitle"] +
+        '</a></td><td class="post-time"><span class="post-time-text">' +
+        songList[i]["postDate"] +
+        "</span></td></tr>";
     }
     searchResult = songList.map((_, index) => index);
 
@@ -46,44 +76,43 @@ fetch('https://script.google.com/macros/s/AKfycbxjLZhe1S-tRL5lBLuQjv_cFj2WffT0RU
     entireNum.textContent = songList.length;
     searchResultNum.textContent = searchResult.length;
 
-    const songButtons = document.getElementsByClassName('song-title-button');
+    const songButtons = document.getElementsByClassName("song-title-button");
     for (let songButton of songButtons) {
-      songButton.addEventListener('click', e => playSong(Number(e.target.value)));
+      songButton.addEventListener("click", (e) => playSong(Number(e.target.value)));
     }
   })
-  .catch(error => {
-    window.alert('【エラー】\nsongListの取得に失敗しました。しばらく時間をおいて再度アクセスしてください。');
+  .catch((error) => {
+    window.alert(
+      "【エラー】\nsongListの取得に失敗しました。しばらく時間をおいて再度アクセスしてください。"
+    );
   });
-
 
 function onYouTubeIframeAPIReady() {
-  player = new YT.Player('player', {
+  player = new YT.Player("player", {
     playervars: {
-      'rel': 0
+      rel: 0,
     },
     events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange,
-      'onError': onPlayerError
-    }
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange,
+      onError: onPlayerError,
+    },
   });
 }
-
 
 function onPlayerReady() {
   nowSongNum = songList.length - 1;
 
   player.cueVideoById({
-    videoId: songList[nowSongNum]['videoId'],
-    startSeconds: songList[nowSongNum]['startSeconds'],
-    endSeconds: songList[nowSongNum]['endSeconds']
+    videoId: songList[nowSongNum]["videoId"],
+    startSeconds: songList[nowSongNum]["startSeconds"],
+    endSeconds: songList[nowSongNum]["endSeconds"],
   });
 
   insertSongInfo();
 
-  document.querySelector('body').classList.add('loaded');
+  document.querySelector("body").classList.add("loaded");
 }
-
 
 function onPlayerStateChange(e) {
   // 再生終了のとき
@@ -119,7 +148,6 @@ function onPlayerStateChange(e) {
   }
 }
 
-
 function onPlayerError() {
   insertSongInfo();
   playerFlag = 0;
@@ -132,96 +160,94 @@ function onPlayerError() {
   }, 5000);
 }
 
-
 function insertSeekBarValue(seconds) {
-  if (typeof seconds == 'number') {
+  if (typeof seconds == "number") {
     menuTimeSeekBar.value = seconds;
-  }
-  else {
+  } else {
     seconds = menuTimeSeekBar.value;
   }
 
-  const percent = seconds / wholeSeconds * 100;
-  menuTimeSeekBar.style.backgroundImage = 'linear-gradient(to right, var(--brand-color) ' + percent + '%, var(--gray1) ' + percent + '%)';
+  const percent = (seconds / wholeSeconds) * 100;
+  menuTimeSeekBar.style.backgroundImage =
+    "linear-gradient(to right, var(--brand-color) " + percent + "%, var(--gray1) " + percent + "%)";
 }
-
 
 function formatSeconds(seconds) {
   const minutes = Math.floor(seconds / 60);
-  const remainderSeconds = Math.floor(seconds % 60).toString().padStart(2, '0');
-  return minutes + ':' + remainderSeconds;
+  const remainderSeconds = Math.floor(seconds % 60)
+    .toString()
+    .padStart(2, "0");
+  return minutes + ":" + remainderSeconds;
 }
 
-
 function insertSongInfo() {
-  if (typeof prevSongNum == 'number') {
-    document.getElementById('rowOfSongNum' + prevSongNum).classList.remove('now-song-row');
+  if (typeof prevSongNum == "number") {
+    document.getElementById("rowOfSongNum" + prevSongNum).classList.remove("now-song-row");
   }
-  document.getElementById('rowOfSongNum' + nowSongNum).classList.add('now-song-row');
+  document.getElementById("rowOfSongNum" + nowSongNum).classList.add("now-song-row");
 
-  playingBarThumb.setAttribute('src', 'https://i.ytimg.com/vi_webp/' + songList[nowSongNum]['videoId'] + '/default.webp');
+  playingBarThumb.setAttribute(
+    "src",
+    "https://i.ytimg.com/vi_webp/" + songList[nowSongNum]["videoId"] + "/default.webp"
+  );
 
-  playingBarSongTitle.innerHTML = songList[nowSongNum]['songTitle'];
-  playingBarSongTitle.setAttribute('title', unescapeHTML(songList[nowSongNum]['songTitle']));
+  playingBarSongTitle.innerHTML = songList[nowSongNum]["songTitle"];
+  playingBarSongTitle.setAttribute("title", unescapeHTML(songList[nowSongNum]["songTitle"]));
 
-  playingBarArtist.innerHTML = songList[nowSongNum]['artist'];
-  playingBarArtist.setAttribute('title', unescapeHTML(songList[nowSongNum]['artist']));
+  playingBarArtist.innerHTML = songList[nowSongNum]["artist"];
+  playingBarArtist.setAttribute("title", unescapeHTML(songList[nowSongNum]["artist"]));
 
-  playingBarPostDate.textContent = songList[nowSongNum]['postDate'].substring(0, 10) + ' 配信';
+  playingBarPostDate.textContent = songList[nowSongNum]["postDate"].substring(0, 10) + " 配信";
 
-  wholeSeconds = songList[nowSongNum]['endSeconds'] - songList[nowSongNum]['startSeconds'] || Math.round(player.getDuration());
+  wholeSeconds =
+    songList[nowSongNum]["endSeconds"] - songList[nowSongNum]["startSeconds"] ||
+    Math.round(player.getDuration());
   insertSeekBarValue(0);
   menuTimeSeekBar.max = wholeSeconds;
   menuTimeTextWhole.textContent = formatSeconds(wholeSeconds);
 }
 
-
 function toPlayIcon() {
-  playingBarPause.classList.add('to-hide');
-  playingBarPlay.classList.remove('to-hide');
-  menuControllerPause.classList.add('to-hide');
-  menuControllerPlay.classList.remove('to-hide');
+  playingBarPause.classList.add("to-hide");
+  playingBarPlay.classList.remove("to-hide");
+  menuControllerPause.classList.add("to-hide");
+  menuControllerPlay.classList.remove("to-hide");
 
-  playingBarStatus.setAttribute('title', '再生');
-  menuControllerStatus.setAttribute('title', '再生');
+  playingBarStatus.setAttribute("title", "再生");
+  menuControllerStatus.setAttribute("title", "再生");
 }
-
 
 function toPauseIcon() {
-  playingBarPause.classList.remove('to-hide');
-  playingBarPlay.classList.add('to-hide');
-  menuControllerPause.classList.remove('to-hide');
-  menuControllerPlay.classList.add('to-hide');
+  playingBarPause.classList.remove("to-hide");
+  playingBarPlay.classList.add("to-hide");
+  menuControllerPause.classList.remove("to-hide");
+  menuControllerPlay.classList.add("to-hide");
 
-  playingBarStatus.setAttribute('title', '一時停止');
-  menuControllerStatus.setAttribute('title', '一時停止');
+  playingBarStatus.setAttribute("title", "一時停止");
+  menuControllerStatus.setAttribute("title", "一時停止");
 }
 
-
 function getSongCurrentTime() {
-  const currentSeconds = Math.round(player.getCurrentTime() - songList[nowSongNum]['startSeconds']);
+  const currentSeconds = Math.round(player.getCurrentTime() - songList[nowSongNum]["startSeconds"]);
   insertSeekBarValue(currentSeconds);
   menuTimeTextNow.textContent = formatSeconds(currentSeconds);
 }
-
 
 function startCountingUpSeconds() {
   countUpSecondsFlag = 1;
   countUpSecondsInterval = setInterval(getSongCurrentTime, 250);
 }
 
-
 function stopCountingUpSeconds() {
   clearInterval(countUpSecondsInterval);
   countUpSecondsFlag = 0;
 }
 
-
 function playSong(songNum) {
   prevSongNum = nowSongNum;
 
   // 曲を指定されたとき
-  if (typeof songNum == 'number') {
+  if (typeof songNum == "number") {
     nowSongNum = songNum;
   }
   // 連続で再生されたとき
@@ -246,52 +272,52 @@ function playSong(songNum) {
     }
     // 検索条件でリストが空のとき
     else {
-      window.alert('検索条件に一致する項目がないため、次の曲を再生できません。');
+      window.alert("検索条件に一致する項目がないため、次の曲を再生できません。");
       return;
     }
   }
   // リピート再生のとき、nowSongNumは変化なし
 
   player.loadVideoById({
-    videoId: songList[nowSongNum]['videoId'],
-    startSeconds: songList[nowSongNum]['startSeconds'],
-    endSeconds: songList[nowSongNum]['endSeconds']
+    videoId: songList[nowSongNum]["videoId"],
+    startSeconds: songList[nowSongNum]["startSeconds"],
+    endSeconds: songList[nowSongNum]["endSeconds"],
   });
 }
 
-
-searchForm.addEventListener('input', searchSong);
-document.querySelector('#searchOption input[type="checkbox"]').addEventListener('change', searchSong);
+searchForm.addEventListener("input", searchSong);
+document
+  .querySelector('#searchOption input[type="checkbox"]')
+  .addEventListener("change", searchSong);
 function searchSong() {
   const searchWord = searchText.value;
 
-  if (searchWord == '') {
-    toClearSearchValue.classList.add('invisible');
-  }
-  else {
-    toClearSearchValue.classList.remove('invisible');
+  if (searchWord == "") {
+    toClearSearchValue.classList.add("invisible");
+  } else {
+    toClearSearchValue.classList.remove("invisible");
   }
 
   const songTitleChecked = searchOptionSongTitle.checked;
   const artistChecked = searchOptionArtist.checked;
   const videoTitleChecked = searchOptionVideoTitle.checked;
   const postDateChecked = searchOptionPostDate.checked;
-  const searchWordRegex = new RegExp(searchWord, 'i');
+  const searchWordRegex = new RegExp(searchWord, "i");
 
   searchResult = songList.flatMap((value, index) => {
     const testOfSongTitle = songTitleChecked && searchWordRegex.test(unescapeHTML(value.songTitle));
     const testOfArtist = artistChecked && searchWordRegex.test(unescapeHTML(value.artist));
-    const testOfVideoTitle = videoTitleChecked && searchWordRegex.test(unescapeHTML(value.videoTitle));
+    const testOfVideoTitle =
+      videoTitleChecked && searchWordRegex.test(unescapeHTML(value.videoTitle));
     const testOfPostDate = postDateChecked && searchWordRegex.test(unescapeHTML(value.postDate));
 
-    const rowOfIndexSongNum = document.getElementById('rowOfSongNum' + index);
+    const rowOfIndexSongNum = document.getElementById("rowOfSongNum" + index);
 
     if (testOfSongTitle || testOfArtist || testOfVideoTitle || testOfPostDate) {
-      rowOfIndexSongNum.classList.remove('to-hide');
+      rowOfIndexSongNum.classList.remove("to-hide");
       return index;
-    }
-    else {
-      rowOfIndexSongNum.classList.add('to-hide');
+    } else {
+      rowOfIndexSongNum.classList.add("to-hide");
       return [];
     }
   });
@@ -299,157 +325,138 @@ function searchSong() {
   searchResultNum.textContent = searchResult.length;
 }
 
-
-searchText.addEventListener('keypress', e => {
-  if (e.key == 'Enter') {
+searchText.addEventListener("keypress", (e) => {
+  if (e.key == "Enter") {
     e.preventDefault();
   }
 });
-
 
 {
   let focusFlag = 0;
   const options = document.querySelectorAll('#searchOption input[type="checkbox"]');
 
-  searchText.addEventListener('focus', onSearchFormFocus);
-  searchText.addEventListener('blur', onSearchFormBlur);
+  searchText.addEventListener("focus", onSearchFormFocus);
+  searchText.addEventListener("blur", onSearchFormBlur);
   for (let option of options) {
-    option.addEventListener('focus', onSearchFormFocus);
-    option.addEventListener('blur', onSearchFormBlur);
+    option.addEventListener("focus", onSearchFormFocus);
+    option.addEventListener("blur", onSearchFormBlur);
   }
 
   function onSearchFormFocus() {
     focusFlag = 1;
-    document.querySelector('body').classList.add('focused-search-form');
+    document.querySelector("body").classList.add("focused-search-form");
   }
 
   function onSearchFormBlur() {
     focusFlag = 0;
     setTimeout(() => {
       if (focusFlag == 0) {
-        document.querySelector('body').classList.remove('focused-search-form');
+        document.querySelector("body").classList.remove("focused-search-form");
       }
     });
   }
 }
 
-
-toClearSearchValue.addEventListener('click', () => {
-  searchText.value = '';
+toClearSearchValue.addEventListener("click", () => {
+  searchText.value = "";
   searchText.focus();
   searchSong();
 });
 
-
-window.addEventListener('scroll', () => {
+window.addEventListener("scroll", () => {
   if (window.pageYOffset > window.innerHeight) {
-    toPageTop.classList.remove('invisible');
-  }
-  else {
-    toPageTop.classList.add('invisible');
+    toPageTop.classList.remove("invisible");
+  } else {
+    toPageTop.classList.add("invisible");
   }
 });
 
-
-toPageTop.addEventListener('click', () => {
+toPageTop.addEventListener("click", () => {
   scrollTo({
     top: 0,
-    behavior: 'smooth'
+    behavior: "smooth",
   });
 });
 
-
-playingBarThumbButton.addEventListener('click', () => {
-  const rowOfNowSongNum = document.getElementById('buttonOfSongNum' + nowSongNum);
+playingBarThumbButton.addEventListener("click", () => {
+  const rowOfNowSongNum = document.getElementById("buttonOfSongNum" + nowSongNum);
 
   rowOfNowSongNum.scrollIntoView({
-    behavior: 'smooth',
-    block: 'center'
+    behavior: "smooth",
+    block: "center",
   });
 
-  rowOfNowSongNum.focus({preventScroll: true});
+  rowOfNowSongNum.focus({ preventScroll: true });
 });
 
-
-playingBarStatus.addEventListener('click', changePlayerStatus);
-menuControllerStatus.addEventListener('click', changePlayerStatus);
+playingBarStatus.addEventListener("click", changePlayerStatus);
+menuControllerStatus.addEventListener("click", changePlayerStatus);
 function changePlayerStatus() {
   if (playerFlag == 1) {
     toPlayIcon();
     player.pauseVideo();
     playerFlag = 0;
-  }
-  else {
+  } else {
     toPauseIcon();
     player.playVideo();
     playerFlag = 1;
   }
 }
 
+menuButton.addEventListener("click", () => {
+  document.querySelector("body").classList.toggle("open-nav");
 
-menuButton.addEventListener('click', () => {
-  document.querySelector('body').classList.toggle('open-nav');
-
-  if (menuButton.getAttribute('aria-expanded') == 'false') {
-    menuButton.setAttribute('aria-expanded', true);
-    menuButton.setAttribute('title', 'メニューを閉じる');
-  }
-  else {
-    menuButton.setAttribute('aria-expanded', false);
-    menuButton.setAttribute('title', 'メニューを開く');
+  if (menuButton.getAttribute("aria-expanded") == "false") {
+    menuButton.setAttribute("aria-expanded", true);
+    menuButton.setAttribute("title", "メニューを閉じる");
+  } else {
+    menuButton.setAttribute("aria-expanded", false);
+    menuButton.setAttribute("title", "メニューを開く");
   }
 });
 
-
-menuControllerRepeat.addEventListener('click', () => {
+menuControllerRepeat.addEventListener("click", () => {
   if (repeatFlag == 1) {
-    menuControllerRepeat.classList.add('disabled');
-    menuControllerRepeat.setAttribute('title', '1曲リピートを有効にする');
+    menuControllerRepeat.classList.add("disabled");
+    menuControllerRepeat.setAttribute("title", "1曲リピートを有効にする");
     repeatFlag = 0;
-  }
-  else {
-    menuControllerRepeat.classList.remove('disabled');
-    menuControllerRepeat.setAttribute('title', '1曲リピートを無効にする');
+  } else {
+    menuControllerRepeat.classList.remove("disabled");
+    menuControllerRepeat.setAttribute("title", "1曲リピートを無効にする");
     repeatFlag = 1;
   }
 });
 
-
-menuControllerPrev.addEventListener('click', () => {
+menuControllerPrev.addEventListener("click", () => {
   playSong(nowSongNum);
 });
 
+menuControllerNext.addEventListener("click", playSong);
 
-menuControllerNext.addEventListener('click', playSong);
-
-
-menuControllerShuffle.addEventListener('click', () => {
+menuControllerShuffle.addEventListener("click", () => {
   if (shuffleFlag == 1) {
-    menuControllerShuffle.classList.add('disabled');
-    menuControllerShuffle.setAttribute('title', 'シャッフルを有効にする');
+    menuControllerShuffle.classList.add("disabled");
+    menuControllerShuffle.setAttribute("title", "シャッフルを有効にする");
     shuffleFlag = 0;
-  }
-  else {
-    menuControllerShuffle.classList.remove('disabled');
-    menuControllerShuffle.setAttribute('title', 'シャッフルを無効にする');
+  } else {
+    menuControllerShuffle.classList.remove("disabled");
+    menuControllerShuffle.setAttribute("title", "シャッフルを無効にする");
     shuffleFlag = 1;
   }
 });
 
-
-menuTimeSeekBar.addEventListener('input', () => {
+menuTimeSeekBar.addEventListener("input", () => {
   stopCountingUpSeconds();
   insertSeekBarValue();
   menuTimeTextNow.textContent = formatSeconds(menuTimeSeekBar.value);
 });
 
-
-menuTimeSeekBar.addEventListener('change', () => {
+menuTimeSeekBar.addEventListener("change", () => {
   playerFlag = 0;
 
   player.loadVideoById({
-    videoId: songList[nowSongNum]['videoId'],
-    startSeconds: songList[nowSongNum]['startSeconds'] + Number(menuTimeSeekBar.value),
-    endSeconds: songList[nowSongNum]['endSeconds']
+    videoId: songList[nowSongNum]["videoId"],
+    startSeconds: songList[nowSongNum]["startSeconds"] + Number(menuTimeSeekBar.value),
+    endSeconds: songList[nowSongNum]["endSeconds"],
   });
 });

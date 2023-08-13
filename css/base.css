@@ -1,12 +1,12 @@
 @charset "utf-8";
 
 :root {
-  --brand-color: #edddbb;
+  --brand-color: #80c8ef;
 
   --main-bg: #fff;
   --main-text: #333;
   --brand-bg: var(--brand-color);
-  --brand-text: #333;
+  --brand-text: #fff;
   --gray1: #ebebeb;
   --gray2: #ccc;
   --gray3: #666;

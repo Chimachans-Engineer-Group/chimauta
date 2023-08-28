@@ -37,38 +37,49 @@ fetch(
 
     let tableInsert = "";
     for (let i = songList.length - 1; i >= 0; i--) {
-      tableInsert +=
-        '<tr id="rowOfSongNum' +
-        i +
-        '"><td class="video-thumb"><label class="clickable video-thumb-area" for="buttonOfSongNum' +
-        i +
-        '"><img class="video-thumb-img" src="https://i.ytimg.com/vi_webp/' +
-        songList[i]["videoId"] +
-        '/default.webp" loading="lazy"></label></td><td class="song-title"><label class="song-title-label clickable" title="' +
-        songList[i]["songTitle"] +
-        '"><button type="button" class="song-title-button" id="buttonOfSongNum' +
-        i +
-        '" value="' +
-        i +
-        '">' +
-        songList[i]["songTitle"] +
-        '</button></label></td><td class="artist"><label class="clickable" for="buttonOfSongNum' +
-        i +
-        '" title="' +
-        songList[i]["artist"] +
-        '"><span class="artist-text">' +
-        songList[i]["artist"] +
-        '</span></label></td><td class="video-title"><a class="video-title-link" href="https://youtu.be/' +
-        songList[i]["videoId"] +
-        "?t=" +
-        songList[i]["startSeconds"] +
-        '" target="_blank" rel="noopener noreferrer" title="' +
-        songList[i]["videoTitle"] +
-        '">' +
-        songList[i]["videoTitle"] +
-        '</a></td><td class="post-time"><span class="post-time-text">' +
-        songList[i]["postDate"] +
-        "</span></td></tr>";
+      tableInsert += `
+        <tr id="rowOfSongNum${i}">
+          <td class="video-thumb">
+            <label class="clickable video-thumb-area" for="buttonOfSongNum${i}">
+              <img
+                class="video-thumb-img"
+                src="https://i.ytimg.com/vi_webp/${songList[i]["videoId"]}/default.webp"
+                loading="lazy"
+              />
+            </label>
+          </td>
+          <td class="song-title">
+            <label class="song-title-label clickable" title="${songList[i]["songTitle"]}">
+              <button
+                type="button"
+                class="song-title-button"
+                id="buttonOfSongNum${i}"
+                value="${i}"
+              >
+                ${songList[i]["songTitle"]}
+              </button>
+            </label>
+          </td>
+          <td class="artist">
+            <label class="clickable" for="buttonOfSongNum${i}" title="${songList[i]["artist"]}">
+              <span class="artist-text">${songList[i]["artist"]}</span>
+            </label>
+          </td>
+          <td class="video-title">
+            <a
+              class="video-title-link"
+              href="https://youtu.be/${songList[i]["videoId"]}?t=${songList[i]["startSeconds"]}"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="${songList[i]["videoTitle"]}"
+            >${songList[i]["videoTitle"]}</a
+            >
+          </td>
+          <td class="post-time">
+            <span class="post-time-text">${songList[i]["postDate"]}</span>
+          </td>
+        </tr>
+      `;
     }
     searchResult = songList.map((_, index) => index);
 
@@ -168,8 +179,7 @@ function insertSeekBarValue(seconds) {
   }
 
   const percent = (seconds / wholeSeconds) * 100;
-  menuTimeSeekBar.style.backgroundImage =
-    "linear-gradient(to right, var(--brand-color) " + percent + "%, var(--gray1) " + percent + "%)";
+  menuTimeSeekBar.style.backgroundImage = `linear-gradient(to right, var(--brand-color) ${percent}%, var(--gray1) ${percent}%)`;
 }
 
 function formatSeconds(seconds) {
@@ -182,13 +192,13 @@ function formatSeconds(seconds) {
 
 function insertSongInfo() {
   if (typeof prevSongNum == "number") {
-    document.getElementById("rowOfSongNum" + prevSongNum).classList.remove("now-song-row");
+    document.getElementById(`rowOfSongNum${prevSongNum}`).classList.remove("now-song-row");
   }
-  document.getElementById("rowOfSongNum" + nowSongNum).classList.add("now-song-row");
+  document.getElementById(`rowOfSongNum${nowSongNum}`).classList.add("now-song-row");
 
   playingBarThumb.setAttribute(
     "src",
-    "https://i.ytimg.com/vi_webp/" + songList[nowSongNum]["videoId"] + "/default.webp"
+    `https://i.ytimg.com/vi_webp/${songList[nowSongNum]["videoId"]}/default.webp`
   );
 
   playingBarSongTitle.innerHTML = songList[nowSongNum]["songTitle"];
@@ -197,7 +207,7 @@ function insertSongInfo() {
   playingBarArtist.innerHTML = songList[nowSongNum]["artist"];
   playingBarArtist.setAttribute("title", unescapeHTML(songList[nowSongNum]["artist"]));
 
-  playingBarPostDate.textContent = songList[nowSongNum]["postDate"].substring(0, 10) + " 配信";
+  playingBarPostDate.textContent = `${songList[nowSongNum]["postDate"].substring(0, 10)} 配信`;
 
   wholeSeconds =
     songList[nowSongNum]["endSeconds"] - songList[nowSongNum]["startSeconds"] ||

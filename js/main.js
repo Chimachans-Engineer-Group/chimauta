@@ -10,19 +10,6 @@ let playerFlag = 0;
 let repeatFlag = 0;
 let shuffleFlag = 0;
 
-function unescapeHTML(str) {
-  if (typeof str !== "string") {
-    return str;
-  }
-  return str
-    .replace(/&gt;/g, ">")
-    .replace(/&lt;/g, "<")
-    .replace(/&quot;/g, '"')
-    .replace(/&#x60;/g, "`")
-    .replace(/&#x27;/g, "'")
-    .replace(/&amp;/g, "&");
-}
-
 fetch(
   "https://script.google.com/macros/s/AKfycbxjLZhe1S-tRL5lBLuQjv_cFj2WffT0RUUfUILQGZOioj-IqiCV2uDHFeR1zUoMGjgN/exec"
 )

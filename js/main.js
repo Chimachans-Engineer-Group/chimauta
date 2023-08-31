@@ -79,7 +79,7 @@ fetch(
       songButton.addEventListener("click", (e) => playSong(Number(e.target.value)));
     }
   })
-  .catch((error) => {
+  .catch(() => {
     window.alert(
       "【エラー】\nsongListの取得に失敗しました。しばらく時間をおいて再度アクセスしてください。"
     );
@@ -361,7 +361,7 @@ toClearSearchValue.addEventListener("click", () => {
 });
 
 window.addEventListener("scroll", () => {
-  if (window.pageYOffset > window.innerHeight) {
+  if (window.scrollY > window.innerHeight) {
     toPageTop.classList.remove("invisible");
   } else {
     toPageTop.classList.add("invisible");
@@ -376,7 +376,7 @@ toPageTop.addEventListener("click", () => {
 });
 
 playingBarThumbButton.addEventListener("click", () => {
-  const rowOfNowSongNum = document.getElementById("buttonOfSongNum" + nowSongNum);
+  const rowOfNowSongNum = document.getElementById(`buttonOfSongNum${nowSongNum}`);
 
   rowOfNowSongNum.scrollIntoView({
     behavior: "smooth",

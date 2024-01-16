@@ -10,10 +10,8 @@
   --gray1: #ebebeb;
   --gray2: #ccc;
   --gray3: #666;
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
+  @media (prefers-color-scheme: dark) {
     --main-bg: #181818;
     --main-text: #ddd;
     --brand-bg: #212121;

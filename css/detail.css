@@ -21,9 +21,9 @@ header {
   color: var(--brand-text);
   transition: all 0.5s;
   border-bottom: 1px solid var(--gray1);
+  z-index: 30;
 
   @media (width < 960px) {
-    z-index: 30;
     height: min(100vw / 16 * 9, 43vh);
     display: grid;
     place-content: center;
@@ -32,7 +32,6 @@ header {
   }
 
   @media (960px <= width) {
-    z-index: 20;
     height: 56px;
     display: flex;
     align-items: center;
@@ -175,7 +174,7 @@ summary {
     margin-top: 8px;
     position: fixed;
     top: 0;
-    z-index: 20;
+    z-index: 30;
   }
 }
 

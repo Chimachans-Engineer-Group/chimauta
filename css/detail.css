@@ -70,6 +70,10 @@ header {
 }
 
 main {
+  @media (width < 960px) {
+    padding-bottom: 55px;
+  }
+
   @media (960px <= width) {
     margin-top: 56px;
     margin-bottom: 84px;

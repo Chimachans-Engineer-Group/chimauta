@@ -710,8 +710,8 @@ address {
   color: var(--gray3);
 }
 
-.menu-time-text-whole::before {
-  @media (960px <= width) {
+@media (960px <= width) {
+  .menu-time-text-whole::before {
     content: "/";
     margin: 0 0.5rem;
   }

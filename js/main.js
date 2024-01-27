@@ -95,6 +95,7 @@ function onYouTubeIframeAPIReady() {
       onStateChange: onPlayerStateChange,
       onError: onPlayerError,
     },
+    host: "https://www.youtube-nocookie.com",
   });
 }
 

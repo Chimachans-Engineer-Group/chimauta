@@ -82,10 +82,18 @@ fetch(
 
     // URLパラメータチェック
     const searchParams = new URLSearchParams(window.location.search);
-    const paramKey = "q";
-    if (searchParams.has(paramKey)) {
-      const paramValue = searchParams.get(paramKey);
-      searchText.value = paramValue;
+    const queryKeyName = "q";
+    if (searchParams.has(queryKeyName)) {
+      const typeKeyName = "type";
+      const query = searchParams.get(queryKeyName);
+      const type = searchParams.get(typeKeyName);
+      searchText.value = query;
+      if (type) {
+        searchOptionSongTitle.checked = Number(type.charAt(0));
+        searchOptionArtist.checked = Number(type.charAt(1));
+        searchOptionVideoTitle.checked = Number(type.charAt(2));
+        searchOptionPostDate.checked = Number(type.charAt(3));
+      }
       searchSong();
       nowSongNum = searchResult[searchResult.length - 1];
     }

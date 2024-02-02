@@ -327,7 +327,8 @@ function searchSong() {
   });
   history.replaceState("", currentTitle, currentShareURL.toString());
 
-  const baseURL = "https://x.com/share";
+  const baseURL =
+    "https://x.com/intent/tweet?ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Eshare%7Ctwgr%5E";
   const currentBaseURL = new URL(baseURL);
   currentBaseURL.search = new URLSearchParams({
     url: currentShareURL.toString(),

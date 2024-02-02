@@ -325,6 +325,8 @@ function searchSong() {
       .map((v) => Number(v))
       .join(""),
   });
+  history.replaceState("", currentTitle, currentShareURL.toString());
+
   const baseURL = "https://x.com/share";
   const currentBaseURL = new URL(baseURL);
   currentBaseURL.search = new URLSearchParams({

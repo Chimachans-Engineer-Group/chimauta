@@ -16,6 +16,7 @@ fetch(
   .then((response) => response.json())
   .then((data) => {
     songList = data;
+    nowSongNum = songList.length - 1;
 
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
@@ -78,10 +79,29 @@ fetch(
     for (let songButton of songButtons) {
       songButton.addEventListener("click", (e) => playSong(Number(e.target.value)));
     }
+
+    // URLパラメータチェック
+    const searchParams = new URLSearchParams(window.location.search);
+    const queryKeyName = "q";
+    if (searchParams.has(queryKeyName)) {
+      const typeKeyName = "type";
+      const query = searchParams.get(queryKeyName);
+      const type = searchParams.get(typeKeyName);
+      searchText.value = query;
+      if (type) {
+        searchOptionSongTitle.checked = Number(type.charAt(0));
+        searchOptionArtist.checked = Number(type.charAt(1));
+        searchOptionVideoTitle.checked = Number(type.charAt(2));
+        searchOptionPostDate.checked = Number(type.charAt(3));
+      }
+      searchSong();
+      nowSongNum = searchResult[searchResult.length - 1];
+    }
   })
-  .catch(() => {
+  .catch((error) => {
     window.alert(
-      "【エラー】\nsongListの取得に失敗しました。しばらく時間をおいて再度アクセスしてください。"
+      error +
+        "【エラー】\nsongListの取得に失敗しました。しばらく時間をおいて再度アクセスしてください。"
     );
   });
 
@@ -100,8 +120,6 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady() {
-  nowSongNum = songList.length - 1;
-
   player.cueVideoById({
     videoId: songList[nowSongNum]["videoId"],
     startSeconds: songList[nowSongNum]["startSeconds"],
@@ -289,6 +307,33 @@ document
   .addEventListener("change", searchSong);
 function searchSong() {
   const searchWord = searchText.value;
+  const songTitleChecked = searchOptionSongTitle.checked;
+  const artistChecked = searchOptionArtist.checked;
+  const videoTitleChecked = searchOptionVideoTitle.checked;
+  const postDateChecked = searchOptionPostDate.checked;
+
+  const currentTitle = `${
+    searchWord !== "" ? `${searchWord} - ` : ""
+  }ちまうた｜町田ちま非公式ファンサイト`;
+  document.title = currentTitle;
+
+  const shareURL = "http://chimauta.html.xdomain.jp/";
+  const currentShareURL = new URL(shareURL);
+  currentShareURL.search = new URLSearchParams({
+    q: searchWord,
+    type: [songTitleChecked, artistChecked, videoTitleChecked, postDateChecked]
+      .map((v) => Number(v))
+      .join(""),
+  });
+  history.replaceState("", currentTitle, currentShareURL.toString());
+
+  const baseURL = "https://x.com/share";
+  const currentBaseURL = new URL(baseURL);
+  currentBaseURL.search = new URLSearchParams({
+    url: currentShareURL.toString(),
+    text: currentTitle,
+  });
+  searchOptionShare.href = currentBaseURL.toString();
 
   if (searchWord == "") {
     toClearSearchValue.classList.add("invisible");
@@ -296,10 +341,6 @@ function searchSong() {
     toClearSearchValue.classList.remove("invisible");
   }
 
-  const songTitleChecked = searchOptionSongTitle.checked;
-  const artistChecked = searchOptionArtist.checked;
-  const videoTitleChecked = searchOptionVideoTitle.checked;
-  const postDateChecked = searchOptionPostDate.checked;
   const searchWordRegex = new RegExp(searchWord, "i");
 
   searchResult = songList.flatMap((value, index) => {

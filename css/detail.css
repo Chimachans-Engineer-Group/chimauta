@@ -175,6 +175,7 @@ summary {
   }
 
   @media (960px <= width) {
+    width: min(100vw / 2.414 * 1.414 - 40px, 640px);
     margin-top: 8px;
     position: fixed;
     top: 0;
@@ -195,7 +196,7 @@ summary {
 
   @media (960px <= width) {
     padding: 8px 40px;
-    width: min(100vw / 2.414 * 1.414 - 40px, 640px);
+    width: 100%;
     height: 40px;
     background-color: var(--main-bg);
   }
@@ -235,6 +236,10 @@ summary {
   padding: 1rem;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: baseline;
 
   @media (width < 960px) {
     border: 1px solid var(--gray2);
@@ -253,6 +258,24 @@ summary {
 .search-option:hover {
   visibility: visible;
   opacity: 1;
+}
+
+.search-option-share {
+  display: inline-block;
+  color: #fff;
+  text-decoration: none;
+  background-color: #0f1419;
+  height: 2rem;
+  line-height: 2rem;
+  border-radius: 1rem;
+  padding-inline: 1rem;
+  font-size: 0.8rem;
+
+  &::after {
+    margin-left: 0.5rem;
+    vertical-align: top;
+    content: attr(title);
+  }
 }
 
 .search-option-area {

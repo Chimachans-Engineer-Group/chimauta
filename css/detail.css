@@ -316,7 +316,7 @@ summary {
   display: grid;
   grid-template-columns: auto max-content;
   height: 56px;
-  gap: 1rem;
+  gap: 1.5rem;
   padding-inline: 1.5rem;
 
   &:hover {
@@ -332,19 +332,20 @@ summary {
   display: grid;
   grid-template-columns: min-content auto max-content;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   text-align: unset;
   color: var(--gray3);
 
   @media (640px <= width) {
-    grid-template-columns: min-content auto auto max-content;
+    grid-template-columns: min-content 1fr 1fr max-content;
   }
 }
 
 .track-button-video-thumb {
   object-fit: cover;
-  width: 80px;
-  height: 45px;
+  width: 45px;
+  height: 56px;
+  clip-path: inset(7px 0);
 }
 
 .track-button-info {

@@ -335,6 +335,7 @@ summary {
   gap: 0.5rem;
   text-align: unset;
   color: var(--gray3);
+  font-size: 0.875rem;
 
   @media (640px <= width) {
     grid-template-columns: min-content 1fr 1fr max-content;
@@ -362,10 +363,7 @@ summary {
 
 .track-button-info-title {
   color: var(--main-text);
-}
-
-.track-button-info-artist {
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 
 .track-button-ytlink {

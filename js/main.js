@@ -23,55 +23,33 @@ fetch(
     const firstScriptTag = document.getElementsByTagName("script")[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    let tableInsert = "";
+    // tracksを作成
+    const tracksFragment = new DocumentFragment();
     for (let i = songList.length - 1; i >= 0; i--) {
-      tableInsert += `
-        <tr id="rowOfSongNum${i}">
-          <td class="video-thumb">
-            <label class="clickable video-thumb-area" for="buttonOfSongNum${i}">
-              <img
-                class="video-thumb-img"
-                src="https://i.ytimg.com/vi_webp/${songList[i]["videoId"]}/default.webp"
-                loading="lazy"
-              />
-            </label>
-          </td>
-          <td class="song-title">
-            <label class="song-title-label clickable" title="${songList[i]["songTitle"]}">
-              <button
-                type="button"
-                class="song-title-button"
-                id="buttonOfSongNum${i}"
-                value="${i}"
-              >
-                ${songList[i]["songTitle"]}
-              </button>
-            </label>
-          </td>
-          <td class="artist">
-            <label class="clickable" for="buttonOfSongNum${i}" title="${songList[i]["artist"]}">
-              <span class="artist-text">${songList[i]["artist"]}</span>
-            </label>
-          </td>
-          <td class="video-title">
-            <a
-              class="video-title-link"
-              href="https://youtu.be/${songList[i]["videoId"]}?t=${songList[i]["startSeconds"]}"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="${songList[i]["videoTitle"]}"
-            >${songList[i]["videoTitle"]}</a
-            >
-          </td>
-          <td class="post-time">
-            <span class="post-time-text">${songList[i]["postDate"]}</span>
-          </td>
-        </tr>
-      `;
+      // テンプレートを複製
+      const clone = document.getElementById("trackTemplate").content.cloneNode(true);
+      // 複製した要素にデータを挿入
+      clone.querySelector(".track-button").id = `trackButtonNum${i}`;
+      clone.querySelector(
+        ".track-button-video-thumb"
+      ).src = `https://img.youtube.com/vi_webp/${songList[i].videoId}/default.webp`;
+      clone.querySelector(".track-button-info-title").textContent = songList[i].songTitle;
+      clone.querySelector(".track-button-info-artist").textContent = songList[i].artist;
+      clone.querySelector(".track-button-ytlink").href = `https://youtu.be/${songList[i].videoId}`;
+      clone.querySelector(".track-button-ytlink").textContent = songList[i].videoTitle;
+      clone.querySelector(".track-button-duration").textContent = formatSeconds(
+        // songList[i].duration
+        208
+      );
+      //　fragmentに追加
+      tracksFragment.appendChild(clone);
     }
+    // #tracksにtrackを追加
+    document.getElementById("tracks").appendChild(tracksFragment);
+
     searchResult = songList.map((_, index) => index);
 
-    tableArea.innerHTML = tableInsert;
+    // tableArea.innerHTML = tableInsert;
     entireNum.textContent = songList.length;
     searchResultNum.textContent = searchResult.length;
 

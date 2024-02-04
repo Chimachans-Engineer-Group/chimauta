@@ -24,7 +24,7 @@
 
     <!-- My JS -->
     <script defer src="js/util.js"></script>
-    <script defer src="js/main.js"></script>
+    <!-- <script defer src="js/main.js"></script> -->
 
     <!--Font Awesome-->
     <script defer src="https://kit.fontawesome.com/ddd08aa620.js" crossorigin="anonymous"></script>
@@ -145,19 +145,27 @@
           >件を表示中
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>曲名</th>
-              <th>アーティスト</th>
-              <th>動画タイトル</th>
-              <th>投稿日時</th>
-            </tr>
-          </thead>
+        <ul class="tracks">
+          <li class="track">
+            <button type="button" class="track-button" id="trackButtonNum${i}">
+              <img
+                class="track-button-video-thumb"
+                src="https://img.youtube.com/vi_webp/yyJh2IILe9I/default.webp"
+              />
 
-          <tbody id="tableArea"></tbody>
-        </table>
+              <div class="track-button-info">
+                <span class="track-button-info-text track-button-info-title">メロウ</span>
+                <span class="track-button-info-text track-button-info-artist">須田景凪</span>
+              </div>
+
+              <span>4:11</span>
+            </button>
+
+            <button type="button">
+              <i class="fa-solid fa-ellipsis"></i>
+            </button>
+          </li>
+        </ul>
 
         <address>
           &copy; 2021

@@ -302,90 +302,54 @@ summary {
   padding: 0 0.25rem;
 }
 
-table {
-  @media (960px <= width) {
-    white-space: nowrap;
+.track {
+  display: grid;
+  grid-template-columns: auto max-content;
+  height: 56px;
+  gap: 1rem;
+  padding-inline: 1.5rem;
+
+  &:hover {
+    background-color: var(--gray1);
   }
 }
 
-tr {
-  border-bottom: solid 1px var(--gray1);
+.track-button {
+  display: grid;
+  grid-template-columns: min-content auto max-content;
+  align-items: center;
+  gap: 1rem;
+  text-align: unset;
+  color: var(--gray3);
 }
 
-.now-song-row {
-  background-color: var(--gray1);
-}
-
-th {
-  text-align: left;
-  padding: 1rem 0.5rem;
-  border-bottom: 1px solid var(--gray3);
-}
-
-td {
-  padding: 0 0.5rem;
-}
-
-.video-thumb {
-  padding-left: 0;
-}
-
-.clickable {
-  cursor: pointer;
-}
-
-.video-thumb-area {
-  display: flex;
-}
-
-.video-thumb-img {
+.track-button-video-thumb {
   object-fit: cover;
   width: 80px;
   height: 45px;
 }
 
-.song-title-label {
-  display: block;
+.track-button-info {
+  display: grid;
+  margin-right: auto;
 }
 
-.song-title-button,
-.artist-text,
-.video-title-link,
-.post-time-text {
-  display: block;
+.track-button-info-text {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.song-title-button {
-  @media (width < 960px) {
-    max-width: min(70vw - 80px - 2.5rem, 20rem);
-  }
-
-  @media (960px <= width) {
-    max-width: min((100vw / 2.414 * 1.414 - 1.5rem) * 0.7 - 80px - 1.5rem - 2rem, 20rem);
-  }
+.track-button-info-title {
+  color: var(--main-text);
 }
 
-.artist-text {
-  @media (width < 960px) {
-    max-width: calc(30vw - 2rem);
-  }
-
-  @media (960px <= width) {
-    max-width: calc((100vw / 2.414 * 1.414 - 1.5rem) * 0.3 - 1rem - 1rem);
-  }
+.track-button-info-artist {
+  font-size: 0.875rem;
 }
 
-.video-title-link {
-  @media (width < 960px) {
-    max-width: calc(60vw - 1rem);
-  }
-
-  @media (960px <= width) {
-    max-width: calc((100vw / 2.414 * 1.414 - 1.5rem) * 0.5 - 1rem);
-  }
+.clickable {
+  cursor: pointer;
 }
 
 address {

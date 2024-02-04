@@ -132,6 +132,7 @@ main {
 summary {
   font-size: 1.414rem;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .lead {
@@ -346,10 +347,6 @@ summary {
 
 .track-button-info-artist {
   font-size: 0.875rem;
-}
-
-.clickable {
-  cursor: pointer;
 }
 
 address {
@@ -652,6 +649,7 @@ address {
   height: 5px;
   width: 100%;
   background-color: var(--gray1);
+  cursor: pointer;
 
   @media (960px <= width) {
     height: 4px;

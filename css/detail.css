@@ -320,7 +320,7 @@ summary {
   padding-inline: 1.5rem;
 
   &:hover {
-    background-color: var(--gray1);
+    background-color: var(--gray0);
   }
 
   @media (960px <= width) {

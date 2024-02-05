@@ -325,6 +325,7 @@ summary {
 
   @media (960px <= width) {
     padding-inline: 0.5rem;
+    border-radius: 8px;
   }
 
   &.current {

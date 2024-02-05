@@ -29,7 +29,8 @@ fetch(
       // テンプレートを複製
       const clone = document.getElementById("trackTemplate").content.cloneNode(true);
       // 複製した要素にデータを挿入
-      clone.querySelector(".track-button").id = `trackButtonNum${i}`;
+      clone.querySelector(".track").id = `trackNum${i}`;
+      clone.querySelector(".track-button").value = i;
       clone.querySelector(
         ".track-button-video-thumb"
       ).src = `https://img.youtube.com/vi_webp/${songList[i].videoId}/default.webp`;
@@ -49,15 +50,13 @@ fetch(
 
     searchResult = songList.map((_, index) => index);
 
-    // tableArea.innerHTML = tableInsert;
     entireNum.textContent = songList.length;
     searchResultNum.textContent = searchResult.length;
-
-    const songButtons = document.getElementsByClassName("song-title-button");
-    for (let songButton of songButtons) {
-      songButton.addEventListener("click", (e) => playSong(Number(e.target.value)));
+    // 生成したボタンたちにイベントリスナーを追加
+    const trackButtons = document.getElementsByClassName("track-button");
+    for (let trackButton of trackButtons) {
+      trackButton.addEventListener("click", (e) => playSong(Number(e.currentTarget.value)));
     }
-
     // URLパラメータチェック
     const searchParams = new URLSearchParams(window.location.search);
     const queryKeyName = "q";
@@ -176,9 +175,9 @@ function formatSeconds(seconds) {
 
 function insertSongInfo() {
   if (typeof prevSongNum == "number") {
-    document.getElementById(`rowOfSongNum${prevSongNum}`).classList.remove("now-song-row");
+    document.getElementById(`trackNum${prevSongNum}`).classList.remove("current");
   }
-  document.getElementById(`rowOfSongNum${nowSongNum}`).classList.add("now-song-row");
+  document.getElementById(`trackNum${nowSongNum}`).classList.add("current");
 
   playingBarThumb.setAttribute(
     "src",

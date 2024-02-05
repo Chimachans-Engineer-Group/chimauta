@@ -326,6 +326,10 @@ summary {
   @media (960px <= width) {
     padding-inline: 0.5rem;
   }
+
+  &.current {
+    background-color: var(--gray1);
+  }
 }
 
 .track-button {

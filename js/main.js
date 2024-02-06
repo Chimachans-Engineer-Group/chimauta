@@ -213,6 +213,11 @@ function insertSongInfo() {
   playingBarArtist.innerHTML = songList[nowSongNum]["artist"];
   playingBarArtist.setAttribute("title", unescapeHTML(songList[nowSongNum]["artist"]));
 
+  playingBarVideoTitle.innerHTML = songList[nowSongNum].videoTitle;
+  playingBarVideoTitle.title = songList[nowSongNum].videoTitle;
+  playingBarPostDate.innerHTML = songList[nowSongNum].postDate.substring(0, 10);
+  playingBarPostDate.title = songList[nowSongNum].postDate;
+
   wholeSeconds =
     songList[nowSongNum]["endSeconds"] - songList[nowSongNum]["startSeconds"] ||
     Math.round(player.getDuration());

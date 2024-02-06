@@ -474,6 +474,8 @@ address {
   display: grid;
 }
 
+.playing-bar-text-top,
+.playing-bar-text-bottom,
 .playing-bar-song-title,
 .playing-bar-artist {
   overflow: hidden;
@@ -481,9 +483,58 @@ address {
   text-overflow: ellipsis;
 }
 
+.playing-bar-text-top {
+  @media (width < 960px) {
+    display: grid;
+  }
+
+  @media (960px <= width) {
+    display: flex;
+  }
+}
+
+.playing-bar-song-title {
+  @media (960px <= width) {
+    flex: 0 1 max-content;
+  }
+}
+
 .playing-bar-artist {
+  @media (width < 960px) {
+    color: var(--gray3);
+    font-size: 0.875rem;
+  }
+
+  @media (960px <= width) {
+    flex: 0 1 max-content;
+
+    &::before {
+      content: "/";
+      margin-inline: 0.5rem;
+    }
+  }
+}
+
+.playing-bar-text-bottom {
   color: var(--gray3);
   font-size: 0.875rem;
+
+  @media (width < 960px) {
+    display: none;
+  }
+}
+
+.playing-bar-post-date {
+  &::after {
+    content: "配信";
+    margin-left: 0.25em;
+  }
+}
+
+.playing-bar-video-title {
+  &::before {
+    content: "・";
+  }
 }
 
 .playing-bar-button {

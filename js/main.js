@@ -11,7 +11,7 @@ let repeatFlag = 0;
 let shuffleFlag = 0;
 
 fetch(
-  "https://script.google.com/macros/s/AKfycbxjLZhe1S-tRL5lBLuQjv_cFj2WffT0RUUfUILQGZOioj-IqiCV2uDHFeR1zUoMGjgN/exec"
+  "https://script.google.com/macros/s/AKfycbytNLtf2bt9aYvo2lkd2YVkoZDiIYEn-djJQku-gtDS1oNR1SCM5B_4MSmSECJINWJ2/exec"
 )
   .then((response) => response.json())
   .then((data) => {

@@ -374,32 +374,6 @@ searchText.addEventListener("keypress", (e) => {
   }
 });
 
-{
-  let focusFlag = 0;
-  const options = document.querySelectorAll('#searchOption input[type="checkbox"]');
-
-  searchText.addEventListener("focus", onSearchFormFocus);
-  searchText.addEventListener("blur", onSearchFormBlur);
-  for (let option of options) {
-    option.addEventListener("focus", onSearchFormFocus);
-    option.addEventListener("blur", onSearchFormBlur);
-  }
-
-  function onSearchFormFocus() {
-    focusFlag = 1;
-    document.querySelector("body").classList.add("focused-search-form");
-  }
-
-  function onSearchFormBlur() {
-    focusFlag = 0;
-    setTimeout(() => {
-      if (focusFlag == 0) {
-        document.querySelector("body").classList.remove("focused-search-form");
-      }
-    });
-  }
-}
-
 toClearSearchValue.addEventListener("click", () => {
   searchText.value = "";
   searchText.focus();

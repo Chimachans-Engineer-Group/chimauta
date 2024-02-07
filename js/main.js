@@ -39,8 +39,7 @@ fetch(
       clone.querySelector(".track-button-ytlink").href = `https://youtu.be/${songList[i].videoId}`;
       clone.querySelector(".track-button-ytlink").textContent = songList[i].videoTitle;
       clone.querySelector(".track-button-duration").textContent = formatSeconds(
-        // songList[i].duration
-        208
+        songList[i].duration
       );
       //　fragmentに追加
       tracksFragment.appendChild(clone);
@@ -184,17 +183,15 @@ function insertSongInfo() {
     `https://i.ytimg.com/vi_webp/${songList[nowSongNum]["videoId"]}/default.webp`
   );
 
-  playingBarSongTitle.innerHTML = songList[nowSongNum]["songTitle"];
-  playingBarSongTitle.setAttribute("title", unescapeHTML(songList[nowSongNum]["songTitle"]));
+  playingBarSongTitle.textContent = songList[nowSongNum]["songTitle"];
+  playingBarSongTitle.title = songList[nowSongNum]["songTitle"];
 
-  playingBarArtist.innerHTML = songList[nowSongNum]["artist"];
-  playingBarArtist.setAttribute("title", unescapeHTML(songList[nowSongNum]["artist"]));
+  playingBarArtist.textContent = songList[nowSongNum]["artist"];
+  playingBarArtist.title = songList[nowSongNum]["artist"];
 
   playingBarPostDate.textContent = `${songList[nowSongNum]["postDate"].substring(0, 10)} 配信`;
 
-  wholeSeconds =
-    songList[nowSongNum]["endSeconds"] - songList[nowSongNum]["startSeconds"] ||
-    Math.round(player.getDuration());
+  wholeSeconds = songList[nowSongNum].duration;
   insertSeekBarValue(0);
   menuTimeSeekBar.max = wholeSeconds;
   menuTimeTextWhole.textContent = formatSeconds(wholeSeconds);
@@ -322,11 +319,10 @@ function searchSong() {
   const searchWordRegex = new RegExp(searchWord, "i");
 
   searchResult = songList.flatMap((value, index) => {
-    const testOfSongTitle = songTitleChecked && searchWordRegex.test(unescapeHTML(value.songTitle));
-    const testOfArtist = artistChecked && searchWordRegex.test(unescapeHTML(value.artist));
-    const testOfVideoTitle =
-      videoTitleChecked && searchWordRegex.test(unescapeHTML(value.videoTitle));
-    const testOfPostDate = postDateChecked && searchWordRegex.test(unescapeHTML(value.postDate));
+    const testOfSongTitle = songTitleChecked && searchWordRegex.test(value.songTitle);
+    const testOfArtist = artistChecked && searchWordRegex.test(value.artist);
+    const testOfVideoTitle = videoTitleChecked && searchWordRegex.test(value.videoTitle);
+    const testOfPostDate = postDateChecked && searchWordRegex.test(value.postDate);
 
     const rowOfIndexSongNum = document.getElementById("rowOfSongNum" + index);
 

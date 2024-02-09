@@ -6,13 +6,6 @@
   opacity: 0;
 }
 
-.loaded header {
-  @media (width < 960px) {
-    visibility: hidden;
-    opacity: 0;
-  }
-}
-
 header {
   position: fixed;
   top: 0;
@@ -29,6 +22,11 @@ header {
     place-content: center;
     place-items: center;
     gap: 1rem;
+
+    &:where(.loaded *) {
+      visibility: hidden;
+      opacity: 0;
+    }
   }
 
   @media (960px <= width) {

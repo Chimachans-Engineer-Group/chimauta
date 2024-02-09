@@ -39,12 +39,10 @@ fetch(
       clone.querySelector(".track-button-info-artist").textContent = songList[i].artist;
       clone.querySelector(".track-button-info-artist").title = songList[i].artist;
       clone.querySelector(
-        ".track-button-ytlink"
+        ".track-ytlink"
       ).href = `https://youtu.be/${songList[i].videoId}?t=${songList[i].startSeconds}`;
-      clone.querySelector(".track-button-ytlink").title = songList[i].videoTitle;
-      clone.querySelector(".track-button-duration").textContent = formatSeconds(
-        songList[i].duration
-      );
+      clone.querySelector(".track-ytlink").title = songList[i].videoTitle;
+      clone.querySelector(".track-duration").textContent = formatSeconds(songList[i].duration);
       //　fragmentに追加
       tracksFragment.appendChild(clone);
     }

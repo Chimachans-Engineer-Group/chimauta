@@ -315,9 +315,19 @@ summary {
 .track {
   height: 56px;
   padding-inline: 1.5rem;
+  display: grid;
+  grid-template-columns: auto max-content max-content;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--gray3);
+  font-size: 0.875rem;
 
   &:hover {
     background-color: var(--gray0);
+  }
+
+  @media (640px <= width) {
+    grid-template-columns: 1.414fr 1fr max-content;
   }
 
   @media (960px <= width) {
@@ -331,18 +341,12 @@ summary {
 }
 
 .track-button {
-  width: 100%;
   display: grid;
-  grid-template-columns: min-content auto min-content max-content;
+  grid-template-columns: min-content auto;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   text-align: unset;
-  color: var(--gray3);
-  font-size: 0.875rem;
-
-  @media (640px <= width) {
-    grid-template-columns: min-content 1fr 1fr max-content;
-  }
+  order: 1;
 }
 
 .track-button-video-thumb {
@@ -350,16 +354,14 @@ summary {
   width: 45px;
   height: 56px;
   clip-path: inset(7px 0);
-  order: 1;
 }
 
 .track-button-info {
   display: grid;
-  order: 2;
 }
 
 .track-button-info-text,
-.track-button-ytlink {
+.track-ytlink {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -370,19 +372,19 @@ summary {
   font-size: 1rem;
 }
 
-.track-button-duration {
-  order: 3;
+.track-duration {
+  order: 2;
 
   @media (640px <= width) {
-    order: 4;
+    order: 3;
   }
 }
 
-.track-button-ytlink {
+.track-ytlink {
   color: inherit;
 
   @media (width < 640px) {
-    order: 4;
+    order: 3;
     text-decoration: none;
     width: 1.5rem;
     display: grid;
@@ -396,7 +398,7 @@ summary {
   }
 
   @media (640px <= width) {
-    order: 3;
+    order: 2;
 
     &::before {
       content: attr(title);

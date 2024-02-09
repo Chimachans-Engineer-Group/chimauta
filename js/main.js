@@ -38,7 +38,9 @@ fetch(
       clone.querySelector(".track-button-info-title").title = songList[i].songTitle;
       clone.querySelector(".track-button-info-artist").textContent = songList[i].artist;
       clone.querySelector(".track-button-info-artist").title = songList[i].artist;
-      clone.querySelector(".track-button-ytlink").href = `https://youtu.be/${songList[i].videoId}`;
+      clone.querySelector(
+        ".track-button-ytlink"
+      ).href = `https://youtu.be/${songList[i].videoId}?t=${songList[i].startSeconds}`;
       clone.querySelector(".track-button-ytlink").title = songList[i].videoTitle;
       clone.querySelector(".track-button-duration").textContent = formatSeconds(
         songList[i].duration

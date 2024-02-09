@@ -294,7 +294,7 @@ function searchSong() {
   }ちまうた｜町田ちま非公式ファンサイト`;
   document.title = currentTitle;
 
-  const shareURL = "http://chimauta.html.xdomain.jp/";
+  const shareURL = location.origin;
   const currentShareURL = new URL(shareURL);
   currentShareURL.search = new URLSearchParams({
     q: searchWord,

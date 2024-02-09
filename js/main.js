@@ -394,15 +394,17 @@ toPageTop.addEventListener("click", () => {
   });
 });
 
+// playingBarのサムネイルがクリックされたら
 playingBarThumbButton.addEventListener("click", () => {
-  const rowOfNowSongNum = document.getElementById(`buttonOfSongNum${nowSongNum}`);
-
-  rowOfNowSongNum.scrollIntoView({
+  // 現在選択されているトラックの行を取得
+  const currentTrackRow = document.getElementById(`trackNum${nowSongNum}`);
+  // その行がある位置までスクロール
+  currentTrackRow.scrollIntoView({
     behavior: "smooth",
     block: "center",
   });
-
-  rowOfNowSongNum.focus({ preventScroll: true });
+  // フォーカスを設定
+  currentTrackRow.focus({ preventScroll: true });
 });
 
 playingBarStatus.addEventListener("click", changePlayerStatus);

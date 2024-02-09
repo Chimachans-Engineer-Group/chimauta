@@ -58,7 +58,7 @@
 
       <section class="message">
         <details open>
-          <summary class="clickable">はじめに</summary>
+          <summary>はじめに</summary>
           <p class="lead">
             本サイト「ちまうた」は、<a
               class="lead-link"
@@ -145,19 +145,24 @@
           >件を表示中
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th></th>
-              <th>曲名</th>
-              <th>アーティスト</th>
-              <th>動画タイトル</th>
-              <th>投稿日時</th>
-            </tr>
-          </thead>
+        <ul class="tracks" id="tracks">
+          <template id="trackTemplate">
+            <li class="track">
+              <button type="button" class="track-button">
+                <img class="track-button-video-thumb" />
 
-          <tbody id="tableArea"></tbody>
-        </table>
+                <div class="track-button-info">
+                  <span class="track-button-info-text track-button-info-title"></span>
+                  <span class="track-button-info-text track-button-info-artist"></span>
+                </div>
+              </button>
+
+              <span class="track-duration"></span>
+
+              <a class="track-ytlink" target="_blank" rel="noopener noreferrer"></a>
+            </li>
+          </template>
+        </ul>
 
         <address>
           &copy; 2021
@@ -274,13 +279,7 @@
         </div>
 
         <div class="menu-time">
-          <input
-            type="range"
-            class="menu-time-seek-bar clickable"
-            id="menuTimeSeekBar"
-            min="0"
-            value="0"
-          />
+          <input type="range" class="menu-time-seek-bar" id="menuTimeSeekBar" min="0" value="0" />
 
           <div class="menu-time-text">
             <span class="menu-time-text-now" id="menuTimeTextNow">0:00</span

@@ -132,6 +132,7 @@ main {
 summary {
   font-size: 1.414rem;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .lead {
@@ -297,95 +298,111 @@ summary {
   @media (640px <= width < 960px) {
     margin: 1.5rem 10%;
   }
+
+  @media (960px <= width) {
+    margin-inline: 0.5rem;
+  }
 }
 
 .table-information-number {
   padding: 0 0.25rem;
 }
 
-table {
+.tracks {
+  margin-top: 1rem;
+}
+
+.track {
+  height: 56px;
+  padding-inline: 1.5rem;
+  display: grid;
+  grid-template-columns: auto max-content max-content;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--gray3);
+  font-size: 0.875rem;
+
+  &:hover {
+    background-color: var(--gray0);
+  }
+
+  @media (640px <= width) {
+    grid-template-columns: 1.414fr 1fr max-content;
+  }
+
   @media (960px <= width) {
-    white-space: nowrap;
+    padding-inline: 0.5rem;
+    border-radius: 8px;
+  }
+
+  &.current {
+    background-color: var(--gray1);
   }
 }
 
-tr {
-  border-bottom: solid 1px var(--gray1);
+.track-button {
+  display: grid;
+  grid-template-columns: min-content auto;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: unset;
+  order: 1;
 }
 
-.now-song-row {
-  background-color: var(--gray1);
-}
-
-th {
-  text-align: left;
-  padding: 1rem 0.5rem;
-  border-bottom: 1px solid var(--gray3);
-}
-
-td {
-  padding: 0 0.5rem;
-}
-
-.video-thumb {
-  padding-left: 0;
-}
-
-.clickable {
-  cursor: pointer;
-}
-
-.video-thumb-area {
-  display: flex;
-}
-
-.video-thumb-img {
+.track-button-video-thumb {
   object-fit: cover;
-  width: 80px;
-  height: 45px;
+  width: 45px;
+  height: 56px;
+  clip-path: inset(7px 0);
 }
 
-.song-title-label {
-  display: block;
+.track-button-info {
+  display: grid;
 }
 
-.song-title-button,
-.artist-text,
-.video-title-link,
-.post-time-text {
-  display: block;
+.track-button-info-text,
+.track-ytlink {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.song-title-button {
-  @media (width < 960px) {
-    max-width: min(70vw - 80px - 2.5rem, 20rem);
-  }
+.track-button-info-title {
+  color: var(--main-text);
+  font-size: 1rem;
+}
 
-  @media (960px <= width) {
-    max-width: min((100vw / 2.414 * 1.414 - 1.5rem) * 0.7 - 80px - 1.5rem - 2rem, 20rem);
+.track-duration {
+  order: 2;
+
+  @media (640px <= width) {
+    order: 3;
   }
 }
 
-.artist-text {
-  @media (width < 960px) {
-    max-width: calc(30vw - 2rem);
+.track-ytlink {
+  color: inherit;
+
+  @media (width < 640px) {
+    order: 3;
+    text-decoration: none;
+    width: 1.5rem;
+    display: grid;
+    justify-content: end;
+    border-left: 1px solid var(--gray2);
+
+    &::before {
+      content: "\f167";
+      font-family: "Font Awesome 6 Brands";
+    }
   }
 
-  @media (960px <= width) {
-    max-width: calc((100vw / 2.414 * 1.414 - 1.5rem) * 0.3 - 1rem - 1rem);
-  }
-}
+  @media (640px <= width) {
+    order: 2;
 
-.video-title-link {
-  @media (width < 960px) {
-    max-width: calc(60vw - 1rem);
-  }
-
-  @media (960px <= width) {
-    max-width: calc((100vw / 2.414 * 1.414 - 1.5rem) * 0.5 - 1rem);
+    &::before {
+      content: attr(title);
+    }
   }
 }
 
@@ -684,6 +701,7 @@ address {
   height: 5px;
   width: 100%;
   background-color: var(--gray1);
+  cursor: pointer;
 
   @media (960px <= width) {
     height: 4px;

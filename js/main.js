@@ -11,7 +11,7 @@ let repeatFlag = 0;
 let shuffleFlag = 0;
 
 fetch(
-  "https://script.google.com/macros/s/AKfycbxjLZhe1S-tRL5lBLuQjv_cFj2WffT0RUUfUILQGZOioj-IqiCV2uDHFeR1zUoMGjgN/exec"
+  "https://script.google.com/macros/s/AKfycbytNLtf2bt9aYvo2lkd2YVkoZDiIYEn-djJQku-gtDS1oNR1SCM5B_4MSmSECJINWJ2/exec"
 )
   .then((response) => response.json())
   .then((data) => {
@@ -23,63 +23,41 @@ fetch(
     const firstScriptTag = document.getElementsByTagName("script")[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-    let tableInsert = "";
+    // tracksを作成
+    const tracksFragment = new DocumentFragment();
     for (let i = songList.length - 1; i >= 0; i--) {
-      tableInsert += `
-        <tr id="rowOfSongNum${i}">
-          <td class="video-thumb">
-            <label class="clickable video-thumb-area" for="buttonOfSongNum${i}">
-              <img
-                class="video-thumb-img"
-                src="https://i.ytimg.com/vi_webp/${songList[i]["videoId"]}/default.webp"
-                loading="lazy"
-              />
-            </label>
-          </td>
-          <td class="song-title">
-            <label class="song-title-label clickable" title="${songList[i]["songTitle"]}">
-              <button
-                type="button"
-                class="song-title-button"
-                id="buttonOfSongNum${i}"
-                value="${i}"
-              >
-                ${songList[i]["songTitle"]}
-              </button>
-            </label>
-          </td>
-          <td class="artist">
-            <label class="clickable" for="buttonOfSongNum${i}" title="${songList[i]["artist"]}">
-              <span class="artist-text">${songList[i]["artist"]}</span>
-            </label>
-          </td>
-          <td class="video-title">
-            <a
-              class="video-title-link"
-              href="https://youtu.be/${songList[i]["videoId"]}?t=${songList[i]["startSeconds"]}"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="${songList[i]["videoTitle"]}"
-            >${songList[i]["videoTitle"]}</a
-            >
-          </td>
-          <td class="post-time">
-            <span class="post-time-text">${songList[i]["postDate"]}</span>
-          </td>
-        </tr>
-      `;
+      // テンプレートを複製
+      const clone = document.getElementById("trackTemplate").content.cloneNode(true);
+      // 複製した要素にデータを挿入
+      clone.querySelector(".track").id = `trackNum${i}`;
+      clone.querySelector(".track-button").value = i;
+      clone.querySelector(
+        ".track-button-video-thumb"
+      ).src = `https://img.youtube.com/vi_webp/${songList[i].videoId}/default.webp`;
+      clone.querySelector(".track-button-info-title").textContent = songList[i].songTitle;
+      clone.querySelector(".track-button-info-title").title = songList[i].songTitle;
+      clone.querySelector(".track-button-info-artist").textContent = songList[i].artist;
+      clone.querySelector(".track-button-info-artist").title = songList[i].artist;
+      clone.querySelector(
+        ".track-ytlink"
+      ).href = `https://youtu.be/${songList[i].videoId}?t=${songList[i].startSeconds}`;
+      clone.querySelector(".track-ytlink").title = songList[i].videoTitle;
+      clone.querySelector(".track-duration").textContent = formatSeconds(songList[i].duration);
+      //　fragmentに追加
+      tracksFragment.appendChild(clone);
     }
+    // #tracksにtrackを追加
+    document.getElementById("tracks").appendChild(tracksFragment);
+
     searchResult = songList.map((_, index) => index);
 
-    tableArea.innerHTML = tableInsert;
     entireNum.textContent = songList.length;
     searchResultNum.textContent = searchResult.length;
-
-    const songButtons = document.getElementsByClassName("song-title-button");
-    for (let songButton of songButtons) {
-      songButton.addEventListener("click", (e) => playSong(Number(e.target.value)));
+    // 生成したボタンたちにイベントリスナーを追加
+    const trackButtons = document.getElementsByClassName("track-button");
+    for (let trackButton of trackButtons) {
+      trackButton.addEventListener("click", (e) => playSong(Number(e.currentTarget.value)));
     }
-
     // URLパラメータチェック
     const searchParams = new URLSearchParams(window.location.search);
     const queryKeyName = "q";
@@ -198,29 +176,27 @@ function formatSeconds(seconds) {
 
 function insertSongInfo() {
   if (typeof prevSongNum == "number") {
-    document.getElementById(`rowOfSongNum${prevSongNum}`).classList.remove("now-song-row");
+    document.getElementById(`trackNum${prevSongNum}`).classList.remove("current");
   }
-  document.getElementById(`rowOfSongNum${nowSongNum}`).classList.add("now-song-row");
+  document.getElementById(`trackNum${nowSongNum}`).classList.add("current");
 
   playingBarThumb.setAttribute(
     "src",
     `https://i.ytimg.com/vi_webp/${songList[nowSongNum]["videoId"]}/default.webp`
   );
 
-  playingBarSongTitle.innerHTML = songList[nowSongNum]["songTitle"];
-  playingBarSongTitle.setAttribute("title", unescapeHTML(songList[nowSongNum]["songTitle"]));
+  playingBarSongTitle.textContent = songList[nowSongNum]["songTitle"];
+  playingBarSongTitle.title = songList[nowSongNum]["songTitle"];
 
-  playingBarArtist.innerHTML = songList[nowSongNum]["artist"];
-  playingBarArtist.setAttribute("title", unescapeHTML(songList[nowSongNum]["artist"]));
+  playingBarArtist.textContent = songList[nowSongNum]["artist"];
+  playingBarArtist.title = songList[nowSongNum]["artist"];
 
   playingBarVideoTitle.innerHTML = songList[nowSongNum].videoTitle;
   playingBarVideoTitle.title = songList[nowSongNum].videoTitle;
   playingBarPostDate.innerHTML = songList[nowSongNum].postDate.substring(0, 10);
   playingBarPostDate.title = songList[nowSongNum].postDate;
 
-  wholeSeconds =
-    songList[nowSongNum]["endSeconds"] - songList[nowSongNum]["startSeconds"] ||
-    Math.round(player.getDuration());
+  wholeSeconds = songList[nowSongNum].duration;
   insertSeekBarValue(0);
   menuTimeSeekBar.max = wholeSeconds;
   menuTimeTextWhole.textContent = formatSeconds(wholeSeconds);
@@ -320,7 +296,7 @@ function searchSong() {
   }ちまうた｜町田ちま非公式ファンサイト`;
   document.title = currentTitle;
 
-  const shareURL = "http://chimauta.html.xdomain.jp/";
+  const shareURL = location.origin;
   const currentShareURL = new URL(shareURL);
   currentShareURL.search = new URLSearchParams({
     q: searchWord,
@@ -347,20 +323,19 @@ function searchSong() {
 
   const searchWordRegex = new RegExp(searchWord, "i");
 
-  searchResult = songList.flatMap((value, index) => {
-    const testOfSongTitle = songTitleChecked && searchWordRegex.test(unescapeHTML(value.songTitle));
-    const testOfArtist = artistChecked && searchWordRegex.test(unescapeHTML(value.artist));
-    const testOfVideoTitle =
-      videoTitleChecked && searchWordRegex.test(unescapeHTML(value.videoTitle));
-    const testOfPostDate = postDateChecked && searchWordRegex.test(unescapeHTML(value.postDate));
+  searchResult = songList.flatMap((track, i) => {
+    const testOfSongTitle = songTitleChecked && searchWordRegex.test(track.songTitle);
+    const testOfArtist = artistChecked && searchWordRegex.test(track.artist);
+    const testOfVideoTitle = videoTitleChecked && searchWordRegex.test(track.videoTitle);
+    const testOfPostDate = postDateChecked && searchWordRegex.test(track.postDate);
 
-    const rowOfIndexSongNum = document.getElementById("rowOfSongNum" + index);
+    const beingProcessedTrackRow = document.getElementById(`trackNum${i}`);
 
     if (testOfSongTitle || testOfArtist || testOfVideoTitle || testOfPostDate) {
-      rowOfIndexSongNum.classList.remove("to-hide");
-      return index;
+      beingProcessedTrackRow.classList.remove("to-hide");
+      return i;
     } else {
-      rowOfIndexSongNum.classList.add("to-hide");
+      beingProcessedTrackRow.classList.add("to-hide");
       return [];
     }
   });
@@ -395,15 +370,17 @@ toPageTop.addEventListener("click", () => {
   });
 });
 
+// playingBarのサムネイルがクリックされたら
 playingBarThumbButton.addEventListener("click", () => {
-  const rowOfNowSongNum = document.getElementById(`buttonOfSongNum${nowSongNum}`);
-
-  rowOfNowSongNum.scrollIntoView({
+  // 現在選択されているトラックの行を取得
+  const currentTrackRow = document.getElementById(`trackNum${nowSongNum}`);
+  // その行がある位置までスクロール
+  currentTrackRow.scrollIntoView({
     behavior: "smooth",
     block: "center",
   });
-
-  rowOfNowSongNum.focus({ preventScroll: true });
+  // フォーカスを設定
+  currentTrackRow.focus({ preventScroll: true });
 });
 
 playingBarStatus.addEventListener("click", changePlayerStatus);

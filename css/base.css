@@ -7,6 +7,7 @@
   --main-text: #333;
   --brand-bg: var(--brand-color);
   --brand-text: #fff;
+  --gray0: #f5f5f5;
   --gray1: #ebebeb;
   --gray2: #ccc;
   --gray3: #666;
@@ -16,6 +17,7 @@
     --main-text: #ddd;
     --brand-bg: #212121;
     --brand-text: var(--brand-color);
+    --gray0: #3a3a3a;
     --gray1: #535353;
     --gray2: #6f6f6f;
     --gray3: #a6a6a6;

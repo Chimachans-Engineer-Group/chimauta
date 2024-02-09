@@ -321,19 +321,19 @@ function searchSong() {
 
   const searchWordRegex = new RegExp(searchWord, "i");
 
-  searchResult = songList.flatMap((value, index) => {
-    const testOfSongTitle = songTitleChecked && searchWordRegex.test(value.songTitle);
-    const testOfArtist = artistChecked && searchWordRegex.test(value.artist);
-    const testOfVideoTitle = videoTitleChecked && searchWordRegex.test(value.videoTitle);
-    const testOfPostDate = postDateChecked && searchWordRegex.test(value.postDate);
+  searchResult = songList.flatMap((track, i) => {
+    const testOfSongTitle = songTitleChecked && searchWordRegex.test(track.songTitle);
+    const testOfArtist = artistChecked && searchWordRegex.test(track.artist);
+    const testOfVideoTitle = videoTitleChecked && searchWordRegex.test(track.videoTitle);
+    const testOfPostDate = postDateChecked && searchWordRegex.test(track.postDate);
 
-    const rowOfIndexSongNum = document.getElementById("rowOfSongNum" + index);
+    const beingProcessedTrackRow = document.getElementById(`trackNum${i}`);
 
     if (testOfSongTitle || testOfArtist || testOfVideoTitle || testOfPostDate) {
-      rowOfIndexSongNum.classList.remove("to-hide");
-      return index;
+      beingProcessedTrackRow.classList.remove("to-hide");
+      return i;
     } else {
-      rowOfIndexSongNum.classList.add("to-hide");
+      beingProcessedTrackRow.classList.add("to-hide");
       return [];
     }
   });

@@ -191,7 +191,10 @@ function insertSongInfo() {
   playingBarArtist.textContent = songList[nowSongNum]["artist"];
   playingBarArtist.title = songList[nowSongNum]["artist"];
 
-  playingBarPostDate.textContent = `${songList[nowSongNum]["postDate"].substring(0, 10)} 配信`;
+  playingBarVideoTitle.innerHTML = songList[nowSongNum].videoTitle;
+  playingBarVideoTitle.title = songList[nowSongNum].videoTitle;
+  playingBarPostDate.innerHTML = songList[nowSongNum].postDate.substring(0, 10);
+  playingBarPostDate.title = songList[nowSongNum].postDate;
 
   wholeSeconds = songList[nowSongNum].duration;
   insertSeekBarValue(0);
@@ -345,32 +348,6 @@ searchText.addEventListener("keypress", (e) => {
     e.preventDefault();
   }
 });
-
-{
-  let focusFlag = 0;
-  const options = document.querySelectorAll('#searchOption input[type="checkbox"]');
-
-  searchText.addEventListener("focus", onSearchFormFocus);
-  searchText.addEventListener("blur", onSearchFormBlur);
-  for (let option of options) {
-    option.addEventListener("focus", onSearchFormFocus);
-    option.addEventListener("blur", onSearchFormBlur);
-  }
-
-  function onSearchFormFocus() {
-    focusFlag = 1;
-    document.querySelector("body").classList.add("focused-search-form");
-  }
-
-  function onSearchFormBlur() {
-    focusFlag = 0;
-    setTimeout(() => {
-      if (focusFlag == 0) {
-        document.querySelector("body").classList.remove("focused-search-form");
-      }
-    });
-  }
-}
 
 toClearSearchValue.addEventListener("click", () => {
   searchText.value = "";

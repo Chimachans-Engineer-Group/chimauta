@@ -185,16 +185,18 @@
           class="playing-bar-thumb-button"
           id="playingBarThumbButton"
         >
-          <img id="playingBarThumb" />
+          <img class="playing-bar-thumb-button-img" id="playingBarThumb" />
         </button>
 
         <div class="playing-bar-text">
-          <span class="playing-bar-text-top playing-bar-song-title" id="playingBarSongTitle"></span
-          ><span class="playing-bar-text-top playing-bar-artist" id="playingBarArtist"></span><br />
-          <span
-            class="playing-bar-text-bottom playing-bar-post-date"
-            id="playingBarPostDate"
-          ></span>
+          <div class="playing-bar-text-top">
+            <span class="playing-bar-song-title" id="playingBarSongTitle"></span
+            ><span class="playing-bar-artist" id="playingBarArtist"></span>
+          </div>
+          <div class="playing-bar-text-bottom">
+            <span class="playing-bar-post-date" id="playingBarPostDate"></span
+            ><span class="playing-bar-video-title" id="playingBarVideoTitle"></span>
+          </div>
         </div>
       </div>
 
@@ -285,19 +287,7 @@
           </div>
         </div>
 
-        <ul class="menu-share">
-          <li class="menu-share-item">
-            <a
-              class="icon icon-twitter"
-              href="https://twitter.com/share?url=http://chimauta.html.xdomain.jp/&text=ちまうた｜町田ちま非公式ファンサイト"
-              title="ツイート"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i class="fa-brands fa-twitter"></i>
-            </a>
-          </li>
-        </ul>
+        <ul class="menu-share"></ul>
       </div>
     </div>
   </body>

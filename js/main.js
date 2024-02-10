@@ -191,9 +191,9 @@ function insertSongInfo() {
   playingBarArtist.textContent = songList[nowSongNum]["artist"];
   playingBarArtist.title = songList[nowSongNum]["artist"];
 
-  playingBarVideoTitle.innerHTML = songList[nowSongNum].videoTitle;
+  playingBarVideoTitle.textContent = songList[nowSongNum].videoTitle;
   playingBarVideoTitle.title = songList[nowSongNum].videoTitle;
-  playingBarPostDate.innerHTML = songList[nowSongNum].postDate.substring(0, 10);
+  playingBarPostDate.textContent = songList[nowSongNum].postDate.substring(0, 10);
   playingBarPostDate.title = songList[nowSongNum].postDate;
 
   wholeSeconds = songList[nowSongNum].duration;

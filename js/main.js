@@ -372,7 +372,7 @@ toPageTop.addEventListener("click", () => {
 // playingBarのサムネイルがクリックされたら
 playingBarThumbButton.addEventListener("click", () => {
   // 現在選択されているトラックの行を取得
-  const currentTrackRow = document.getElementById(`trackNum${nowSongNum}`);
+  const currentTrackRow = document.getElementById(`trackNum${history.getCurrentTrackNum()}`);
   // その行がある位置までスクロール
   currentTrackRow.scrollIntoView({
     behavior: "smooth",

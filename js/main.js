@@ -176,31 +176,26 @@ function formatSeconds(seconds) {
 }
 
 function insertSongInfo() {
-  if (typeof prevSongNum == "number") {
-    document.getElementById(`trackNum${prevSongNum}`).classList.remove("current");
-  }
-  document.getElementById(`trackNum${nowSongNum}`).classList.add("current");
-
-  playingBarThumb.setAttribute(
-    "src",
-    `https://i.ytimg.com/vi_webp/${songList[nowSongNum]["videoId"]}/default.webp`
-  );
-
-  playingBarSongTitle.textContent = songList[nowSongNum]["songTitle"];
-  playingBarSongTitle.title = songList[nowSongNum]["songTitle"];
-
-  playingBarArtist.textContent = songList[nowSongNum]["artist"];
-  playingBarArtist.title = songList[nowSongNum]["artist"];
-
-  playingBarVideoTitle.textContent = songList[nowSongNum].videoTitle;
-  playingBarVideoTitle.title = songList[nowSongNum].videoTitle;
-  playingBarPostDate.textContent = songList[nowSongNum].postDate.substring(0, 10);
-  playingBarPostDate.title = songList[nowSongNum].postDate;
-
-  wholeSeconds = songList[nowSongNum].duration;
+  // 現在の行を目立たせる
+  document.getElementsByClassName("current")[0]?.classList.remove("current");
+  document.getElementById(`trackNum${history.getCurrentTrackNum()}`).classList.add("current");
+  // .playing-bar-informationの情報を更新
+  const currentTrack = songList[history.getCurrentTrackNum()];
+  playingBarThumb.src = `https://i.ytimg.com/vi_webp/${
+    songList[history.getCurrentTrackNum()].videoId
+  }/default.webp`;
+  playingBarSongTitle.textContent = currentTrack.songTitle;
+  playingBarSongTitle.title = currentTrack.songTitle;
+  playingBarArtist.textContent = currentTrack.artist;
+  playingBarArtist.title = currentTrack.artist;
+  playingBarVideoTitle.textContent = currentTrack.videoTitle;
+  playingBarVideoTitle.title = currentTrack.videoTitle;
+  playingBarPostDate.textContent = currentTrack.postDate.substring(0, 10);
+  playingBarPostDate.title = currentTrack.postDate;
+  // .menu-timeの情報を更新
   insertSeekBarValue(0);
-  menuTimeSeekBar.max = wholeSeconds;
-  menuTimeTextWhole.textContent = formatSeconds(wholeSeconds);
+  menuTimeSeekBar.max = currentTrack.duration;
+  menuTimeTextWhole.textContent = formatSeconds(currentTrack.duration);
 }
 
 function toPlayIcon() {

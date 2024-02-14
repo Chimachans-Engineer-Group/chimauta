@@ -218,7 +218,11 @@ function toPauseIcon() {
 }
 
 function getSongCurrentTime() {
-  const currentSeconds = Math.round(player.getCurrentTime() - songList[nowSongNum]["startSeconds"]);
+  // 曲の経過時間を計算する
+  const currentSeconds = Math.round(
+    player.getCurrentTime() - songList[history.getCurrentTrackNum()].startSeconds
+  );
+  // .menu-timeの情報を更新する
   insertSeekBarValue(currentSeconds);
   menuTimeTextNow.textContent = formatSeconds(currentSeconds);
 }

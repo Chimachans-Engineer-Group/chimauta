@@ -444,12 +444,14 @@ menuTimeSeekBar.addEventListener("input", () => {
   menuTimeTextNow.textContent = formatSeconds(menuTimeSeekBar.value);
 });
 
+// シークバーが変更されたとき
 menuTimeSeekBar.addEventListener("change", () => {
+  // TODO: なんであるのかあんまりわかってない
   playerFlag = 0;
-
-  player.loadVideoById({
-    videoId: songList[nowSongNum]["videoId"],
-    startSeconds: songList[nowSongNum]["startSeconds"] + Number(menuTimeSeekBar.value),
-    endSeconds: songList[nowSongNum]["endSeconds"],
-  });
+  // 指定された時間にシークする
+  player.seekTo(
+    songList[history.getCurrentTrackNum()].startSeconds + Number(menuTimeSeekBar.value)
+  );
+  // 再生する
+  player.playVideo();
 });

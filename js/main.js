@@ -9,6 +9,7 @@ let countUpSecondsFlag = 0;
 let playerFlag = 0;
 let repeatFlag = 0;
 let shuffleFlag = 0;
+let history;
 
 fetch(
   "https://script.google.com/macros/s/AKfycbytNLtf2bt9aYvo2lkd2YVkoZDiIYEn-djJQku-gtDS1oNR1SCM5B_4MSmSECJINWJ2/exec"
@@ -16,7 +17,6 @@ fetch(
   .then((response) => response.json())
   .then((data) => {
     songList = data;
-    nowSongNum = songList.length - 1;
 
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
@@ -73,8 +73,9 @@ fetch(
         searchOptionPostDate.checked = Number(type.charAt(3));
       }
       searchSong();
-      nowSongNum = searchResult[searchResult.length - 1];
     }
+    // historyインスタンスを作成
+    history = new History(searchResult[searchResult.length - 1]);
   })
   .catch((error) => {
     window.alert(
@@ -99,9 +100,9 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady() {
   player.cueVideoById({
-    videoId: songList[nowSongNum]["videoId"],
-    startSeconds: songList[nowSongNum]["startSeconds"],
-    endSeconds: songList[nowSongNum]["endSeconds"],
+    videoId: songList[history.getCurrentTrackNum()]["videoId"],
+    startSeconds: songList[history.getCurrentTrackNum()]["startSeconds"],
+    endSeconds: songList[history.getCurrentTrackNum()]["endSeconds"],
   });
 
   insertSongInfo();

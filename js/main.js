@@ -3,7 +3,6 @@ let searchResult = [];
 let nowSongNum;
 let player;
 let prevSongNum;
-let wholeSeconds;
 let countUpSecondsInterval;
 let countUpSecondsFlag = 0;
 let playerFlag = 0;
@@ -163,7 +162,7 @@ function insertSeekBarValue(seconds) {
     seconds = menuTimeSeekBar.value;
   }
 
-  const percent = (seconds / wholeSeconds) * 100;
+  const percent = (seconds / songList[history.getCurrentTrackNum()].duration) * 100;
   menuTimeSeekBar.style.backgroundImage = `linear-gradient(to right, var(--brand-color) ${percent}%, var(--gray1) ${percent}%)`;
 }
 

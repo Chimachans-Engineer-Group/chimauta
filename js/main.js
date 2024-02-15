@@ -238,45 +238,45 @@ function stopCountingUpSeconds() {
 }
 
 function playSong(songNum) {
-  prevSongNum = nowSongNum;
-
-  // 曲を指定されたとき
-  if (typeof songNum == "number") {
-    nowSongNum = songNum;
-  }
-  // 連続で再生されたとき
-  else if (repeatFlag == 0) {
-    if (searchResult.length != 0) {
-      if (shuffleFlag == 0) {
-        const checkForExistence = searchResult.indexOf(nowSongNum);
-
-        // 通常再生で最後の曲になったとき
-        if (checkForExistence <= 0) {
-          nowSongNum = searchResult[searchResult.length - 1];
-        }
-        // 通常再生のとき
-        else {
-          nowSongNum = searchResult[checkForExistence - 1];
-        }
-      }
-      // シャッフル再生のとき
-      else {
-        nowSongNum = searchResult[Math.floor(Math.random() * searchResult.length)];
-      }
+  const nextTrackNum = (() => {
+    // 曲を指定されたとき
+    if (typeof songNum === "number") {
+      return songNum;
     }
-    // 検索条件でリストが空のとき
-    else {
+    // 1曲リピート再生のとき
+    if (repeatFlag === 1) {
+      return history.getCurrentTrackNum();
+    }
+    // プレイリストが空のとき
+    if (searchResult.length === 0) {
       window.alert("検索条件に一致する項目がないため、次の曲を再生できません。");
-      return;
+      return -1;
     }
-  }
-  // リピート再生のとき、nowSongNumは変化なし
+    // シャッフル再生のとき
+    if (shuffleFlag === 1) {
+      return searchResult[Math.floor(Math.random() * searchResult.length)];
+    }
+    // プレイリストの何番目に現在の曲があるか確認
+    const indexOfCurrentTrackNum = searchResult.indexOf(history.getCurrentTrackNum());
+    // プレイリストリピート再生でプレイリストの最後になったとき
+    if (repeatFlag === 2 && indexOfCurrentTrackNum <= 0) {
+      return searchResult[searchResult.length - 1];
+    }
+    // 通常再生のとき
+    return searchResult[indexOfCurrentTrackNum - 1];
+  })();
+  // nextTrackNumが0未満のときは再生させない
+  if (nextTrackNum < 0) return;
 
+  // 選んだ曲を再生
   player.loadVideoById({
-    videoId: songList[nowSongNum]["videoId"],
-    startSeconds: songList[nowSongNum]["startSeconds"],
-    endSeconds: songList[nowSongNum]["endSeconds"],
+    videoId: songList[nextTrackNum].videoId,
+    startSeconds: songList[nextTrackNum].startSeconds,
+    endSeconds: songList[nextTrackNum].endSeconds,
   });
+
+  // 履歴に新しい曲を登録
+  history.enqueue(nextTrackNum);
 }
 
 searchForm.addEventListener("input", searchSong);

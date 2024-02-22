@@ -39,9 +39,10 @@ fetch(
       clone.querySelector(".track-button-info-artist").textContent = songList[i].artist;
       clone.querySelector(".track-button-info-artist").title = songList[i].artist;
       clone.querySelector(
-        ".track-ytlink"
+        ".track-videoinfo-ytlink"
       ).href = `https://youtu.be/${songList[i].videoId}?t=${songList[i].startSeconds}`;
-      clone.querySelector(".track-ytlink").title = songList[i].videoTitle;
+      clone.querySelector(".track-videoinfo-ytlink").title = songList[i].videoTitle;
+      clone.querySelector(".track-videoinfo-postdate").textContent = songList[i].postDate;
       clone.querySelector(".track-duration").textContent = formatSeconds(songList[i].duration);
       //　fragmentに追加
       tracksFragment.appendChild(clone);

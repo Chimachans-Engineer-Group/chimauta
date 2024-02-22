@@ -359,7 +359,7 @@ summary {
 }
 
 .track-button-info-text,
-.track-ytlink {
+.track-videoinfo-text {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -378,11 +378,19 @@ summary {
   }
 }
 
-.track-ytlink {
+.track-videoinfo {
+  display: grid;
+  order: 3;
+
+  @media (640px <= width) {
+    order: 2;
+  }
+}
+
+.track-videoinfo-ytlink {
   color: inherit;
 
   @media (width < 640px) {
-    order: 3;
     text-decoration: none;
     width: 1.5rem;
     display: grid;
@@ -396,11 +404,15 @@ summary {
   }
 
   @media (640px <= width) {
-    order: 2;
-
     &::before {
       content: attr(title);
     }
+  }
+}
+
+.track-videoinfo-postdate {
+  @media (width < 640px) {
+    display: none;
   }
 }
 

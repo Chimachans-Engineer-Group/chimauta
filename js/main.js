@@ -455,3 +455,12 @@ menuTimeSeekBar.addEventListener("change", () => {
     endSeconds: songList[nowSongNum]["endSeconds"],
   });
 });
+
+// ページを離れたとき
+window.addEventListener("beforeunload", (e) => {
+  // 再生中だったら
+  if (playerFlag === 1) {
+    // 離脱防止アラートを出す
+    e.preventDefault();
+  }
+});

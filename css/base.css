@@ -81,3 +81,14 @@ label,
 button {
   cursor: pointer;
 }
+
+.external-link {
+  &::after {
+    content: "\f08e";
+    font-size: 0.5em;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    vertical-align: super;
+    margin-right: 0.25rem;
+  }
+}

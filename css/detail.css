@@ -161,15 +161,6 @@ summary {
     text-decoration: none;
     background-image: linear-gradient(transparent 80%, var(--brand-color) 80%);
   }
-
-  &::after {
-    content: "\f08e";
-    font-size: 0.5rem;
-    font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    vertical-align: super;
-    margin-right: 0.25rem;
-  }
 }
 
 .song-table {

@@ -1,14 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html prefix="og: http://ogp.me/ns#">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
     <title>ちまうた｜町田ちま非公式ファンサイト</title>
     <meta
       name="description"
       content="にじさんじ所属のバーチャルライバーである町田ちまさんを応援する非公式ファンサイトです。町田ちまさんが歌った楽曲を探しやすく、再生しやすいようにまとめています。"
     />
-    <meta name="viewport" content="width=device-width" />
     <meta name="theme-color" content="#80c8ef" />
+
+    <!-- OGP -->
+    <meta property="og:title" content="ちまうた｜町田ちま非公式ファンサイト" />
+    <meta property="og:type" content=" website" />
+    <meta property="og:url" content="http://chimauta.html.xdomain.jp/" />
+    <meta property="og:image" content="http://chimauta.html.xdomain.jp/img/icon-512x512.png" />
+    <meta name="twitter:card" content="summary" />
+
+    <!-- icon -->
+    <link rel="icon" href="img/icon-192x192.png" />
+    <link rel="apple-touch-icon" href="img/apple-touch-icon-180x180.png" />
 
     <!--Google Fonts-->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -44,7 +55,10 @@
 
   <body>
     <header>
-      <h1 class="logo">ちまうた</h1>
+      <div class="logo">
+        <img class="logo-icon" src="img/icon-512x512.png" alt="ちまうたのアイコン" />
+        <h1 class="logo-text">ちまうた</h1>
+      </div>
       <div class="loading">
         <div class="loading-icon"></div>
         <span class="loading-text">読込中...</span>
@@ -54,6 +68,7 @@
     <main>
       <section class="youtube">
         <div class="player" id="player"></div>
+        <video class="loading-img" autoplay loop muted src="img/loading.mp4"></video>
       </section>
 
       <section class="message">
@@ -61,13 +76,13 @@
           <summary>はじめに</summary>
           <p class="lead">
             本サイト「ちまうた」は、<a
-              class="lead-link"
+              class="lead-link external-link"
               href="https://www.nijisanji.jp/"
               target="_blank"
               rel="noopener noreferrer"
               >にじさんじ</a
             >所属のバーチャルライバーである<a
-              class="lead-link"
+              class="lead-link external-link"
               href="https://www.nijisanji.jp/talents/l/chima-machita"
               target="_blank"
               rel="noopener noreferrer"
@@ -80,7 +95,7 @@
           </p>
           <p class="lead">
             表の内容について、<a
-              class="lead-link"
+              class="lead-link external-link"
               href="https://docs.google.com/spreadsheets/d/1jiwNpuEQP44sQTRkUZmn2qimoG_5s42_SyIdIopKaRA/edit?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
@@ -161,7 +176,7 @@
 
               <div class="track-videoinfo">
                 <a
-                  class="track-videoinfo-text track-videoinfo-ytlink"
+                  class="track-videoinfo-text track-videoinfo-ytlink external-link"
                   target="_blank"
                   rel="noopener noreferrer"
                 ></a>
@@ -172,8 +187,19 @@
         </ul>
 
         <address>
-          &copy; 2021
-          <a href="https://twitter.com/DontMakeItSpicy" target="_blank" rel="noopener noreferrer"
+          icon, loading animation:
+          <a
+            class="external-link"
+            href="https://twitter.com/i/user/1374576953978580997"
+            target="_blank"
+            rel="noopener noopener"
+            >すみ</a
+          >(Created in 2024)<br />&copy; 2021
+          <a
+            class="external-link"
+            href="https://twitter.com/i/user/1277263249558261760"
+            target="_blank"
+            rel="noopener noreferrer"
             >ヤータムペットナ</a
           >
         </address>

@@ -35,6 +35,17 @@ header {
 }
 
 .logo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.logo-icon {
+  height: calc(var(--header-height) / 1.5);
+  aspect-ratio: 1 / 1;
+}
+
+.logo-text {
   font-size: 28px;
   line-height: calc(var(--header-height) - 1px);
 }

@@ -123,7 +123,9 @@ main {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #333;
+  background-color: #f9faef;
+  transition: 0.7s;
+  object-fit: contain;
 }
 
 .message {

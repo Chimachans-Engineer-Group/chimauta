@@ -279,6 +279,7 @@ summary {
   border-radius: 1rem;
   padding-inline: 1rem;
   font-size: 0.8rem;
+  border: 1px solid var(--gray1);
 
   &::after {
     margin-left: 0.5rem;

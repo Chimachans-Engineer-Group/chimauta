@@ -44,7 +44,7 @@ fetch(
       clone.querySelector(".track-videoinfo-ytlink").title = songList[i].videoTitle;
       clone.querySelector(".track-videoinfo-postdate").textContent = songList[i].postDate;
       clone.querySelector(".track-duration").textContent = formatSeconds(songList[i].duration);
-      //　fragmentに追加
+      // fragmentに追加
       tracksFragment.appendChild(clone);
     }
     // #tracksにtrackを追加

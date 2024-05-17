@@ -181,10 +181,7 @@ function insertSongInfo() {
   }
   document.getElementById(`trackNum${nowSongNum}`).classList.add("current");
 
-  playingBarThumb.setAttribute(
-    "src",
-    `https://i.ytimg.com/vi_webp/${songList[nowSongNum]["videoId"]}/default.webp`
-  );
+  playingBarThumb.src = `https://i.ytimg.com/vi_webp/${songList[nowSongNum]["videoId"]}/default.webp`;
 
   playingBarSongTitle.textContent = songList[nowSongNum]["songTitle"];
   playingBarSongTitle.title = songList[nowSongNum]["songTitle"];
@@ -209,8 +206,8 @@ function toPlayIcon() {
   menuControllerPause.classList.add("to-hide");
   menuControllerPlay.classList.remove("to-hide");
 
-  playingBarStatus.setAttribute("title", "再生");
-  menuControllerStatus.setAttribute("title", "再生");
+  playingBarStatus.title = "再生";
+  menuControllerStatus.title = "再生";
 }
 
 function toPauseIcon() {
@@ -219,8 +216,8 @@ function toPauseIcon() {
   menuControllerPause.classList.remove("to-hide");
   menuControllerPlay.classList.add("to-hide");
 
-  playingBarStatus.setAttribute("title", "一時停止");
-  menuControllerStatus.setAttribute("title", "一時停止");
+  playingBarStatus.title = "一時停止";
+  menuControllerStatus.title = "一時停止";
 }
 
 function getSongCurrentTime() {
@@ -401,23 +398,23 @@ function changePlayerStatus() {
 menuButton.addEventListener("click", () => {
   document.querySelector("body").classList.toggle("open-nav");
 
-  if (menuButton.getAttribute("aria-expanded") == "false") {
-    menuButton.setAttribute("aria-expanded", true);
-    menuButton.setAttribute("title", "メニューを閉じる");
+  if (menuButton.ariaExpanded === "false") {
+    menuButton.ariaExpanded = "true";
+    menuButton.title = "メニューを閉じる";
   } else {
-    menuButton.setAttribute("aria-expanded", false);
-    menuButton.setAttribute("title", "メニューを開く");
+    menuButton.ariaExpanded = "false";
+    menuButton.title = "メニューを開く";
   }
 });
 
 menuControllerRepeat.addEventListener("click", () => {
   if (repeatFlag == 1) {
     menuControllerRepeat.classList.add("disabled");
-    menuControllerRepeat.setAttribute("title", "1曲リピートを有効にする");
+    menuControllerRepeat.title = "1曲リピートを有効にする";
     repeatFlag = 0;
   } else {
     menuControllerRepeat.classList.remove("disabled");
-    menuControllerRepeat.setAttribute("title", "1曲リピートを無効にする");
+    menuControllerRepeat.title = "1曲リピートを無効にする";
     repeatFlag = 1;
   }
 });
@@ -431,11 +428,11 @@ menuControllerNext.addEventListener("click", playSong);
 menuControllerShuffle.addEventListener("click", () => {
   if (shuffleFlag == 1) {
     menuControllerShuffle.classList.add("disabled");
-    menuControllerShuffle.setAttribute("title", "シャッフルを有効にする");
+    menuControllerShuffle.title = "シャッフルを有効にする";
     shuffleFlag = 0;
   } else {
     menuControllerShuffle.classList.remove("disabled");
-    menuControllerShuffle.setAttribute("title", "シャッフルを無効にする");
+    menuControllerShuffle.title = "シャッフルを無効にする";
     shuffleFlag = 1;
   }
 });

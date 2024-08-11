@@ -25,6 +25,6 @@
 | フロントエンド | HTML, CSS, JavaScript, YouTube Iframe API, Font Awesome |
 | バックエンド | Google Apps Script |
 | データベース（？） | Google Spread Sheet |
-| コード管理 | Git, GitHub |
+| コード管理 | Git, GitHub, clasp |
 | デプロイ | FileZilla, Xfree |
 | その他 | Visual Studio Code, Prettier |

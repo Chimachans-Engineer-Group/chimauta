@@ -449,7 +449,7 @@ address {
   width: 54px;
   height: 54px;
   margin: 1rem;
-  background: var(--brand-bg);
+  background: var(--brand-color);
   border-radius: 50%;
   transition: all 0.3s;
   box-shadow: 0px 0px 5px 3px var(--gray1);
@@ -467,7 +467,7 @@ address {
 
 .to-page-top .fa-chevron-up {
   font-size: 1.4em;
-  color: var(--brand-text);
+  color: var(--white);
 }
 
 .playing-bar {

@@ -108,6 +108,7 @@ function onPlayerReady() {
   insertSongInfo();
 
   document.querySelector("body").classList.add("loaded");
+  searchText.disabled = false;
 }
 
 function onPlayerStateChange(e) {

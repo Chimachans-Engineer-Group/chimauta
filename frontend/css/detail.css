@@ -217,6 +217,11 @@ summary {
       border-bottom-right-radius: 0;
     }
   }
+
+  &:disabled {
+    background-color: var(--gray1);
+    cursor: wait;
+  }
 }
 
 .search-icon {

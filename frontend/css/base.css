@@ -2,11 +2,12 @@
 
 :root {
   --brand-color: #80c8ef;
+  --white: #fff;
 
-  --main-bg: #fff;
+  --main-bg: var(--white);
   --main-text: #333;
   --brand-bg: var(--brand-color);
-  --brand-text: #fff;
+  --brand-text: var(--white);
   --gray0: #f5f5f5;
   --gray1: #ebebeb;
   --gray2: #ccc;

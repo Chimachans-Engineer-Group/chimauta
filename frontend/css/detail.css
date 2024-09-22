@@ -194,12 +194,14 @@ summary {
 .search-input {
   border-radius: 6px;
   transition: all 0.5s;
+  border-width: 1px;
+  border-style: solid;
 
   @media (width < 960px) {
     padding: 8px 45px;
     width: 100%;
     height: 45px;
-    border: 1px solid var(--gray2);
+    border-color: var(--gray2);
   }
 
   @media (960px <= width) {
@@ -207,6 +209,7 @@ summary {
     width: 100%;
     height: 40px;
     background-color: var(--main-bg);
+    border-color: var(--gray1);
 
     &:where(.search:focus-within > *),
     &:has(~ .search-option:hover) {

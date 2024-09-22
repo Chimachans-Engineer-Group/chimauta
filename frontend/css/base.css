@@ -16,7 +16,7 @@
   @media (prefers-color-scheme: dark) {
     --main-bg: #181818;
     --main-text: #ddd;
-    --brand-bg: #212121;
+    --brand-bg: var(--main-bg);
     --brand-text: var(--brand-color);
     --gray0: #3a3a3a;
     --gray1: #535353;

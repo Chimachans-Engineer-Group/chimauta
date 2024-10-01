@@ -109,6 +109,10 @@ function onPlayerReady() {
 
   document.querySelector("body").classList.add("loaded");
   searchText.disabled = false;
+  searchOptionSongTitle.disabled = false;
+  searchOptionArtist.disabled = false;
+  searchOptionVideoTitle.disabled = false;
+  searchOptionPostDate.disabled = false;
 }
 
 function onPlayerStateChange(e) {

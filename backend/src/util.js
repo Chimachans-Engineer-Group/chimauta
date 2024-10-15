@@ -10,7 +10,7 @@ function convertSecondsToFormulaInSheet() {
 
   const replacedSecondsColumns = secondsColumns.map((array) =>
     array.map((seconds) => {
-      if (typeof seconds !== "number") seconds;
+      if (typeof seconds !== "number") return seconds;
 
       // 時間、分、秒の値を計算
       const hours = Math.floor(seconds / 3600);

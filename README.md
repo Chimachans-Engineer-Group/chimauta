@@ -28,3 +28,8 @@
 | コード管理 | Git, GitHub, clasp |
 | デプロイ | FileZilla, Xfree |
 | その他 | Visual Studio Code, Prettier |
+
+## ライセンス
+
+icon, loading animation: [すみ](https://x.com/0yasumiyy)(Created in 2024)  
+software: MIT licence

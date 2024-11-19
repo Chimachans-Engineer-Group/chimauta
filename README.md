@@ -12,7 +12,7 @@
 
 ## サイト概要
 
-<http://chimauta.html.xdomain.jp/>
+<https://chimauta.pages.dev/>
 
 | スマホ画面 | PC・タブレット画面 |
 | - | - |
@@ -26,7 +26,7 @@
 | バックエンド | Google Apps Script |
 | データベース（？） | Google Spread Sheet |
 | コード管理 | Git, GitHub, clasp |
-| デプロイ | FileZilla, Xfree |
+| デプロイ | Cloudflare Pages |
 | その他 | Visual Studio Code, Prettier |
 
 ## ライセンス

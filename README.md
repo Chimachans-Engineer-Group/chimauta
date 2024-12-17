@@ -22,8 +22,8 @@
 
 | 種類 | 内容 |
 | - | - |
-| フロントエンド | HTML, CSS, JavaScript, YouTube Iframe API, Font Awesome |
-| バックエンド | Google Apps Script |
+| フロントエンド | HTML, CSS, JavaScript, YouTube IFrame Player API, Font Awesome |
+| バックエンド | Google Apps Script, YouTube Data API |
 | データベース（？） | Google Spread Sheet |
 | コード管理 | Git, GitHub, clasp |
 | デプロイ | Cloudflare Pages |

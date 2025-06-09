@@ -3,9 +3,8 @@
  * 変換された式は元のセルに上書きされる。
  */
 function convertSecondsToFormulaInSheet() {
-  const sheet = SpreadsheetApp.getActive().getSheetByName("シート1");
-  const lastRow = sheet.getLastRow();
-  const secondsColumnsRange = sheet.getRange(2, 4, lastRow - 1, 2);
+  const lastRow = sheets.tracks.getLastRow();
+  const secondsColumnsRange = sheets.tracks.getRange(2, 4, lastRow - 1, 2);
   const secondsColumns = secondsColumnsRange.getValues();
 
   const replacedSecondsColumns = secondsColumns.map((array) =>

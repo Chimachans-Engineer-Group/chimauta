@@ -55,8 +55,8 @@ function writeVideoInfoToSheet(videoInfo) {
     video.id,
     video.snippet.title,
     Utilities.formatDate(new Date(video.snippet.publishedAt), "JST", "yyyy-MM-dd HH:mm z"),
-    durationToSeconds(video.contentDetails.duration),
     video.status.privacyStatus,
+    durationToSeconds(video.contentDetails.duration),
   ]);
 
   sheets.videos.getRange(2, 1, data.length, data[0].length).setValues(data);

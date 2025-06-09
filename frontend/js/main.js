@@ -1,4 +1,5 @@
 let songList;
+let videoList;
 let searchResult = [];
 let nowSongNum;
 let player;
@@ -11,11 +12,13 @@ let repeatFlag = 0;
 let shuffleFlag = 0;
 
 fetch(
-  "https://script.google.com/macros/s/AKfycbytNLtf2bt9aYvo2lkd2YVkoZDiIYEn-djJQku-gtDS1oNR1SCM5B_4MSmSECJINWJ2/exec"
+  "https://script.google.com/macros/s/AKfycbzANnxCbUliOy7eDUuGFBPRraKOKHvq_2-SsxGQMlZ10MaLEOAJZr6G9uawYieRK2ei/exec"
 )
   .then((response) => response.json())
   .then((data) => {
-    songList = data;
+    songList = data.tracks;
+    videoList = data.videos;
+
     nowSongNum = songList.length - 1;
 
     const tag = document.createElement("script");
@@ -34,15 +37,16 @@ fetch(
       clone.querySelector(
         ".track-button-video-thumb"
       ).src = `https://img.youtube.com/vi_webp/${songList[i].videoId}/default.webp`;
-      clone.querySelector(".track-button-info-title").textContent = songList[i].songTitle;
-      clone.querySelector(".track-button-info-title").title = songList[i].songTitle;
+      clone.querySelector(".track-button-info-title").textContent = songList[i].title;
+      clone.querySelector(".track-button-info-title").title = songList[i].title;
       clone.querySelector(".track-button-info-artist").textContent = songList[i].artist;
       clone.querySelector(".track-button-info-artist").title = songList[i].artist;
       clone.querySelector(
         ".track-videoinfo-ytlink"
       ).href = `https://youtu.be/${songList[i].videoId}?t=${songList[i].startSeconds}s`;
-      clone.querySelector(".track-videoinfo-ytlink").title = songList[i].videoTitle;
-      clone.querySelector(".track-videoinfo-postdate").textContent = songList[i].postDate;
+      clone.querySelector(".track-videoinfo-ytlink").title = videoList[songList[i].videoId].title;
+      clone.querySelector(".track-videoinfo-postdate").textContent =
+        videoList[songList[i].videoId].postDate;
       clone.querySelector(".track-duration").textContent = formatSeconds(songList[i].duration);
       // fragmentに追加
       tracksFragment.appendChild(clone);
@@ -100,9 +104,9 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady() {
   player.cueVideoById({
-    videoId: songList[nowSongNum]["videoId"],
-    startSeconds: songList[nowSongNum]["startSeconds"],
-    endSeconds: songList[nowSongNum]["endSeconds"],
+    videoId: songList[nowSongNum].videoId,
+    startSeconds: songList[nowSongNum].startSeconds,
+    endSeconds: songList[nowSongNum].endSeconds,
   });
 
   insertSongInfo();
@@ -186,18 +190,21 @@ function insertSongInfo() {
   }
   document.getElementById(`trackNum${nowSongNum}`).classList.add("current");
 
-  playingBarThumb.src = `https://i.ytimg.com/vi_webp/${songList[nowSongNum]["videoId"]}/default.webp`;
+  playingBarThumb.src = `https://i.ytimg.com/vi_webp/${songList[nowSongNum].videoId}/default.webp`;
 
-  playingBarSongTitle.textContent = songList[nowSongNum]["songTitle"];
-  playingBarSongTitle.title = songList[nowSongNum]["songTitle"];
+  playingBarSongTitle.textContent = songList[nowSongNum].title;
+  playingBarSongTitle.title = songList[nowSongNum].title;
 
-  playingBarArtist.textContent = songList[nowSongNum]["artist"];
-  playingBarArtist.title = songList[nowSongNum]["artist"];
+  playingBarArtist.textContent = songList[nowSongNum].artist;
+  playingBarArtist.title = songList[nowSongNum].artist;
 
-  playingBarVideoTitle.textContent = songList[nowSongNum].videoTitle;
-  playingBarVideoTitle.title = songList[nowSongNum].videoTitle;
-  playingBarPostDate.textContent = songList[nowSongNum].postDate.substring(0, 10);
-  playingBarPostDate.title = songList[nowSongNum].postDate;
+  playingBarVideoTitle.textContent = videoList[songList[nowSongNum].videoId].title;
+  playingBarVideoTitle.title = videoList[songList[nowSongNum].videoId].title;
+  playingBarPostDate.textContent = videoList[songList[nowSongNum].videoId].postDate.substring(
+    0,
+    10
+  );
+  playingBarPostDate.title = videoList[songList[nowSongNum].videoId].postDate;
 
   wholeSeconds = songList[nowSongNum].duration;
   insertSeekBarValue(0);
@@ -226,7 +233,7 @@ function toPauseIcon() {
 }
 
 function getSongCurrentTime() {
-  const currentSeconds = Math.round(player.getCurrentTime() - songList[nowSongNum]["startSeconds"]);
+  const currentSeconds = Math.round(player.getCurrentTime() - songList[nowSongNum].startSeconds);
   insertSeekBarValue(currentSeconds);
   menuTimeTextNow.textContent = formatSeconds(currentSeconds);
 }
@@ -277,9 +284,9 @@ function playSong(songNum) {
   // リピート再生のとき、nowSongNumは変化なし
 
   player.loadVideoById({
-    videoId: songList[nowSongNum]["videoId"],
-    startSeconds: songList[nowSongNum]["startSeconds"],
-    endSeconds: songList[nowSongNum]["endSeconds"],
+    videoId: songList[nowSongNum].videoId,
+    startSeconds: songList[nowSongNum].startSeconds,
+    endSeconds: songList[nowSongNum].endSeconds,
   });
 }
 
@@ -327,10 +334,12 @@ function searchSong() {
   const searchWordRegex = new RegExp(searchWord, "i");
 
   searchResult = songList.flatMap((track, i) => {
-    const testOfSongTitle = songTitleChecked && searchWordRegex.test(track.songTitle);
+    const testOfSongTitle = songTitleChecked && searchWordRegex.test(track.title);
     const testOfArtist = artistChecked && searchWordRegex.test(track.artist);
-    const testOfVideoTitle = videoTitleChecked && searchWordRegex.test(track.videoTitle);
-    const testOfPostDate = postDateChecked && searchWordRegex.test(track.postDate);
+    const testOfVideoTitle =
+      videoTitleChecked && searchWordRegex.test(videoList[track.videoId].title);
+    const testOfPostDate =
+      postDateChecked && searchWordRegex.test(videoList[track.videoId].postDate);
 
     const beingProcessedTrackRow = document.getElementById(`trackNum${i}`);
 
@@ -452,9 +461,9 @@ menuTimeSeekBar.addEventListener("change", () => {
   playerFlag = 0;
 
   player.loadVideoById({
-    videoId: songList[nowSongNum]["videoId"],
-    startSeconds: songList[nowSongNum]["startSeconds"] + Number(menuTimeSeekBar.value),
-    endSeconds: songList[nowSongNum]["endSeconds"],
+    videoId: songList[nowSongNum].videoId,
+    startSeconds: songList[nowSongNum].startSeconds + Number(menuTimeSeekBar.value),
+    endSeconds: songList[nowSongNum].endSeconds,
   });
 });
 

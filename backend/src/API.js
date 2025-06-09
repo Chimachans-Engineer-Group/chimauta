@@ -1,37 +1,64 @@
-function doGet() {
-  const properties = PropertiesService.getScriptProperties().getProperties();
-  const data = getData(properties.ID, properties.SHEET_NAME);
-  return ContentService.createTextOutput(JSON.stringify(data, null, 2)).setMimeType(
+function doGet(e) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const tracksSheet = ss.getSheetByName("tracks");
+  const videosSheet = ss.getSheetByName("videos");
+
+  const tracks = getFilteredData(tracksSheet, isValidTrack, ["videoTitle", "postDate", "status"]);
+  const videos = getVideoMap(videosSheet, ["status", "duration"]);
+
+  const result = { tracks, videos };
+
+  return ContentService.createTextOutput(JSON.stringify(result)).setMimeType(
     ContentService.MimeType.JSON
   );
 }
 
-function getData(id, sheetName) {
-  const sheet = SpreadsheetApp.openById(id).getSheetByName(sheetName);
-  const table = sheet.getDataRange().getValues();
-  const keys = table.shift();
+// 共通処理：シートからオブジェクト配列を取得し、フィルタ + 除外フィールド処理
+function getFilteredData(sheet, filterFn, excludeFields = []) {
+  const [headers, ...rows] = sheet.getDataRange().getValues();
 
-  const data = table.flatMap((row) => {
-    // 連想配列songを作る
-    const song = {};
-    row.forEach((col, c_i) => (song[keys[c_i]] = col));
+  return rows
+    .map((row) => toObject(headers, row))
+    .filter(filterFn)
+    .map((obj) => omitFields(obj, excludeFields));
+}
 
-    // 条件に合わないものを省く
-    if (
-      // statusはpubulicのみ
-      song.status !== "public" ||
-      // videoId, songTitle, artistはNOT NULL
-      song.videoId === "" ||
-      song.songTitle === "" ||
-      song.artist === "" ||
-      // startSecondsとendSecondsは両方空欄か両方入力済みの場合のみ
-      !!song.startSeconds ^ !!song.endSeconds
-    )
-      return [];
+// videos専用：videoId をキーにしたマップに整形
+function getVideoMap(sheet, excludeFields = []) {
+  const [headers, ...rows] = sheet.getDataRange().getValues();
 
-    // song.statusはこの関数内でしか使わないので削除
-    delete song.status;
-    return song;
-  });
-  return data;
+  return rows.reduce((map, row) => {
+    const video = omitFields(toObject(headers, row), excludeFields);
+    const { id, title, postDate } = video;
+
+    if (id) {
+      map[id] = { title, postDate };
+    }
+
+    return map;
+  }, {});
+}
+
+// オブジェクト化：ヘッダーと値の配列を {key: value} に
+function toObject(keys, values) {
+  return keys.reduce((obj, key, i) => {
+    obj[key] = values[i];
+    return obj;
+  }, {});
+}
+
+// 特定フィールドを除外したオブジェクトを返す
+function omitFields(obj, fields) {
+  return Object.fromEntries(Object.entries(obj).filter(([key]) => !fields.includes(key)));
+}
+
+// tracks用のバリデーション関数
+function isValidTrack(track) {
+  const requiredFields = ["videoId", "title", "artist"];
+  const hasRequiredFields = requiredFields.every((field) => track[field] !== "");
+
+  const timeRangeValid =
+    (!track.startSeconds && !track.endSeconds) || (track.startSeconds && track.endSeconds);
+
+  return track.status === "public" && hasRequiredFields && timeRangeValid;
 }

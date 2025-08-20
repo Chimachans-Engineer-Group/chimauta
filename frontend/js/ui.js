@@ -30,7 +30,9 @@ class UIManager {
     this.dom.menuControllerStatus.addEventListener("click", () =>
       this.playerManager.changePlayerStatus()
     );
-    this.dom.menuControllerPrev.addEventListener("click", () => this.playerManager.playSong());
+    this.dom.menuControllerPrev.addEventListener("click", () => {
+      this.playerManager.playSong(this.state.nowSongNum);
+    });
     this.dom.menuControllerNext.addEventListener("click", () => this.playerManager.playSong());
   }
 

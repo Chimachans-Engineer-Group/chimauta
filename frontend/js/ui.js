@@ -63,7 +63,7 @@ class UIManager {
     this.dom.menuTimeSeekBar.addEventListener("input", () => {
       this.playerManager.stopCountingUpSeconds();
       this.playerManager.insertSeekBarValue();
-      menuTimeTextNow.textContent = this.playerManager.formatSeconds(menuTimeSeekBar.value);
+      this.dom.menuTimeTextNow.textContent = this.playerManager.formatSeconds(this.dom.menuTimeSeekBar.value);
     });
 
     this.dom.menuTimeSeekBar.addEventListener("change", () => {

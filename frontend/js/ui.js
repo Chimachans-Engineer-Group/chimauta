@@ -84,10 +84,10 @@ class UIManager {
     this.isMenuOpened = !this.isMenuOpened;
 
     if (this.isMenuOpened) {
-      document.querySelector("body").classList.add("menu-open");
+      document.querySelector("body").classList.add("open-nav");
       this.dom.menuButton.ariaExpanded = "true";
     } else {
-      document.querySelector("body").classList.remove("menu-open");
+      document.querySelector("body").classList.remove("open-nav");
       this.dom.menuButton.ariaExpanded = "false";
     }
   }

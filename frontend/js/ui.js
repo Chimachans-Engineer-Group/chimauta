@@ -79,26 +79,26 @@ class UIManager {
   }
 
   changeRepeat() {
-    this.state.repeatFlag = this.state.repeatFlag ? 0 : 1;
-
     if (this.state.repeatFlag) {
       this.dom.menuControllerRepeat.classList.remove("disabled");
       this.dom.menuControllerRepeat.title = "1曲リピートを無効にする";
+      this.state.repeatFlag = false;
     } else {
       this.dom.menuControllerRepeat.classList.add("disabled");
       this.dom.menuControllerRepeat.title = "1曲リピートを有効にする";
+      this.state.repeatFlag = true;
     }
   }
 
   changeShuffle() {
-    this.state.shuffleFlag = this.state.shuffleFlag ? 0 : 1;
-
     if (this.state.shuffleFlag) {
       this.dom.menuControllerShuffle.classList.remove("disabled");
       this.dom.menuControllerShuffle.title = "シャッフルを無効にする";
+      this.state.shuffleFlag = false;
     } else {
       this.dom.menuControllerShuffle.classList.add("disabled");
       this.dom.menuControllerShuffle.title = "シャッフルを有効にする";
+      this.state.shuffleFlag = true;
     }
   }
 

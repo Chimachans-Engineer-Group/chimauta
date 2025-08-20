@@ -150,6 +150,20 @@ function onPlayerStateChange(e) {
     if (countUpSecondsFlag == 0) {
       startCountingUpSeconds();
     }
+    
+    // Google Analyticsに再生した曲の情報を送信
+    if (typeof gtag === 'function' && songList && songList[nowSongNum]) {
+      const song = songList[nowSongNum];
+      gtag('event', 'song_play', {
+        event_category: 'Music',
+        event_label: song.title,
+        custom_parameters: {
+          song_title: song.title,
+          artist: song.artist,
+          video_id: song.videoId
+        }
+      });
+    }
   }
 }
 

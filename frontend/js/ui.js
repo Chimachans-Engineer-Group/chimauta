@@ -117,36 +117,38 @@ class UIManager {
   createTrackList() {
     const trackTemplate = document.querySelector("#trackTemplate");
 
-    [...this.state.songList].reverse().forEach((track, i) => {
+    for (let i = this.state.songList.length - 1; i >= 0; i--) {
+      const track = this.state.songList[i];
       const clonedElement = trackTemplate.content.cloneNode(true);
       const li = clonedElement.querySelector("li");
-      li.id = `trackNum${this.state.songList.length - 1 - i}`;
+      li.id = `trackNum${i}`;
 
       const trackButton = clonedElement.querySelector(".track-button");
       trackButton.addEventListener("click", () => this.playerManager.playSong(i));
 
       const thumb = clonedElement.querySelector(".track-button-video-thumb");
       thumb.src = `${CONSTANTS.THUMB_BASE_URL}${track.videoId}/default.webp`;
-      thumb.alt = this.state.videoList[track.videoId].title;
 
       const songTitle = clonedElement.querySelector(".track-button-info-title");
       songTitle.textContent = track.title;
+      songTitle.title = track.title;
 
       const artist = clonedElement.querySelector(".track-button-info-artist");
       artist.textContent = track.artist;
-
-      const duration = clonedElement.querySelector(".track-duration");
-      duration.textContent = this.playerManager.formatSeconds(track.duration);
+      artist.title = track.artist;
 
       const ytLink = clonedElement.querySelector(".track-videoinfo-ytlink");
       ytLink.href = `${CONSTANTS.YOUTUBE_WATCH_URL}${track.videoId}&t=${track.startSeconds}s`;
       ytLink.textContent = this.state.videoList[track.videoId].title;
 
       const postDate = clonedElement.querySelector(".track-videoinfo-postdate");
-      postDate.textContent = this.state.videoList[track.videoId].postDate.substring(0, 10);
+      postDate.textContent = this.state.videoList[track.videoId].postDate;
+
+      const duration = clonedElement.querySelector(".track-duration");
+      duration.textContent = this.playerManager.formatSeconds(track.duration);
 
       this.dom.tracks.appendChild(clonedElement);
-    });
+    }
   }
 }
 

@@ -1,3 +1,5 @@
+import CONSTANTS from "./constants.js";
+
 class SearchManager {
   constructor(domElements, state) {
     this.dom = domElements;

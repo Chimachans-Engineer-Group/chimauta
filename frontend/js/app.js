@@ -61,4 +61,5 @@ class ChimautaApp {
   }
 }
 
-export default ChimautaApp;
+const app = new ChimautaApp();
+app.init();

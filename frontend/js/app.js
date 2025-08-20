@@ -1,4 +1,3 @@
-import CONSTANTS from "./constants.js";
 import DataManager from "./data.js";
 import DOMElements from "./dom.js";
 import YouTubePlayerManager from "./player.js";
@@ -33,12 +32,7 @@ class ChimautaApp {
         resolve();
         return;
       }
-
       window.onYouTubeIframeAPIReady = resolve;
-
-      const script = document.createElement("script");
-      script.src = CONSTANTS.YOUTUBE_API_URL;
-      document.head.appendChild(script);
     });
   }
 

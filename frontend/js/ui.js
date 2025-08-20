@@ -136,47 +136,6 @@ class UIManager {
       this.dom.tracks.appendChild(clonedElement);
     });
   }
-
-  createMenuShare() {
-    const shareMenuList = document.querySelector(".menu-share");
-    const currentSong = this.state.songList[this.state.nowSongNum];
-    const currentVideo = this.state.videoList[currentSong.videoId];
-
-    const shareData = [
-      {
-        text: "X (Twitter) でポスト",
-        href: `https://x.com/intent/tweet?ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Eshare%7Ctwgr%5E&url=${
-          CONSTANTS.YOUTUBE_WATCH_URL
-        }${currentSong.videoId}&t=${currentSong.startSeconds}s&hashtags=ちまうた&text=${escapeHTML(
-          currentSong.title
-        )} - ${escapeHTML(currentSong.artist)}`,
-        icon: "fa-brands fa-x-twitter",
-      },
-      {
-        text: "YouTube で開く",
-        href: `${CONSTANTS.YOUTUBE_WATCH_URL}${currentSong.videoId}&t=${currentSong.startSeconds}s`,
-        icon: "fa-brands fa-youtube",
-      },
-    ];
-
-    shareMenuList.innerHTML = "";
-    shareData.forEach(({ text, href, icon }) => {
-      const li = document.createElement("li");
-      const link = document.createElement("a");
-      link.href = href;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = text;
-      link.className = "menu-share-btn";
-
-      const iconElement = document.createElement("i");
-      iconElement.className = icon;
-      link.prepend(iconElement);
-
-      li.appendChild(link);
-      shareMenuList.appendChild(li);
-    });
-  }
 }
 
 export default UIManager;

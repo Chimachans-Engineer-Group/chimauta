@@ -64,7 +64,6 @@ class ChimautaApp {
 
   handleInitialState() {
     this.searchManager.handleURLParams();
-    this.uiManager.createMenuShare();
   }
 }
 

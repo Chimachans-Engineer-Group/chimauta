@@ -105,7 +105,7 @@ class UIManager {
   createTrackList() {
     const trackTemplate = document.querySelector("#trackTemplate");
 
-    this.state.songList.forEach((track, i) => {
+    [...this.state.songList].reverse().forEach((track, i) => {
       const clonedElement = trackTemplate.content.cloneNode(true);
       const li = clonedElement.querySelector("li");
       li.id = `trackNum${i}`;

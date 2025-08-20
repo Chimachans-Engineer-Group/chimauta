@@ -108,7 +108,7 @@ class UIManager {
     [...this.state.songList].reverse().forEach((track, i) => {
       const clonedElement = trackTemplate.content.cloneNode(true);
       const li = clonedElement.querySelector("li");
-      li.id = `trackNum${i}`;
+      li.id = `trackNum${this.state.songList.length - 1 - i}`;
 
       const trackButton = clonedElement.querySelector(".track-button");
       trackButton.addEventListener("click", () => this.playerManager.playSong(i));

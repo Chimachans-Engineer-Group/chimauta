@@ -14,6 +14,7 @@ class UIManager {
     this.initScrollButton();
     this.initPlayingBarThumb();
     this.initSeekBar();
+    this.initWhenBeforeunload();
   }
 
   initMenuButtons() {
@@ -63,6 +64,17 @@ class UIManager {
 
     this.dom.menuTimeSeekBar.addEventListener("change", () => {
       this.playerManager.seekTo();
+    });
+  }
+
+  initWhenBeforeunload() {
+    // ページを離れたとき
+    window.addEventListener("beforeunload", (e) => {
+      // 再生中だったら
+      if (this.state.playerFlag) {
+        // 離脱防止アラートを出す
+        e.preventDefault();
+      }
     });
   }
 

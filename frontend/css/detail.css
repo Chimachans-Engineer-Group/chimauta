@@ -491,6 +491,7 @@ address {
   width: 100%;
   display: grid;
   z-index: 20;
+  padding-bottom: env(safe-area-inset-bottom);
 
   @media (width < 960px) {
     grid-template-columns: auto min-content min-content;

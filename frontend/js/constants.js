@@ -1,6 +1,6 @@
 const CONSTANTS = {
   API_URL:
-    "https://script.google.com/macros/s/AKfycbzANnxCbUliOy7eDUuGFBPRraKOKHvq_2-SsxGQMlZ10MaLEOAJZr6G9uawYieRK2ei/exec",
+    "https://script.google.com/macros/s/AKfycbwHDQdyDnvdO2iMrRrjTg_FPT4kamuzgI0_lCrZIGNmktrKZVT0p7WCEP4jQPoCQosl/exec",
   YOUTUBE_API_URL: "https://www.youtube.com/iframe_api",
   UPDATE_INTERVAL: 250,
   ERROR_RETRY_DELAY: 5000,

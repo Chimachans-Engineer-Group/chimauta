@@ -1,0 +1,42 @@
+name: clasp_push # workflow の名前
+
+on:
+  push:
+    branches:
+      - main # main ブランチにプッシュされたときに実行
+    paths:
+      - "backend/**" # backend フォルダ内の変更があった場合に実行
+  workflow_dispatch: # 手動実行も可能にする
+
+jobs:
+  clasp_push:
+    runs-on: ubuntu-latest # 実行環境として Ubuntu を使用
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # リポジトリの最新コードを取得
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Node.js のバージョンを指定
+
+      - name: Install dependencies
+
+        # Clasp をグローバルインストール
+        run: |
+          npm install -g @google/clasp
+
+      - name: Authorize Clasp
+        env:
+          CLASP_TOKEN: ${{ secrets.CLASP_TOKEN }} # GitHub Secrets からトークンを取得
+          CLASP: ${{ secrets.CLASP }}
+
+        # 認証情報を保存
+        run: |
+          echo $CLASP_TOKEN > ~/.clasprc.json
+          echo $CLASP > .clasp.json
+
+      - name: Deploy
+        run: |
+          clasp push -f

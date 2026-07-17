@@ -1,0 +1,116 @@
+<div class="playing-bar">
+  <button type="button" title="一番上に戻る" class="to-page-top invisible" id="toPageTop">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <div class="playing-bar-information">
+    <button
+      type="button"
+      title="該当する行までスクロール"
+      class="playing-bar-thumb-button"
+      id="playingBarThumbButton"
+    >
+      <img class="playing-bar-thumb-button-img" id="playingBarThumb" />
+    </button>
+
+    <div class="playing-bar-text">
+      <div class="playing-bar-text-top">
+        <span class="playing-bar-song-title" id="playingBarSongTitle"></span><span
+          class="playing-bar-artist"
+          id="playingBarArtist"></span>
+      </div>
+      <div class="playing-bar-text-bottom">
+        <span class="playing-bar-post-date" id="playingBarPostDate"></span><span
+          class="playing-bar-video-title"
+          id="playingBarVideoTitle"></span>
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="button"
+    title="再生"
+    class="playing-bar-button playing-bar-status"
+    id="playingBarStatus"
+  >
+    <i class="fa-solid fa-play" id="playingBarPlay"></i>
+    <i class="fa-solid fa-pause to-hide" id="playingBarPause"></i>
+  </button>
+
+  <button
+    type="button"
+    title="メニューを開く"
+    class="playing-bar-button menu-btn"
+    id="menuButton"
+    aria-controls="menuContent"
+    aria-expanded="false"
+  >
+    <ul>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+
+    <span class="menu-btn-open">MENU</span>
+    <span class="menu-btn-close">CLOSE</span>
+  </button>
+
+  <div class="menu-content" id="menuContent">
+    <div class="menu-controller">
+      <button
+        type="button"
+        title="1曲リピートを有効にする"
+        class="menu-controller-button disabled"
+        id="menuControllerRepeat"
+      >
+        <i class="fa-solid fa-repeat"></i>
+        <div class="menu-controller-repeat-text">1</div>
+      </button>
+
+      <button
+        type="button"
+        title="はじめから"
+        class="menu-controller-button"
+        id="menuControllerPrev"
+      >
+        <i class="fa-solid fa-backward-step"></i>
+      </button>
+
+      <button
+        type="button"
+        title="再生"
+        class="menu-controller-button menu-controller-status"
+        id="menuControllerStatus"
+      >
+        <i class="fa-solid fa-circle-play" id="menuControllerPlay"></i>
+        <i class="fa-solid fa-circle-pause to-hide" id="menuControllerPause"></i>
+      </button>
+
+      <button type="button" title="次の曲へ" class="menu-controller-button" id="menuControllerNext">
+        <i class="fa-solid fa-forward-step"></i>
+      </button>
+
+      <button
+        type="button"
+        title="シャッフルを有効にする"
+        class="menu-controller-button disabled"
+        id="menuControllerShuffle"
+      >
+        <i class="fa-solid fa-shuffle"></i>
+      </button>
+    </div>
+
+    <div class="menu-time">
+      <input type="range" class="menu-time-seek-bar" id="menuTimeSeekBar" min="0" value="0" />
+
+      <div class="menu-time-text">
+        <span class="menu-time-text-now" id="menuTimeTextNow">0:00</span><span
+          class="menu-time-text-whole"
+          id="menuTimeTextWhole">0:00</span
+        >
+      </div>
+    </div>
+
+    <ul class="menu-share"></ul>
+  </div>
+</div>

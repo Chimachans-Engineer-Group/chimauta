@@ -1,0 +1,95 @@
+@charset "utf-8";
+
+:root {
+  --brand-color: #80c8ef;
+  --white: #fff;
+
+  --main-bg: var(--white);
+  --main-text: #333;
+  --brand-bg: var(--brand-color);
+  --brand-text: var(--white);
+  --gray0: #f5f5f5;
+  --gray1: #ebebeb;
+  --gray2: #ccc;
+  --gray3: #666;
+
+  @media (prefers-color-scheme: dark) {
+    --main-bg: #181818;
+    --main-text: #ddd;
+    --brand-bg: var(--main-bg);
+    --brand-text: var(--brand-color);
+    --gray0: #3a3a3a;
+    --gray1: #535353;
+    --gray2: #6f6f6f;
+    --gray3: #a6a6a6;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--main-text);
+  background-color: var(--main-bg);
+  font-family: "Noto Sans JP", sans-serif;
+  scroll-behavior: smooth;
+}
+
+h1 {
+  font-size: 2.828rem;
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+a {
+  color: var(--main-text);
+}
+
+p {
+  line-height: 1.6;
+  margin-top: 1rem;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  overflow: auto;
+  display: block;
+}
+
+input,
+button,
+textarea,
+select {
+  background: none;
+  border: none;
+  border-radius: 0;
+  appearance: none;
+  font: inherit;
+  color: inherit;
+}
+
+input[type="checkbox"] {
+  appearance: auto;
+}
+
+label,
+button {
+  cursor: pointer;
+}
+
+.external-link {
+  &::after {
+    content: "\f08e";
+    font-size: 0.5em;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    vertical-align: super;
+    margin-right: 0.25rem;
+  }
+}

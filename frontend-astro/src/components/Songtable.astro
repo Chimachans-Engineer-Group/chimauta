@@ -1,0 +1,108 @@
+<section class="song-table">
+  <form class="search" id="searchForm">
+    <div class="search-icon search-loupe"><i class="fa-solid fa-magnifying-glass"></i></div>
+    <input type="search" class="search-input" id="searchText" placeholder="検索" disabled />
+    <button
+      type="button"
+      title="消去"
+      class="search-icon search-clear invisible"
+      id="toClearSearchValue"
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div id="searchOption" class="search-option">
+      <h3>検索条件</h3>
+
+      <a
+        href="https://x.com/intent/tweet?ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Eshare%7Ctwgr%5E&url=https://chimauta.pages.dev/&text=ちまうた｜町田ちま非公式ファンサイト"
+        class="search-option-share"
+        id="searchOptionShare"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="この検索結果をポスト"><i class="fa-brands fa-x-twitter"></i></a
+      >
+
+      <div class="search-option-area">
+        <label class="search-option-label">
+          <input type="checkbox" id="searchOptionSongTitle" checked disabled />
+          <span>曲名</span>
+        </label>
+        <label class="search-option-label">
+          <input type="checkbox" id="searchOptionArtist" checked disabled />
+          <span>アーティスト</span>
+        </label>
+        <label class="search-option-label">
+          <input type="checkbox" id="searchOptionVideoTitle" disabled />
+          <span>動画タイトル</span>
+        </label>
+        <label class="search-option-label">
+          <input type="checkbox" id="searchOptionPostDate" disabled />
+          <span>投稿日時</span>
+        </label>
+      </div>
+    </div>
+  </form>
+
+  <div class="table-information">
+    全<span class="table-information-number" id="entireNum"></span>曲中、<span
+      class="table-information-number"
+      id="searchResultNum"></span>曲が見つかりました
+  </div>
+
+  <ul class="tracks" id="tracks">
+    <template id="trackTemplate">
+      <li class="track">
+        <button type="button" class="track-button">
+          <img class="track-button-video-thumb" />
+
+          <div class="track-button-info">
+            <span class="track-button-info-text track-button-info-title"></span>
+            <span class="track-button-info-text track-button-info-artist"></span>
+          </div>
+        </button>
+
+        <span class="track-duration"></span>
+
+        <div class="track-videoinfo">
+          <a
+            class="track-videoinfo-text track-videoinfo-ytlink"
+            target="_blank"
+            rel="noopener noreferrer"></a>
+          <span class="track-videoinfo-text track-videoinfo-postdate"></span>
+        </div>
+      </li>
+    </template>
+  </ul>
+
+  <address>
+    <p>
+      icon, loading animation:
+      <a
+        class="external-link"
+        href="https://x.com/0yasumiyy"
+        target="_blank"
+        rel="noopener noopener">すみ</a
+      >(Created in 2024)<br />&copy; 2021
+      <a
+        class="external-link"
+        href="https://x.com/DontMakeItSpicy"
+        target="_blank"
+        rel="noopener noreferrer">ヤータムペットナ</a
+      ><br />Released under the
+      <a
+        class="external-link"
+        href="https://github.com/Chimachans-Engineer-Group/chimauta/blob/main/LICENSE"
+        target="_blank"
+        rel="noopener noreferrer">MIT license</a
+      >
+    </p>
+    <p>
+      <a
+        href="https://github.com/Chimachans-Engineer-Group/chimauta"
+        target="_blank"
+        rel="noopener noreferrer"><i class="fa-brands fa-github fa-2x"></i></a
+      >
+    </p>
+  </address>
+</section>

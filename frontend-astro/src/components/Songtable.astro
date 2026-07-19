@@ -1,4 +1,8 @@
-<section class="song-table">
+---
+const { class: className, ...props } = Astro.props;
+---
+
+<section class:list={[className]} {...props}>
   <form class="search" id="searchForm">
     <div class="search-icon search-loupe"><i class="fa-solid fa-magnifying-glass"></i></div>
     <input type="search" class="search-input" id="searchText" placeholder="検索" disabled />

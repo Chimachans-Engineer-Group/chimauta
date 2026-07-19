@@ -1,4 +1,8 @@
-<section class="message">
+---
+const { class: className, ...props } = Astro.props;
+---
+
+<section class:list={[className]} {...props}>
   <details open>
     <summary>はじめに</summary>
     <p class="lead">

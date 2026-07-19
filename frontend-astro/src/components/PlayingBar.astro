@@ -1,4 +1,8 @@
-<div class="playing-bar">
+---
+const { class: className, ...props } = Astro.props;
+---
+
+<div class:list={[className]} {...props}>
   <button type="button" title="一番上に戻る" class="to-page-top invisible" id="toPageTop">
     <i class="fa-solid fa-chevron-up"></i>
   </button>

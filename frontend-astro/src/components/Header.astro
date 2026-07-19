@@ -1,4 +1,8 @@
-<header>
+---
+const { class: className, ...props } = Astro.props;
+---
+
+<header class:list={[className]} {...props}>
   <div class="logo">
     <img class="logo-icon" src="img/icon-512x512.png" alt="ちまうたのアイコン" />
     <h1 class="logo-text">ちまうた</h1>

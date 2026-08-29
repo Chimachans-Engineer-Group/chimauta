@@ -7,29 +7,6 @@
   opacity: 0;
 }
 
-.player,
-.loading-img {
-  width: 100%;
-
-  @media (width < 960px) {
-    height: min(56.25dvw, 43dvh);
-  }
-
-  @media (960px <= width) {
-    height: auto;
-    aspect-ratio: 16 / 9;
-  }
-}
-
-.loading-img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: #f9faef;
-  transition: 0.7s;
-  object-fit: contain;
-}
-
 summary {
   font-size: 1.414rem;
   font-weight: bold;

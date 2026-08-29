@@ -12,3 +12,54 @@ const { class: className, ...props } = Astro.props;
     <span class="loading-text">読込中...</span>
   </div>
 </header>
+
+<style>
+  header {
+    background-color: var(--brand-bg);
+    color: var(--brand-text);
+    transition: all 0.5s;
+    border-bottom: 1px solid var(--gray1);
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding-inline: 16px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .logo-icon {
+    height: calc(var(--header-height) / 1.5);
+    aspect-ratio: 1 / 1;
+  }
+
+  .logo-text {
+    font-size: 28px;
+    line-height: calc(var(--header-height) - 1px);
+  }
+
+  .loading {
+    display: flex;
+    align-items: center;
+    transition: inherit;
+    gap: 0.5rem;
+  }
+
+  .loading-icon {
+    width: 1.414rem;
+    height: 1.414rem;
+    border: calc(1rem / 6) solid var(--brand-text);
+    border-right: calc(1rem / 6) solid transparent;
+    border-radius: 50%;
+    animation: rotate 1s linear infinite;
+  }
+
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>

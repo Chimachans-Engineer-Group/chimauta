@@ -1,11 +1,54 @@
----
-import Meta from "@/components/Meta.astro";
----
-
 <!doctype html>
 <html prefix="og: http://ogp.me/ns#" lang="ja">
   <head>
-    <Meta />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ちまうた｜町田ちま非公式ファンサイト</title>
+    <meta
+      name="description"
+      content="にじさんじ所属のバーチャルライバー、町田ちまさんの歌をまとめた非公式ファンサイトです。YouTubeのアーカイブから1曲単位で検索・視聴・共有できます。"
+    />
+    <meta name="theme-color" content="#80c8ef" />
+    <link rel="canonical" href="https://chimauta.pages.dev/" />
+
+    <meta property="og:title" content="ちまうた｜町田ちま非公式ファンサイト" />
+    <meta property="og:type" content=" website" />
+    <meta property="og:url" content="https://chimauta.pages.dev/" />
+    <meta
+      property="og:image"
+      content="https://chimauta.pages.dev/img/apple-touch-icon-180x180.png"
+    />
+    <meta
+      property="og:description"
+      content="にじさんじ所属、町田ちまさんの歌を検索・視聴・共有しやすいようにまとめた非公式ファンサイトです。"
+    />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="icon" href="/img/icon-192x192.png" />
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon-180x180.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/detail.css" />
+
+    <script defer src="https://www.youtube.com/iframe_api"></script>
+    <script type="module" src="/js/app.js"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YPCDHTZKXC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-YPCDHTZKXC");
+    </script>
   </head>
 
   <body>

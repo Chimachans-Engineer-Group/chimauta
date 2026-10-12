@@ -12,7 +12,13 @@ import "./PlayingBar.css";
 ---
 
 <div class="playing-bar">
-  <button type="button" title="一番上に戻る" class="to-page-top invisible" id="toPageTop">
+  <button
+    type="button"
+    title="一番上に戻る"
+    aria-label="一番上に戻る"
+    class="to-page-top invisible"
+    id="toPageTop"
+  >
     <ChevronUpIcon />
   </button>
 
@@ -20,10 +26,11 @@ import "./PlayingBar.css";
     <button
       type="button"
       title="該当する行までスクロール"
+      aria-label="該当する行までスクロール"
       class="playing-bar-thumb-button"
       id="playingBarThumbButton"
     >
-      <img class="playing-bar-thumb-button-img" id="playingBarThumb" />
+      <img class="playing-bar-thumb-button-img" id="playingBarThumb" alt="" />
     </button>
 
     <div class="playing-bar-text">
@@ -43,6 +50,7 @@ import "./PlayingBar.css";
   <button
     type="button"
     title="再生"
+    aria-label="再生"
     class="playing-bar-button playing-bar-status"
     id="playingBarStatus"
   >
@@ -53,16 +61,17 @@ import "./PlayingBar.css";
   <button
     type="button"
     title="メニューを開く"
+    aria-label="メニューを開く"
     class="playing-bar-button menu-btn"
     id="menuButton"
     aria-controls="menuContent"
     aria-expanded="false"
   >
-    <ul>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
+    <span class="menu-btn-icon" aria-hidden="true">
+      <span class="menu-btn-line"></span>
+      <span class="menu-btn-line"></span>
+      <span class="menu-btn-line"></span>
+    </span>
 
     <span class="menu-btn-open">MENU</span>
     <span class="menu-btn-close">CLOSE</span>
@@ -73,6 +82,7 @@ import "./PlayingBar.css";
       <button
         type="button"
         title="1曲リピートを有効にする"
+        aria-label="1曲リピートを有効にする"
         class="menu-controller-button disabled"
         id="menuControllerRepeat"
       >
@@ -83,6 +93,7 @@ import "./PlayingBar.css";
       <button
         type="button"
         title="はじめから"
+        aria-label="はじめから"
         class="menu-controller-button"
         id="menuControllerPrev"
       >
@@ -92,6 +103,7 @@ import "./PlayingBar.css";
       <button
         type="button"
         title="再生"
+        aria-label="再生"
         class="menu-controller-button menu-controller-status"
         id="menuControllerStatus"
       >
@@ -99,13 +111,20 @@ import "./PlayingBar.css";
         <PauseCircleFillIcon id="menuControllerPause" class="to-hide" />
       </button>
 
-      <button type="button" title="次の曲へ" class="menu-controller-button" id="menuControllerNext">
+      <button
+        type="button"
+        title="次の曲へ"
+        aria-label="次の曲へ"
+        class="menu-controller-button"
+        id="menuControllerNext"
+      >
         <SkipEndFillIcon />
       </button>
 
       <button
         type="button"
         title="シャッフルを有効にする"
+        aria-label="シャッフルを有効にする"
         class="menu-controller-button disabled"
         id="menuControllerShuffle"
       >
@@ -114,7 +133,14 @@ import "./PlayingBar.css";
     </div>
 
     <div class="menu-time">
-      <input type="range" class="menu-time-seek-bar" id="menuTimeSeekBar" min="0" value="0" />
+      <input
+        type="range"
+        class="menu-time-seek-bar"
+        id="menuTimeSeekBar"
+        min="0"
+        value="0"
+        aria-label="再生位置シークバー"
+      />
 
       <div class="menu-time-text">
         <span class="menu-time-text-now" id="menuTimeTextNow">0:00</span><span
@@ -124,6 +150,6 @@ import "./PlayingBar.css";
       </div>
     </div>
 
-    <ul class="menu-share"></ul>
+    <div class="menu-share" aria-hidden="true"></div>
   </div>
 </div>

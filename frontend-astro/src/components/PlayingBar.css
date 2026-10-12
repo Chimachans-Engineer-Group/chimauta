@@ -161,7 +161,7 @@
     display: block;
   }
 
-  .menu-btn li {
+  .menu-btn .menu-btn-line {
     display: block;
     height: 2px;
     width: 27px;
@@ -170,15 +170,15 @@
     transition: all 0.4s;
   }
 
-  .menu-btn[aria-expanded="true"] li:nth-child(1) {
+  .menu-btn[aria-expanded="true"] .menu-btn-line:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
   }
 
-  .menu-btn[aria-expanded="true"] li:nth-child(2) {
+  .menu-btn[aria-expanded="true"] .menu-btn-line:nth-child(2) {
     opacity: 0;
   }
 
-  .menu-btn[aria-expanded="true"] li:nth-child(3) {
+  .menu-btn[aria-expanded="true"] .menu-btn-line:nth-child(3) {
     transform: translateY(-7px) rotate(-45deg);
   }
 }

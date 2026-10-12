@@ -20,6 +20,7 @@ const { class: className } = Astro.props;
     <button
       type="button"
       title="消去"
+      aria-label="消去"
       class="search-icon search-clear invisible"
       id="toClearSearchValue"
     >
@@ -35,7 +36,8 @@ const { class: className } = Astro.props;
         id="searchOptionShare"
         target="_blank"
         rel="noopener noreferrer"
-        title="この検索結果をポスト"><TwitterXIcon /></a
+        title="この検索結果をポスト"
+        aria-label="この検索結果をポスト"><TwitterXIcon /></a
       >
 
       <div class="search-option-area">
@@ -69,7 +71,7 @@ const { class: className } = Astro.props;
     <template id="trackTemplate">
       <li class="track">
         <button type="button" class="track-button">
-          <img class="track-button-video-thumb" />
+          <img class="track-button-video-thumb" alt="" />
 
           <div class="track-button-info">
             <span class="track-button-info-text track-button-info-title"></span>
@@ -105,7 +107,8 @@ const { class: className } = Astro.props;
       <a
         href="https://github.com/Chimachans-Engineer-Group/chimauta"
         target="_blank"
-        rel="noopener noreferrer"><GithubIcon size="2em" /></a
+        rel="noopener noreferrer"
+        aria-label="GitHubリポジトリ"><GithubIcon size="2em" /></a
       >
     </p>
   </address>

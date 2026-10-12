@@ -121,6 +121,10 @@ class UIManager {
     this.isMenuOpened = !this.isMenuOpened;
 
     const body = document.querySelector("body");
+    const menuLabel = this.isMenuOpened ? "メニューを閉じる" : "メニューを開く";
+    this.dom.menuButton.title = menuLabel;
+    this.dom.menuButton.setAttribute("aria-label", menuLabel);
+
     if (this.isMenuOpened) {
       body?.classList.add("open-nav");
       this.dom.menuButton.setAttribute("aria-expanded", "true");
@@ -138,6 +142,7 @@ class UIManager {
       this.dom.menuControllerRepeat.classList.remove("disabled");
       this.dom.menuControllerRepeat.title = "1曲リピートを無効にする";
     }
+    this.dom.menuControllerRepeat.setAttribute("aria-label", this.dom.menuControllerRepeat.title);
     this.state.repeatFlag = !this.state.repeatFlag;
   }
 
@@ -151,6 +156,7 @@ class UIManager {
       this.dom.menuControllerShuffle.title = "シャッフルを無効にする";
       this.playerManager.generateShuffleQueue();
     }
+    this.dom.menuControllerShuffle.setAttribute("aria-label", this.dom.menuControllerShuffle.title);
     this.state.shuffleFlag = !this.state.shuffleFlag;
   }
 
@@ -177,6 +183,7 @@ class UIManager {
       const thumb = clonedElement.querySelector<HTMLImageElement>(".track-button-video-thumb");
       if (thumb) {
         thumb.src = `${CONSTANTS.THUMB_BASE_URL}${track.videoId}/default.webp`;
+        thumb.alt = "";
         thumb.loading = "lazy";
         thumb.decoding = "async";
       }

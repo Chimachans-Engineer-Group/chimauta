@@ -133,6 +133,7 @@ class YouTubePlayerManager {
     const currentVideo = this.state.videoList[currentSong.videoId];
 
     this.dom.playingBarThumb.src = `${CONSTANTS.THUMB_BASE_URL}${currentSong.videoId}/default.webp`;
+    this.dom.playingBarThumb.alt = `${currentSong.title} のサムネイル`;
 
     this.dom.playingBarSongTitle.textContent = currentSong.title;
     this.dom.playingBarSongTitle.title = currentSong.title;
@@ -160,7 +161,9 @@ class YouTubePlayerManager {
     this.dom.menuControllerPlay.classList.remove("to-hide");
 
     this.dom.playingBarStatus.title = "再生";
+    this.dom.playingBarStatus.setAttribute("aria-label", "再生");
     this.dom.menuControllerStatus.title = "再生";
+    this.dom.menuControllerStatus.setAttribute("aria-label", "再生");
   }
 
   toPauseIcon(): void {
@@ -170,7 +173,9 @@ class YouTubePlayerManager {
     this.dom.menuControllerPlay.classList.add("to-hide");
 
     this.dom.playingBarStatus.title = "一時停止";
+    this.dom.playingBarStatus.setAttribute("aria-label", "一時停止");
     this.dom.menuControllerStatus.title = "一時停止";
+    this.dom.menuControllerStatus.setAttribute("aria-label", "一時停止");
   }
 
   getSongCurrentTime(): void {

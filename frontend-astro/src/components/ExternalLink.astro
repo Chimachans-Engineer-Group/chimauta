@@ -1,0 +1,30 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import BoxArrowUpRightIcon from "./icons/BoxArrowUpRightIcon.astro";
+
+interface Props extends HTMLAttributes<"a"> {
+  href: string;
+}
+
+const { href, class: className, ...attrs } = Astro.props;
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  class:list={["external-link", className]}
+  {...attrs}
+><slot /><BoxArrowUpRightIcon class="external-link-icon" size="0.75em" /></a>
+
+<style>
+  .external-link {
+    display: inline;
+  }
+
+  .external-link-icon {
+    display: inline-block;
+    margin-left: 0.25rem;
+    vertical-align: 0.1em;
+  }
+</style>

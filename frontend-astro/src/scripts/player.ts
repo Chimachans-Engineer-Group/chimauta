@@ -2,6 +2,7 @@ import CONSTANTS from "./constants";
 import type DOMElements from "./dom";
 import type AppState from "./state";
 import type { YTPlayer, YTPlayerEvent } from "./types";
+import { $isPlaying, $nowSongNum, $duration, $currentTime } from "../stores/playerStore";
 
 class YouTubePlayerManager {
   dom: DOMElements;
@@ -18,6 +19,22 @@ class YouTubePlayerManager {
       console.error("YouTube IFrame API is not loaded yet.");
       return;
     }
+
+    // Preact PlayingBar からのイベント購読
+    window.addEventListener("chimauta:toggle-play", () => this.changePlayerStatus());
+    window.addEventListener("chimauta:play-song", (e: Event) => {
+      const customEvent = e as CustomEvent<{ index?: number }>;
+      this.playSong(customEvent.detail?.index);
+    });
+    window.addEventListener("chimauta:seek-to", (e: Event) => {
+      const customEvent = e as CustomEvent<{ seconds: number }>;
+      if (this.player && typeof customEvent.detail?.seconds === "number") {
+        const currentSong =
+          typeof this.state.nowSongNum === "number" ? this.state.songList[this.state.nowSongNum] : null;
+        const start = currentSong ? currentSong.startSeconds : 0;
+        this.player.seekTo(start + customEvent.detail.seconds, true);
+      }
+    });
 
     this.player = new window.YT.Player("player", {
       playerVars: {
@@ -152,30 +169,46 @@ class YouTubePlayerManager {
     this.insertSeekBarValue(0);
     this.dom.menuTimeSeekBar.max = String(this.state.wholeSeconds);
     this.dom.menuTimeTextWhole.textContent = this.formatSeconds(this.state.wholeSeconds);
+
+    $nowSongNum.set(this.state.nowSongNum);
+    $duration.set(currentSong.duration);
+    $currentTime.set(0);
   }
 
   toPlayIcon(): void {
-    this.dom.playingBarPause.classList.add("to-hide");
-    this.dom.playingBarPlay.classList.remove("to-hide");
-    this.dom.menuControllerPause.classList.add("to-hide");
-    this.dom.menuControllerPlay.classList.remove("to-hide");
+    this.dom.playingBarPause?.classList.add("to-hide");
+    this.dom.playingBarPlay?.classList.remove("to-hide");
+    this.dom.menuControllerPause?.classList.add("to-hide");
+    this.dom.menuControllerPlay?.classList.remove("to-hide");
 
-    this.dom.playingBarStatus.title = "再生";
-    this.dom.playingBarStatus.setAttribute("aria-label", "再生");
-    this.dom.menuControllerStatus.title = "再生";
-    this.dom.menuControllerStatus.setAttribute("aria-label", "再生");
+    if (this.dom.playingBarStatus) {
+      this.dom.playingBarStatus.title = "再生";
+      this.dom.playingBarStatus.setAttribute("aria-label", "再生");
+    }
+    if (this.dom.menuControllerStatus) {
+      this.dom.menuControllerStatus.title = "再生";
+      this.dom.menuControllerStatus.setAttribute("aria-label", "再生");
+    }
+
+    $isPlaying.set(false);
   }
 
   toPauseIcon(): void {
-    this.dom.playingBarPause.classList.remove("to-hide");
-    this.dom.playingBarPlay.classList.add("to-hide");
-    this.dom.menuControllerPause.classList.remove("to-hide");
-    this.dom.menuControllerPlay.classList.add("to-hide");
+    this.dom.playingBarPause?.classList.remove("to-hide");
+    this.dom.playingBarPlay?.classList.add("to-hide");
+    this.dom.menuControllerPause?.classList.remove("to-hide");
+    this.dom.menuControllerPlay?.classList.add("to-hide");
 
-    this.dom.playingBarStatus.title = "一時停止";
-    this.dom.playingBarStatus.setAttribute("aria-label", "一時停止");
-    this.dom.menuControllerStatus.title = "一時停止";
-    this.dom.menuControllerStatus.setAttribute("aria-label", "一時停止");
+    if (this.dom.playingBarStatus) {
+      this.dom.playingBarStatus.title = "一時停止";
+      this.dom.playingBarStatus.setAttribute("aria-label", "一時停止");
+    }
+    if (this.dom.menuControllerStatus) {
+      this.dom.menuControllerStatus.title = "一時停止";
+      this.dom.menuControllerStatus.setAttribute("aria-label", "一時停止");
+    }
+
+    $isPlaying.set(true);
   }
 
   getSongCurrentTime(): void {
@@ -187,6 +220,8 @@ class YouTubePlayerManager {
     );
     this.insertSeekBarValue(currentSeconds);
     this.dom.menuTimeTextNow.textContent = this.formatSeconds(currentSeconds);
+
+    $currentTime.set(currentSeconds);
   }
 
   startCountingUpSeconds(): void {
@@ -268,6 +303,9 @@ class YouTubePlayerManager {
     if (this.state.nowSongNum === null || !this.state.songList[this.state.nowSongNum]) {
       return;
     }
+
+    this.insertSongInfo();
+    $nowSongNum.set(this.state.nowSongNum);
 
     const currentSong = this.state.songList[this.state.nowSongNum];
     this.player?.loadVideoById({

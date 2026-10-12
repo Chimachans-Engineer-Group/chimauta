@@ -4,6 +4,9 @@ import YouTubePlayerManager from "./player";
 import SearchManager from "./search";
 import AppState from "./state";
 import UIManager from "./ui";
+import { setSongData } from "../stores/songStore";
+import { $nowSongNum } from "../stores/playerStore";
+import { $filteredIndices } from "../stores/searchStore";
 
 class ChimautaApp {
   dom: DOMElements;
@@ -69,6 +72,10 @@ class ChimautaApp {
 
     this.dom.entireNum.textContent = String(this.state.songList.length);
     this.dom.searchResultNum.textContent = String(this.state.searchResult.length);
+
+    setSongData(this.state.songList, this.state.videoList);
+    $nowSongNum.set(this.state.nowSongNum);
+    $filteredIndices.set(this.state.searchResult);
   }
 
   initializeUI(): void {

@@ -1,14 +1,13 @@
 ---
+import type { HTMLAttributes } from "astro/types";
 import ExternalLink from "./ExternalLink.astro";
 
-interface Props {
-  class?: string;
-}
+interface Props extends HTMLAttributes<"section"> {}
 
-const { class: className } = Astro.props;
+const { class: className, ...props } = Astro.props;
 ---
 
-<section class:list={["message", className]}>
+<section class:list={["message", className]} {...props}>
   <details open>
     <summary>はじめに</summary>
     <p class="lead">

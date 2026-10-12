@@ -4,16 +4,15 @@ import GithubIcon from "./icons/GithubIcon.astro";
 import SearchIcon from "./icons/SearchIcon.astro";
 import TwitterXIcon from "./icons/TwitterXIcon.astro";
 import ExternalLink from "./ExternalLink.astro";
+import type { HTMLAttributes } from "astro/types";
 import "./SongTableSection.css";
 
-interface Props {
-  class?: string;
-}
+interface Props extends HTMLAttributes<"section"> {}
 
-const { class: className } = Astro.props;
+const { class: className, ...props } = Astro.props;
 ---
 
-<section class:list={["song-table", className]}>
+<section class:list={["song-table", className]} {...props}>
   <form class="search" id="searchForm">
     <div class="search-icon search-loupe"><SearchIcon /></div>
     <input type="search" class="search-input" id="searchText" placeholder="検索" disabled />

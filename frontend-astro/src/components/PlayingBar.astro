@@ -1,10 +1,18 @@
 ---
-const { class: className, ...props } = Astro.props;
+import ArrowRepeatIcon from "./icons/ArrowRepeatIcon.astro";
+import ChevronUpIcon from "./icons/ChevronUpIcon.astro";
+import PauseCircleFillIcon from "./icons/PauseCircleFillIcon.astro";
+import PauseFillIcon from "./icons/PauseFillIcon.astro";
+import PlayCircleFillIcon from "./icons/PlayCircleFillIcon.astro";
+import PlayFillIcon from "./icons/PlayFillIcon.astro";
+import ShuffleIcon from "./icons/ShuffleIcon.astro";
+import SkipEndFillIcon from "./icons/SkipEndFillIcon.astro";
+import SkipStartFillIcon from "./icons/SkipStartFillIcon.astro";
 ---
 
-<div class:list={[className]} {...props}>
+<div class="playing-bar">
   <button type="button" title="一番上に戻る" class="to-page-top invisible" id="toPageTop">
-    <i class="fa-solid fa-chevron-up"></i>
+    <ChevronUpIcon />
   </button>
 
   <div class="playing-bar-information">
@@ -37,8 +45,8 @@ const { class: className, ...props } = Astro.props;
     class="playing-bar-button playing-bar-status"
     id="playingBarStatus"
   >
-    <i class="fa-solid fa-play" id="playingBarPlay"></i>
-    <i class="fa-solid fa-pause to-hide" id="playingBarPause"></i>
+    <PlayFillIcon id="playingBarPlay" />
+    <PauseFillIcon id="playingBarPause" class="to-hide" />
   </button>
 
   <button
@@ -67,7 +75,7 @@ const { class: className, ...props } = Astro.props;
         class="menu-controller-button disabled"
         id="menuControllerRepeat"
       >
-        <i class="fa-solid fa-repeat"></i>
+        <ArrowRepeatIcon />
         <div class="menu-controller-repeat-text">1</div>
       </button>
 
@@ -77,7 +85,7 @@ const { class: className, ...props } = Astro.props;
         class="menu-controller-button"
         id="menuControllerPrev"
       >
-        <i class="fa-solid fa-backward-step"></i>
+        <SkipStartFillIcon />
       </button>
 
       <button
@@ -86,12 +94,12 @@ const { class: className, ...props } = Astro.props;
         class="menu-controller-button menu-controller-status"
         id="menuControllerStatus"
       >
-        <i class="fa-solid fa-circle-play" id="menuControllerPlay"></i>
-        <i class="fa-solid fa-circle-pause to-hide" id="menuControllerPause"></i>
+        <PlayCircleFillIcon id="menuControllerPlay" />
+        <PauseCircleFillIcon id="menuControllerPause" class="to-hide" />
       </button>
 
       <button type="button" title="次の曲へ" class="menu-controller-button" id="menuControllerNext">
-        <i class="fa-solid fa-forward-step"></i>
+        <SkipEndFillIcon />
       </button>
 
       <button
@@ -100,7 +108,7 @@ const { class: className, ...props } = Astro.props;
         class="menu-controller-button disabled"
         id="menuControllerShuffle"
       >
-        <i class="fa-solid fa-shuffle"></i>
+        <ShuffleIcon />
       </button>
     </div>
 

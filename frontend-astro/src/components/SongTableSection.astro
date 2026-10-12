@@ -1,10 +1,14 @@
 ---
-const { class: className, ...props } = Astro.props;
+import ClearIcon from "./icons/ClearIcon.astro";
+import GithubIcon from "./icons/GithubIcon.astro";
+import SearchIcon from "./icons/SearchIcon.astro";
+import TwitterXIcon from "./icons/TwitterXIcon.astro";
+import ExternalLink from "./ExternalLink.astro";
 ---
 
-<section class:list={[className]} {...props}>
+<section class="song-table">
   <form class="search" id="searchForm">
-    <div class="search-icon search-loupe"><i class="fa-solid fa-magnifying-glass"></i></div>
+    <div class="search-icon search-loupe"><SearchIcon /></div>
     <input type="search" class="search-input" id="searchText" placeholder="検索" disabled />
     <button
       type="button"
@@ -12,7 +16,7 @@ const { class: className, ...props } = Astro.props;
       class="search-icon search-clear invisible"
       id="toClearSearchValue"
     >
-      <i class="fa-solid fa-xmark"></i>
+      <ClearIcon />
     </button>
 
     <div id="searchOption" class="search-option">
@@ -24,7 +28,7 @@ const { class: className, ...props } = Astro.props;
         id="searchOptionShare"
         target="_blank"
         rel="noopener noreferrer"
-        title="この検索結果をポスト"><i class="fa-brands fa-x-twitter"></i></a
+        title="この検索結果をポスト"><TwitterXIcon /></a
       >
 
       <div class="search-option-area">
@@ -82,30 +86,19 @@ const { class: className, ...props } = Astro.props;
   <address>
     <p>
       icon, loading animation:
-      <a
-        class="external-link"
-        href="https://x.com/0yasumiyy"
-        target="_blank"
-        rel="noopener noopener">すみ</a
+      <ExternalLink href="https://x.com/0yasumiyy">すみ</ExternalLink
       >(Created in 2024)<br />&copy; 2021
-      <a
-        class="external-link"
-        href="https://x.com/DontMakeItSpicy"
-        target="_blank"
-        rel="noopener noreferrer">ヤータムペットナ</a
+      <ExternalLink href="https://x.com/DontMakeItSpicy">ヤータムペットナ</ExternalLink
       ><br />Released under the
-      <a
-        class="external-link"
-        href="https://github.com/Chimachans-Engineer-Group/chimauta/blob/main/LICENSE"
-        target="_blank"
-        rel="noopener noreferrer">MIT license</a
+      <ExternalLink href="https://github.com/Chimachans-Engineer-Group/chimauta/blob/main/LICENSE"
+        >MIT license</ExternalLink
       >
     </p>
     <p>
       <a
         href="https://github.com/Chimachans-Engineer-Group/chimauta"
         target="_blank"
-        rel="noopener noreferrer"><i class="fa-brands fa-github fa-2x"></i></a
+        rel="noopener noreferrer"><GithubIcon size="2em" /></a
       >
     </p>
   </address>

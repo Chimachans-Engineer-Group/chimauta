@@ -1,112 +1,20 @@
 ---
-import Header from "@/components/Header.astro";
-import Message from "@/components/Message.astro";
-import PlayingBar from "@/components/PlayingBar.astro";
-import Songtable from "@/components/Songtable.astro";
-import Youtube from "@/components/Youtube.astro";
-import BaseLayout from "@/layouts/BaseLayout.astro";
+import MessageSection from "../components/MessageSection.astro";
+import PlayingBar from "../components/PlayingBar.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SongTableSection from "../components/SongTableSection.astro";
+import YoutubeSection from "../components/YoutubeSection.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout>
-  <Header class="header" />
+  <SiteHeader />
+
   <main>
-    <Youtube class="youtube" />
-    <Message class="message" />
-    <Songtable class="song-table" />
+    <YoutubeSection />
+    <MessageSection />
+    <SongTableSection />
   </main>
-  <PlayingBar class="playing-bar" />
+
+  <PlayingBar />
 </BaseLayout>
-
-<style>
-  :root {
-    --header-height: 56px;
-  }
-
-  .header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: var(--header-height);
-
-    @media (width < 960px) {
-      z-index: 0;
-    }
-
-    @media (960px <= width) {
-      z-index: 30;
-    }
-  }
-
-  main {
-    @media (width < 960px) {
-      padding-bottom: 55px;
-    }
-
-    @media (960px <= width) {
-      margin-top: var(--header-height);
-      margin-bottom: 84px;
-      display: grid;
-      align-items: start;
-      grid-template-rows: calc((100vw / 2.414 - 24px) / 16 * 9) auto;
-      grid-template-columns: 1fr 1.414fr;
-      padding: 16px;
-      gap: 16px;
-    }
-  }
-
-  .youtube {
-    position: sticky;
-    z-index: 10;
-
-    @media (width < 960px) {
-      top: 0;
-      margin-top: var(--header-height);
-    }
-
-    @media (960px <= width) {
-      top: 72px;
-      grid-row: 1 / 2;
-      grid-column: 1 / 2;
-    }
-  }
-
-  .message {
-    @media (width < 640px) {
-      margin: 1.5rem;
-    }
-
-    @media (640px <= width < 960px) {
-      margin: 1.5rem 10%;
-    }
-
-    @media (960px <= width) {
-      grid-row: 2 / 3;
-      grid-column: 1 / 2;
-      position: sticky;
-      top: calc(88px + ((100vw / 2.414 - 24px) / 16 * 9));
-    }
-  }
-
-  .song-table {
-    @media (960px <= width) {
-      grid-row: 1 / 3;
-      grid-column: 2 / 3;
-      overflow: hidden;
-    }
-  }
-
-  .playing-bar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    z-index: 20;
-
-    @media (width < 960px) {
-      height: 55px;
-    }
-
-    @media (960px <= width) {
-      height: 84px;
-    }
-  }
-</style>

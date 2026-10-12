@@ -32,7 +32,19 @@ class ChimautaApp {
         resolve();
         return;
       }
-      window.onYouTubeIframeAPIReady = resolve;
+      const existingHandler = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        if (typeof existingHandler === "function") existingHandler();
+        resolve();
+      };
+      setTimeout(() => {
+        if (window.YT && window.YT.Player) {
+          resolve();
+        } else {
+          console.warn("YouTube IFrame API load timed out, proceeding anyway.");
+          resolve();
+        }
+      }, 10000);
     });
   }
 
@@ -40,10 +52,13 @@ class ChimautaApp {
     const data = await this.dataManager.fetchData();
     const { songList, videoList } = this.dataManager.processData(data);
 
-    this.state.songList = songList;
-    this.state.videoList = videoList;
+    this.state.songList = songList || [];
+    this.state.videoList = videoList || {};
     this.state.searchResult = this.state.songList.map((_, i) => i);
-    this.state.nowSongNum = this.state.searchResult[this.state.searchResult.length - 1];
+    this.state.nowSongNum =
+      this.state.searchResult.length > 0
+        ? this.state.searchResult[this.state.searchResult.length - 1]
+        : null;
 
     this.dom.entireNum.textContent = this.state.songList.length;
     this.dom.searchResultNum.textContent = this.state.searchResult.length;

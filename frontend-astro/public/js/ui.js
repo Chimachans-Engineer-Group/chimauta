@@ -140,7 +140,7 @@ class UIManager {
       artist.title = track.artist;
 
       const ytLink = clonedElement.querySelector(".track-videoinfo-ytlink");
-      ytLink.href = `${CONSTANTS.YOUTUBE_WATCH_URL}${track.videoId}&t=${track.startSeconds}s`;
+      ytLink.href = `${CONSTANTS.YOUTUBE_WATCH_URL}${track.videoId}?t=${track.startSeconds}s`;
       ytLink.title = this.state.videoList[track.videoId].title;
 
       const postDate = clonedElement.querySelector(".track-videoinfo-postdate");

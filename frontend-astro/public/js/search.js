@@ -27,6 +27,10 @@ class SearchManager {
     });
   }
 
+  escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
   performSearch() {
     const searchWord = this.dom.searchText.value;
     const songTitleChecked = this.dom.searchOptionSongTitle.checked;
@@ -44,7 +48,7 @@ class SearchManager {
     );
     this.updateClearButton(searchWord);
 
-    const searchWordRegex = new RegExp(searchWord, "i");
+    const searchWordRegex = new RegExp(this.escapeRegExp(searchWord), "i");
 
     this.state.searchResult = this.state.songList.flatMap((track, i) => {
       const testOfSongTitle = songTitleChecked && searchWordRegex.test(track.title);
@@ -118,13 +122,15 @@ class SearchManager {
       const type = searchParams.get(typeKeyName);
       this.dom.searchText.value = query;
       if (type) {
-        this.dom.searchOptionSongTitle.checked = Number(type.charAt(0));
-        this.dom.searchOptionArtist.checked = Number(type.charAt(1));
-        this.dom.searchOptionVideoTitle.checked = Number(type.charAt(2));
-        this.dom.searchOptionPostDate.checked = Number(type.charAt(3));
+        this.dom.searchOptionSongTitle.checked = type.charAt(0) === "1";
+        this.dom.searchOptionArtist.checked = type.charAt(1) === "1";
+        this.dom.searchOptionVideoTitle.checked = type.charAt(2) === "1";
+        this.dom.searchOptionPostDate.checked = type.charAt(3) === "1";
       }
       this.performSearch();
-      this.state.nowSongNum = this.state.searchResult[this.state.searchResult.length - 1];
+      if (this.state.searchResult.length > 0) {
+        this.state.nowSongNum = this.state.searchResult[this.state.searchResult.length - 1];
+      }
     }
   }
 }

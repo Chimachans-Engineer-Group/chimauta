@@ -9,7 +9,7 @@ class YouTubePlayerManager {
 
   initPlayer() {
     this.player = new YT.Player("player", {
-      playervars: {
+      playerVars: {
         rel: 0,
       },
       events: {
@@ -38,31 +38,33 @@ class YouTubePlayerManager {
   }
 
   onPlayerStateChange(e) {
+    const PlayerState = window.YT?.PlayerState || CONSTANTS.PLAYER_STATE;
+
     // 再生終了のとき
-    if (e.data == 0 && this.state.playerFlag == 1) {
+    if (e.data === PlayerState.ENDED && this.state.playerFlag) {
       this.toPlayIcon();
       this.playSong();
-      this.state.playerFlag = 0;
+      this.state.playerFlag = false;
       this.stopCountingUpSeconds();
     }
     // 一時停止のとき
-    else if (e.data == 2) {
+    else if (e.data === PlayerState.PAUSED) {
       this.toPlayIcon();
-      this.state.playerFlag = 0;
+      this.state.playerFlag = false;
       this.stopCountingUpSeconds();
     }
     // バッファリング中のとき
-    else if (e.data == 3) {
+    else if (e.data === PlayerState.BUFFERING) {
       this.toPauseIcon();
-      if (this.state.nowSongNum != this.state.prevSongNum) {
+      if (this.state.nowSongNum !== this.state.prevSongNum) {
         this.insertSongInfo();
       }
     }
     // 再生中のとき
-    else if (e.data == 1) {
+    else if (e.data === PlayerState.PLAYING) {
       this.toPauseIcon();
-      this.state.playerFlag = 1;
-      if (this.state.countUpSecondsFlag == 0) {
+      this.state.playerFlag = true;
+      if (!this.state.countUpSecondsFlag) {
         this.startCountingUpSeconds();
       }
     }
@@ -70,11 +72,11 @@ class YouTubePlayerManager {
 
   onPlayerError() {
     this.insertSongInfo();
-    this.state.playerFlag = 0;
+    this.state.playerFlag = false;
     this.toPlayIcon();
 
     setTimeout(() => {
-      if (this.state.playerFlag == 0) {
+      if (!this.state.playerFlag) {
         this.playSong();
       }
     }, CONSTANTS.ERROR_RETRY_DELAY);
@@ -156,7 +158,7 @@ class YouTubePlayerManager {
   }
 
   startCountingUpSeconds() {
-    this.state.countUpSecondsFlag = 1;
+    this.state.countUpSecondsFlag = true;
     this.state.countUpSecondsInterval = setInterval(
       () => this.getSongCurrentTime(),
       CONSTANTS.UPDATE_INTERVAL
@@ -165,7 +167,7 @@ class YouTubePlayerManager {
 
   stopCountingUpSeconds() {
     clearInterval(this.state.countUpSecondsInterval);
-    this.state.countUpSecondsFlag = 0;
+    this.state.countUpSecondsFlag = false;
   }
 
   playSong(songNum) {
@@ -176,9 +178,9 @@ class YouTubePlayerManager {
       this.state.nowSongNum = songNum;
     }
     // 連続で再生されたとき
-    else if (this.state.repeatFlag == 0) {
-      if (this.state.searchResult.length != 0) {
-        if (this.state.shuffleFlag == 0) {
+    else if (!this.state.repeatFlag) {
+      if (this.state.searchResult.length !== 0) {
+        if (!this.state.shuffleFlag) {
           const checkForExistence = this.state.searchResult.indexOf(this.state.nowSongNum);
 
           // 通常再生で最後の曲になったとき
@@ -213,26 +215,24 @@ class YouTubePlayerManager {
   }
 
   changePlayerStatus() {
-    if (this.state.playerFlag == 1) {
+    if (this.state.playerFlag) {
       this.toPlayIcon();
       this.player.pauseVideo();
-      this.state.playerFlag = 0;
+      this.state.playerFlag = false;
     } else {
       this.toPauseIcon();
       this.player.playVideo();
-      this.state.playerFlag = 1;
+      this.state.playerFlag = true;
     }
   }
 
   seekTo() {
-    this.state.playerFlag = 0;
-
     const currentSong = this.state.songList[this.state.nowSongNum];
-    this.player.loadVideoById({
-      videoId: currentSong.videoId,
-      startSeconds: currentSong.startSeconds + Number(this.dom.menuTimeSeekBar.value),
-      endSeconds: currentSong.endSeconds,
-    });
+    const targetSeconds = currentSong.startSeconds + Number(this.dom.menuTimeSeekBar.value);
+    this.player.seekTo(targetSeconds, true);
+    if (this.state.playerFlag) {
+      this.startCountingUpSeconds();
+    }
   }
 }
 

@@ -8,6 +8,13 @@ const CONSTANTS = {
   YOUTUBE_WATCH_URL: "https://youtu.be/",
   TWITTER_INTENT_URL:
     "https://x.com/intent/tweet?ref_src=twsrc%5Etfw%7Ctwcamp%5Ebuttonembed%7Ctwterm%5Eshare%7Ctwgr%5E",
+  PLAYER_STATE: {
+    ENDED: 0,
+    PLAYING: 1,
+    PAUSED: 2,
+    BUFFERING: 3,
+    CUED: 5,
+  },
 };
 
-export default CONSTANTS;
+export default Object.freeze(CONSTANTS);

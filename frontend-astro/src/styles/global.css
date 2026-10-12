@@ -1,6 +1,7 @@
 @charset "utf-8";
 
 :root {
+  --header-height: 56px;
   --brand-color: #80c8ef;
   --white: #fff;
 
@@ -83,3 +84,66 @@ button {
   cursor: pointer;
 }
 
+/* 共通ユーティリティ */
+.invisible,
+.loaded .loading,
+.loaded .loading-img {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.to-hide {
+  display: none !important;
+}
+
+.disabled {
+  color: var(--gray2);
+}
+
+/* 全体レイアウト */
+main {
+  @media (width < 960px) {
+    padding-bottom: 55px;
+  }
+
+  @media (960px <= width) {
+    margin-top: var(--header-height);
+    margin-bottom: 84px;
+    display: grid;
+    align-items: start;
+    grid-template-rows: calc((100vw / 2.414 - 24px) / 16 * 9) auto;
+    grid-template-columns: 1fr 1.414fr;
+    padding: 16px;
+    gap: 16px;
+  }
+}
+
+/* 共通アイコン */
+.icon {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+
+  @media (width < 960px) {
+    padding: 0 20px;
+
+    &::after {
+      margin-left: 8px;
+      font-weight: 700;
+      vertical-align: top;
+      content: attr(title);
+    }
+  }
+
+  @media (960px <= width) {
+    border-radius: 5px;
+  }
+
+  &::before {
+    font-size: 16px;
+  }
+}
+
+.icon-twitter {
+  background: #55acee;
+}

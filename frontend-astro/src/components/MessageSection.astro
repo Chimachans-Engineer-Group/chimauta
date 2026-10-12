@@ -27,3 +27,38 @@ import ExternalLink from "./ExternalLink.astro";
     </p>
   </details>
 </section>
+
+<style>
+  .message {
+    @media (width < 640px) {
+      margin: 1.5rem;
+    }
+
+    @media (640px <= width < 960px) {
+      margin: 1.5rem 10%;
+    }
+
+    @media (960px <= width) {
+      grid-row: 2 / 3;
+      grid-column: 1 / 2;
+      position: sticky;
+      top: calc(88px + ((100vw / 2.414 - 24px) / 16 * 9));
+    }
+  }
+
+  summary {
+    font-size: 1.414rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .lead {
+    text-align: justify;
+  }
+
+  :global(.lead-link:hover),
+  :global(.lead-link:focus) {
+    text-decoration: none;
+    background-image: linear-gradient(transparent 80%, var(--brand-color) 80%);
+  }
+</style>

@@ -1,0 +1,38 @@
+.youtube {
+  position: sticky;
+  z-index: 10;
+
+  @media (width < 960px) {
+    top: 0;
+    margin-top: var(--header-height);
+  }
+
+  @media (960px <= width) {
+    top: 72px;
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+  }
+}
+
+.player,
+.loading-img {
+  width: 100%;
+
+  @media (width < 960px) {
+    height: min(56.25dvw, 43dvh);
+  }
+
+  @media (960px <= width) {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+.loading-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #f9faef;
+  transition: 0.7s;
+  object-fit: contain;
+}

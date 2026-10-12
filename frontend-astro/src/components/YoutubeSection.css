@@ -9,8 +9,6 @@
 
   @media (960px <= width) {
     top: 72px;
-    grid-row: 1 / 2;
-    grid-column: 1 / 2;
   }
 }
 

@@ -100,24 +100,6 @@ button {
   color: var(--gray2);
 }
 
-/* 全体レイアウト */
-main {
-  @media (width < 960px) {
-    padding-bottom: 55px;
-  }
-
-  @media (960px <= width) {
-    margin-top: var(--header-height);
-    margin-bottom: 84px;
-    display: grid;
-    align-items: start;
-    grid-template-rows: calc((100vw / 2.414 - 24px) / 16 * 9) auto;
-    grid-template-columns: 1fr 1.414fr;
-    padding: 16px;
-    gap: 16px;
-  }
-}
-
 /* 共通アイコン */
 .icon {
   display: block;

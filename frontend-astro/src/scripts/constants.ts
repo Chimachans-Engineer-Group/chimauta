@@ -15,6 +15,6 @@ const CONSTANTS = {
     BUFFERING: 3,
     CUED: 5,
   },
-};
+} as const;
 
-export default Object.freeze(CONSTANTS);
+export default CONSTANTS;

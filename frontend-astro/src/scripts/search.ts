@@ -1,48 +1,61 @@
-import CONSTANTS from "./constants.js";
+import CONSTANTS from "./constants";
+import type DOMElements from "./dom";
+import type AppState from "./state";
 
 class SearchManager {
-  constructor(domElements, state) {
+  dom: DOMElements;
+  state: AppState;
+  debounceTimer: ReturnType<typeof setTimeout> | null = null;
+  trackElements: (HTMLElement | null)[] | null = null;
+
+  constructor(domElements: DOMElements, state: AppState) {
     this.dom = domElements;
     this.state = state;
-    this.debounceTimer = null;
-    this.trackElements = null;
   }
 
-  initSearch() {
+  initSearch(): void {
     this.dom.searchForm.addEventListener("input", () => {
-      clearTimeout(this.debounceTimer);
+      if (this.debounceTimer) {
+        clearTimeout(this.debounceTimer);
+      }
       this.debounceTimer = setTimeout(() => {
         this.performSearch();
       }, 150);
     });
 
-    const checkboxes = document.querySelectorAll('#searchOption input[type="checkbox"]');
+    const checkboxes = document.querySelectorAll<HTMLInputElement>(
+      '#searchOption input[type="checkbox"]'
+    );
     checkboxes.forEach((checkbox) => {
       checkbox.addEventListener("change", () => {
-        clearTimeout(this.debounceTimer);
+        if (this.debounceTimer) {
+          clearTimeout(this.debounceTimer);
+        }
         this.performSearch();
       });
     });
 
-    this.dom.searchText.addEventListener("keydown", (e) => {
+    this.dom.searchText.addEventListener("keydown", (e: KeyboardEvent) => {
       if (e.key === "Enter" && !e.isComposing) {
         e.preventDefault();
       }
     });
 
     this.dom.toClearSearchValue.addEventListener("click", () => {
-      clearTimeout(this.debounceTimer);
+      if (this.debounceTimer) {
+        clearTimeout(this.debounceTimer);
+      }
       this.dom.searchText.value = "";
       this.dom.searchText.focus();
       this.performSearch();
     });
   }
 
-  escapeRegExp(string) {
+  escapeRegExp(string: string): string {
     return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
 
-  performSearch() {
+  performSearch(): void {
     if (!this.trackElements && this.state.songList) {
       this.trackElements = this.state.songList.map((_, i) =>
         document.getElementById(`trackNum${i}`)
@@ -68,14 +81,18 @@ class SearchManager {
     const searchWordRegex = new RegExp(this.escapeRegExp(searchWord), "i");
 
     this.state.searchResult = this.state.songList.flatMap((track, i) => {
+      const video = this.state.videoList[track.videoId];
+      const videoTitle = video ? video.title : "";
+      const postDate = video ? video.postDate : "";
+
       const testOfSongTitle = songTitleChecked && searchWordRegex.test(track.title);
       const testOfArtist = artistChecked && searchWordRegex.test(track.artist);
-      const testOfVideoTitle =
-        videoTitleChecked && searchWordRegex.test(this.state.videoList[track.videoId].title);
-      const testOfPostDate =
-        postDateChecked && searchWordRegex.test(this.state.videoList[track.videoId].postDate);
+      const testOfVideoTitle = videoTitleChecked && searchWordRegex.test(videoTitle);
+      const testOfPostDate = postDateChecked && searchWordRegex.test(postDate);
 
-      const beingProcessedTrackRow = this.trackElements ? this.trackElements[i] : document.getElementById(`trackNum${i}`);
+      const beingProcessedTrackRow = this.trackElements
+        ? this.trackElements[i]
+        : document.getElementById(`trackNum${i}`);
 
       if (beingProcessedTrackRow) {
         if (testOfSongTitle || testOfArtist || testOfVideoTitle || testOfPostDate) {
@@ -89,11 +106,11 @@ class SearchManager {
       return [];
     });
 
-    this.dom.searchResultNum.textContent = this.state.searchResult.length;
+    this.dom.searchResultNum.textContent = String(this.state.searchResult.length);
     this.state.shuffleQueue = [];
   }
 
-  updatePageTitle(searchWord) {
+  updatePageTitle(searchWord: string): void {
     const currentTitle = `${
       searchWord !== "" ? `${searchWord} - ` : ""
     }ちまうた｜町田ちま非公式ファンサイト`;
@@ -101,12 +118,12 @@ class SearchManager {
   }
 
   updateURLAndShare(
-    searchWord,
-    songTitleChecked,
-    artistChecked,
-    videoTitleChecked,
-    postDateChecked
-  ) {
+    searchWord: string,
+    songTitleChecked: boolean,
+    artistChecked: boolean,
+    videoTitleChecked: boolean,
+    postDateChecked: boolean
+  ): void {
     const shareURL = location.origin;
     const currentShareURL = new URL(shareURL);
     currentShareURL.search = new URLSearchParams({
@@ -114,7 +131,7 @@ class SearchManager {
       type: [songTitleChecked, artistChecked, videoTitleChecked, postDateChecked]
         .map((v) => Number(v))
         .join(""),
-    });
+    }).toString();
     history.replaceState("", document.title, currentShareURL.toString());
 
     const baseURL = CONSTANTS.TWITTER_INTENT_URL;
@@ -122,24 +139,24 @@ class SearchManager {
     currentBaseURL.search = new URLSearchParams({
       url: currentShareURL.toString(),
       text: document.title,
-    });
+    }).toString();
     this.dom.searchOptionShare.href = currentBaseURL.toString();
   }
 
-  updateClearButton(searchWord) {
-    if (searchWord == "") {
+  updateClearButton(searchWord: string): void {
+    if (searchWord === "") {
       this.dom.toClearSearchValue.classList.add("invisible");
     } else {
       this.dom.toClearSearchValue.classList.remove("invisible");
     }
   }
 
-  handleURLParams() {
+  handleURLParams(): void {
     const searchParams = new URLSearchParams(window.location.search);
     const queryKeyName = "q";
     if (searchParams.has(queryKeyName)) {
       const typeKeyName = "type";
-      const query = searchParams.get(queryKeyName);
+      const query = searchParams.get(queryKeyName) ?? "";
       const type = searchParams.get(typeKeyName);
       this.dom.searchText.value = query;
       if (type) {

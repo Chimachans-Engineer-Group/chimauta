@@ -1,11 +1,18 @@
-import DataManager from "./data.js";
-import DOMElements from "./dom.js";
-import YouTubePlayerManager from "./player.js";
-import SearchManager from "./search.js";
-import AppState from "./state.js";
-import UIManager from "./ui.js";
+import DataManager from "./data";
+import DOMElements from "./dom";
+import YouTubePlayerManager from "./player";
+import SearchManager from "./search";
+import AppState from "./state";
+import UIManager from "./ui";
 
 class ChimautaApp {
+  dom: DOMElements;
+  state: AppState;
+  dataManager: DataManager;
+  playerManager: YouTubePlayerManager;
+  searchManager: SearchManager;
+  uiManager: UIManager;
+
   constructor() {
     this.dom = new DOMElements();
     this.state = new AppState();
@@ -15,7 +22,7 @@ class ChimautaApp {
     this.uiManager = new UIManager(this.dom, this.state, this.playerManager);
   }
 
-  async init() {
+  async init(): Promise<void> {
     try {
       await this.loadYouTubeAPI();
       await this.loadData();
@@ -26,7 +33,7 @@ class ChimautaApp {
     }
   }
 
-  async loadYouTubeAPI() {
+  async loadYouTubeAPI(): Promise<void> {
     return new Promise((resolve) => {
       if (window.YT && window.YT.Player) {
         resolve();
@@ -48,7 +55,7 @@ class ChimautaApp {
     });
   }
 
-  async loadData() {
+  async loadData(): Promise<void> {
     const data = await this.dataManager.fetchData();
     const { songList, videoList } = this.dataManager.processData(data);
 
@@ -60,18 +67,18 @@ class ChimautaApp {
         ? this.state.searchResult[this.state.searchResult.length - 1]
         : null;
 
-    this.dom.entireNum.textContent = this.state.songList.length;
-    this.dom.searchResultNum.textContent = this.state.searchResult.length;
+    this.dom.entireNum.textContent = String(this.state.songList.length);
+    this.dom.searchResultNum.textContent = String(this.state.searchResult.length);
   }
 
-  initializeUI() {
+  initializeUI(): void {
     this.uiManager.createTrackList();
     this.uiManager.initUI();
     this.searchManager.initSearch();
     this.playerManager.initPlayer();
   }
 
-  handleInitialState() {
+  handleInitialState(): void {
     this.searchManager.handleURLParams();
   }
 }

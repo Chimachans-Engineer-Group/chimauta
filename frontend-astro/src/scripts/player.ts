@@ -1,35 +1,51 @@
-import CONSTANTS from "./constants.js";
+import CONSTANTS from "./constants";
+import type DOMElements from "./dom";
+import type AppState from "./state";
+import type { YTPlayer, YTPlayerEvent } from "./types";
 
 class YouTubePlayerManager {
-  constructor(domElements, state) {
+  dom: DOMElements;
+  state: AppState;
+  player: YTPlayer | null = null;
+
+  constructor(domElements: DOMElements, state: AppState) {
     this.dom = domElements;
     this.state = state;
-    this.player = null;
   }
 
-  initPlayer() {
-    this.player = new YT.Player("player", {
+  initPlayer(): void {
+    if (!window.YT || !window.YT.Player) {
+      console.error("YouTube IFrame API is not loaded yet.");
+      return;
+    }
+
+    this.player = new window.YT.Player("player", {
       playerVars: {
         rel: 0,
       },
       events: {
         onReady: () => this.onPlayerReady(),
-        onStateChange: (e) => this.onPlayerStateChange(e),
+        onStateChange: (e: YTPlayerEvent) => this.onPlayerStateChange(e),
         onError: () => this.onPlayerError(),
       },
     });
   }
 
-  onPlayerReady() {
-    this.player.cueVideoById({
-      videoId: this.state.songList[this.state.nowSongNum].videoId,
-      startSeconds: this.state.songList[this.state.nowSongNum].startSeconds,
-      endSeconds: this.state.songList[this.state.nowSongNum].endSeconds,
+  onPlayerReady(): void {
+    if (this.state.nowSongNum === null || !this.state.songList[this.state.nowSongNum]) {
+      return;
+    }
+
+    const currentSong = this.state.songList[this.state.nowSongNum];
+    this.player?.cueVideoById({
+      videoId: currentSong.videoId,
+      startSeconds: currentSong.startSeconds,
+      endSeconds: currentSong.endSeconds,
     });
 
     this.insertSongInfo();
 
-    document.querySelector("body").classList.add("loaded");
+    document.querySelector("body")?.classList.add("loaded");
     this.dom.searchText.disabled = false;
     this.dom.searchOptionSongTitle.disabled = false;
     this.dom.searchOptionArtist.disabled = false;
@@ -37,7 +53,7 @@ class YouTubePlayerManager {
     this.dom.searchOptionPostDate.disabled = false;
   }
 
-  onPlayerStateChange(e) {
+  onPlayerStateChange(e: YTPlayerEvent): void {
     const PlayerState = window.YT?.PlayerState || CONSTANTS.PLAYER_STATE;
 
     // 再生終了のとき
@@ -70,7 +86,7 @@ class YouTubePlayerManager {
     }
   }
 
-  onPlayerError() {
+  onPlayerError(): void {
     this.insertSongInfo();
     this.state.playerFlag = false;
     this.toPlayIcon();
@@ -82,18 +98,20 @@ class YouTubePlayerManager {
     }, CONSTANTS.ERROR_RETRY_DELAY);
   }
 
-  insertSeekBarValue(seconds) {
+  insertSeekBarValue(seconds?: number): void {
+    let currentSeconds: number;
     if (typeof seconds === "number") {
-      this.dom.menuTimeSeekBar.value = seconds;
+      this.dom.menuTimeSeekBar.value = String(seconds);
+      currentSeconds = seconds;
     } else {
-      seconds = this.dom.menuTimeSeekBar.value;
+      currentSeconds = Number(this.dom.menuTimeSeekBar.value);
     }
 
-    const percent = (seconds / this.state.wholeSeconds) * 100;
+    const percent = this.state.wholeSeconds > 0 ? (currentSeconds / this.state.wholeSeconds) * 100 : 0;
     this.dom.menuTimeSeekBar.style.backgroundImage = `linear-gradient(to right, var(--brand-color) ${percent}%, var(--gray1) ${percent}%)`;
   }
 
-  formatSeconds(seconds) {
+  formatSeconds(seconds: number): string {
     const minutes = Math.floor(seconds / 60);
     const remainderSeconds = Math.floor(seconds % 60)
       .toString()
@@ -101,11 +119,15 @@ class YouTubePlayerManager {
     return minutes + ":" + remainderSeconds;
   }
 
-  insertSongInfo() {
-    if (typeof this.state.prevSongNum === "number") {
-      document.getElementById(`trackNum${this.state.prevSongNum}`).classList.remove("current");
+  insertSongInfo(): void {
+    if (this.state.nowSongNum === null || !this.state.songList[this.state.nowSongNum]) {
+      return;
     }
-    document.getElementById(`trackNum${this.state.nowSongNum}`).classList.add("current");
+
+    if (typeof this.state.prevSongNum === "number") {
+      document.getElementById(`trackNum${this.state.prevSongNum}`)?.classList.remove("current");
+    }
+    document.getElementById(`trackNum${this.state.nowSongNum}`)?.classList.add("current");
 
     const currentSong = this.state.songList[this.state.nowSongNum];
     const currentVideo = this.state.videoList[currentSong.videoId];
@@ -118,18 +140,20 @@ class YouTubePlayerManager {
     this.dom.playingBarArtist.textContent = currentSong.artist;
     this.dom.playingBarArtist.title = currentSong.artist;
 
-    this.dom.playingBarVideoTitle.textContent = currentVideo.title;
-    this.dom.playingBarVideoTitle.title = currentVideo.title;
-    this.dom.playingBarPostDate.textContent = currentVideo.postDate.substring(0, 10);
-    this.dom.playingBarPostDate.title = currentVideo.postDate;
+    if (currentVideo) {
+      this.dom.playingBarVideoTitle.textContent = currentVideo.title;
+      this.dom.playingBarVideoTitle.title = currentVideo.title;
+      this.dom.playingBarPostDate.textContent = currentVideo.postDate.substring(0, 10);
+      this.dom.playingBarPostDate.title = currentVideo.postDate;
+    }
 
     this.state.wholeSeconds = currentSong.duration;
     this.insertSeekBarValue(0);
-    this.dom.menuTimeSeekBar.max = this.state.wholeSeconds;
+    this.dom.menuTimeSeekBar.max = String(this.state.wholeSeconds);
     this.dom.menuTimeTextWhole.textContent = this.formatSeconds(this.state.wholeSeconds);
   }
 
-  toPlayIcon() {
+  toPlayIcon(): void {
     this.dom.playingBarPause.classList.add("to-hide");
     this.dom.playingBarPlay.classList.remove("to-hide");
     this.dom.menuControllerPause.classList.add("to-hide");
@@ -139,7 +163,7 @@ class YouTubePlayerManager {
     this.dom.menuControllerStatus.title = "再生";
   }
 
-  toPauseIcon() {
+  toPauseIcon(): void {
     this.dom.playingBarPause.classList.remove("to-hide");
     this.dom.playingBarPlay.classList.add("to-hide");
     this.dom.menuControllerPause.classList.remove("to-hide");
@@ -149,7 +173,10 @@ class YouTubePlayerManager {
     this.dom.menuControllerStatus.title = "一時停止";
   }
 
-  getSongCurrentTime() {
+  getSongCurrentTime(): void {
+    if (!this.player || this.state.nowSongNum === null || !this.state.songList[this.state.nowSongNum]) {
+      return;
+    }
     const currentSeconds = Math.round(
       this.player.getCurrentTime() - this.state.songList[this.state.nowSongNum].startSeconds
     );
@@ -157,7 +184,7 @@ class YouTubePlayerManager {
     this.dom.menuTimeTextNow.textContent = this.formatSeconds(currentSeconds);
   }
 
-  startCountingUpSeconds() {
+  startCountingUpSeconds(): void {
     this.state.countUpSecondsFlag = true;
     this.state.countUpSecondsInterval = setInterval(
       () => this.getSongCurrentTime(),
@@ -165,12 +192,14 @@ class YouTubePlayerManager {
     );
   }
 
-  stopCountingUpSeconds() {
-    clearInterval(this.state.countUpSecondsInterval);
+  stopCountingUpSeconds(): void {
+    if (this.state.countUpSecondsInterval) {
+      clearInterval(this.state.countUpSecondsInterval);
+    }
     this.state.countUpSecondsFlag = false;
   }
 
-  generateShuffleQueue() {
+  generateShuffleQueue(): void {
     if (!this.state.searchResult || this.state.searchResult.length === 0) {
       this.state.shuffleQueue = [];
       return;
@@ -178,12 +207,14 @@ class YouTubePlayerManager {
     const queue = [...this.state.searchResult];
     for (let i = queue.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [queue[i], queue[j]] = [queue[j], queue[i]];
+      const temp = queue[i];
+      queue[i] = queue[j];
+      queue[j] = temp;
     }
     this.state.shuffleQueue = queue;
   }
 
-  playSong(songNum) {
+  playSong(songNum?: number): void {
     this.state.prevSongNum = this.state.nowSongNum;
 
     // 曲を指定されたとき
@@ -194,7 +225,7 @@ class YouTubePlayerManager {
     else if (!this.state.repeatFlag) {
       if (this.state.searchResult.length !== 0) {
         if (!this.state.shuffleFlag) {
-          const checkForExistence = this.state.searchResult.indexOf(this.state.nowSongNum);
+          const checkForExistence = this.state.searchResult.indexOf(this.state.nowSongNum ?? -1);
 
           // 通常再生で最後の曲になったとき
           if (checkForExistence <= 0) {
@@ -216,7 +247,9 @@ class YouTubePlayerManager {
             this.state.shuffleQueue.push(nextSong);
             nextSong = alternate;
           }
-          this.state.nowSongNum = nextSong;
+          if (nextSong !== undefined) {
+            this.state.nowSongNum = nextSong;
+          }
         }
       }
       // 検索条件でリストが空のとき
@@ -227,30 +260,38 @@ class YouTubePlayerManager {
     }
     // リピート再生のとき、nowSongNumは変化なし
 
+    if (this.state.nowSongNum === null || !this.state.songList[this.state.nowSongNum]) {
+      return;
+    }
+
     const currentSong = this.state.songList[this.state.nowSongNum];
-    this.player.loadVideoById({
+    this.player?.loadVideoById({
       videoId: currentSong.videoId,
       startSeconds: currentSong.startSeconds,
       endSeconds: currentSong.endSeconds,
     });
   }
 
-  changePlayerStatus() {
+  changePlayerStatus(): void {
     if (this.state.playerFlag) {
       this.toPlayIcon();
-      this.player.pauseVideo();
+      this.player?.pauseVideo();
       this.state.playerFlag = false;
     } else {
       this.toPauseIcon();
-      this.player.playVideo();
+      this.player?.playVideo();
       this.state.playerFlag = true;
     }
   }
 
-  seekTo() {
+  seekTo(): void {
+    if (this.state.nowSongNum === null || !this.state.songList[this.state.nowSongNum]) {
+      return;
+    }
+
     const currentSong = this.state.songList[this.state.nowSongNum];
     const targetSeconds = currentSong.startSeconds + Number(this.dom.menuTimeSeekBar.value);
-    this.player.seekTo(targetSeconds, true);
+    this.player?.seekTo(targetSeconds, true);
     if (this.state.playerFlag) {
       this.startCountingUpSeconds();
     }

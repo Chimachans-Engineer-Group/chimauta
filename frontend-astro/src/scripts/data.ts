@@ -1,19 +1,22 @@
-import CONSTANTS from "./constants.js";
+import CONSTANTS from "./constants";
+import type { ApiResponse, Track, VideoList } from "./types";
 
 const CACHE_KEY = "chimauta_data_cache";
 
 class DataManager {
+  apiUrl: string;
+
   constructor() {
     this.apiUrl = CONSTANTS.API_URL;
   }
 
-  async fetchData() {
+  async fetchData(): Promise<ApiResponse> {
     try {
       const cached = sessionStorage.getItem(CACHE_KEY);
       if (cached) {
         try {
-          const parsed = JSON.parse(cached);
-          if (parsed && parsed.tracks && parsed.videos) {
+          const parsed = JSON.parse(cached) as ApiResponse;
+          if (parsed && Array.isArray(parsed.tracks) && parsed.videos) {
             return parsed;
           }
         } catch {
@@ -25,7 +28,7 @@ class DataManager {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
+      const data = (await response.json()) as ApiResponse;
       try {
         sessionStorage.setItem(CACHE_KEY, JSON.stringify(data));
       } catch (storageError) {
@@ -38,7 +41,7 @@ class DataManager {
     }
   }
 
-  processData(data) {
+  processData(data: ApiResponse): { songList: Track[]; videoList: VideoList } {
     const songList = data.tracks;
     const videoList = data.videos;
 

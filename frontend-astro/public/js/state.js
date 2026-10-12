@@ -22,6 +22,8 @@ class AppState {
     this.repeatFlag = false;
     /** @type {boolean} */
     this.shuffleFlag = false;
+    /** @type {number[]} */
+    this.shuffleQueue = [];
   }
 }
 

@@ -4,23 +4,34 @@ class SearchManager {
   constructor(domElements, state) {
     this.dom = domElements;
     this.state = state;
+    this.debounceTimer = null;
+    this.trackElements = null;
   }
 
   initSearch() {
-    this.dom.searchForm.addEventListener("input", () => this.performSearch());
+    this.dom.searchForm.addEventListener("input", () => {
+      clearTimeout(this.debounceTimer);
+      this.debounceTimer = setTimeout(() => {
+        this.performSearch();
+      }, 150);
+    });
 
     const checkboxes = document.querySelectorAll('#searchOption input[type="checkbox"]');
     checkboxes.forEach((checkbox) => {
-      checkbox.addEventListener("change", () => this.performSearch());
+      checkbox.addEventListener("change", () => {
+        clearTimeout(this.debounceTimer);
+        this.performSearch();
+      });
     });
 
-    this.dom.searchText.addEventListener("keypress", (e) => {
-      if (e.key == "Enter") {
+    this.dom.searchText.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.isComposing) {
         e.preventDefault();
       }
     });
 
     this.dom.toClearSearchValue.addEventListener("click", () => {
+      clearTimeout(this.debounceTimer);
       this.dom.searchText.value = "";
       this.dom.searchText.focus();
       this.performSearch();
@@ -32,6 +43,12 @@ class SearchManager {
   }
 
   performSearch() {
+    if (!this.trackElements && this.state.songList) {
+      this.trackElements = this.state.songList.map((_, i) =>
+        document.getElementById(`trackNum${i}`)
+      );
+    }
+
     const searchWord = this.dom.searchText.value;
     const songTitleChecked = this.dom.searchOptionSongTitle.checked;
     const artistChecked = this.dom.searchOptionArtist.checked;
@@ -58,18 +75,22 @@ class SearchManager {
       const testOfPostDate =
         postDateChecked && searchWordRegex.test(this.state.videoList[track.videoId].postDate);
 
-      const beingProcessedTrackRow = document.getElementById(`trackNum${i}`);
+      const beingProcessedTrackRow = this.trackElements ? this.trackElements[i] : document.getElementById(`trackNum${i}`);
 
-      if (testOfSongTitle || testOfArtist || testOfVideoTitle || testOfPostDate) {
-        beingProcessedTrackRow.classList.remove("to-hide");
-        return i;
-      } else {
-        beingProcessedTrackRow.classList.add("to-hide");
-        return [];
+      if (beingProcessedTrackRow) {
+        if (testOfSongTitle || testOfArtist || testOfVideoTitle || testOfPostDate) {
+          beingProcessedTrackRow.classList.remove("to-hide");
+          return i;
+        } else {
+          beingProcessedTrackRow.classList.add("to-hide");
+          return [];
+        }
       }
+      return [];
     });
 
     this.dom.searchResultNum.textContent = this.state.searchResult.length;
+    this.state.shuffleQueue = [];
   }
 
   updatePageTitle(searchWord) {

@@ -170,6 +170,19 @@ class YouTubePlayerManager {
     this.state.countUpSecondsFlag = false;
   }
 
+  generateShuffleQueue() {
+    if (!this.state.searchResult || this.state.searchResult.length === 0) {
+      this.state.shuffleQueue = [];
+      return;
+    }
+    const queue = [...this.state.searchResult];
+    for (let i = queue.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [queue[i], queue[j]] = [queue[j], queue[i]];
+    }
+    this.state.shuffleQueue = queue;
+  }
+
   playSong(songNum) {
     this.state.prevSongNum = this.state.nowSongNum;
 
@@ -194,8 +207,16 @@ class YouTubePlayerManager {
         }
         // シャッフル再生のとき
         else {
-          this.state.nowSongNum =
-            this.state.searchResult[Math.floor(Math.random() * this.state.searchResult.length)];
+          if (this.state.shuffleQueue.length === 0) {
+            this.generateShuffleQueue();
+          }
+          let nextSong = this.state.shuffleQueue.pop();
+          if (nextSong === this.state.nowSongNum && this.state.shuffleQueue.length > 0) {
+            const alternate = this.state.shuffleQueue.pop();
+            this.state.shuffleQueue.push(nextSong);
+            nextSong = alternate;
+          }
+          this.state.nowSongNum = nextSong;
         }
       }
       // 検索条件でリストが空のとき

@@ -14,6 +14,7 @@ class UIManager {
     this.initScrollButton();
     this.initPlayingBarThumb();
     this.initSeekBar();
+    this.initTrackListEvents();
     this.initWhenBeforeunload();
   }
 
@@ -36,16 +37,32 @@ class UIManager {
     this.dom.menuControllerNext.addEventListener("click", () => this.playerManager.playSong());
   }
 
+  initTrackListEvents() {
+    this.dom.tracks.addEventListener("click", (e) => {
+      const trackButton = e.target.closest(".track-button");
+      if (trackButton && trackButton.dataset.index !== undefined) {
+        this.playerManager.playSong(Number(trackButton.dataset.index));
+      }
+    });
+  }
+
   initScrollButton() {
     this.dom.toPageTop.addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
+    let isTicking = false;
     window.addEventListener("scroll", () => {
-      if (window.scrollY > 100) {
-        this.dom.toPageTop.classList.remove("invisible");
-      } else {
-        this.dom.toPageTop.classList.add("invisible");
+      if (!isTicking) {
+        window.requestAnimationFrame(() => {
+          if (window.scrollY > 100) {
+            this.dom.toPageTop.classList.remove("invisible");
+          } else {
+            this.dom.toPageTop.classList.add("invisible");
+          }
+          isTicking = false;
+        });
+        isTicking = true;
       }
     });
   }
@@ -109,15 +126,18 @@ class UIManager {
     if (this.state.shuffleFlag) {
       this.dom.menuControllerShuffle.classList.add("disabled");
       this.dom.menuControllerShuffle.title = "シャッフルを有効にする";
+      this.state.shuffleQueue = [];
     } else {
       this.dom.menuControllerShuffle.classList.remove("disabled");
       this.dom.menuControllerShuffle.title = "シャッフルを無効にする";
+      this.playerManager.generateShuffleQueue();
     }
     this.state.shuffleFlag = !this.state.shuffleFlag;
   }
 
   createTrackList() {
     const trackTemplate = document.querySelector("#trackTemplate");
+    const fragment = document.createDocumentFragment();
 
     for (let i = this.state.songList.length - 1; i >= 0; i--) {
       const track = this.state.songList[i];
@@ -126,10 +146,12 @@ class UIManager {
       li.id = `trackNum${i}`;
 
       const trackButton = clonedElement.querySelector(".track-button");
-      trackButton.addEventListener("click", () => this.playerManager.playSong(i));
+      trackButton.dataset.index = i;
 
       const thumb = clonedElement.querySelector(".track-button-video-thumb");
       thumb.src = `${CONSTANTS.THUMB_BASE_URL}${track.videoId}/default.webp`;
+      thumb.loading = "lazy";
+      thumb.decoding = "async";
 
       const songTitle = clonedElement.querySelector(".track-button-info-title");
       songTitle.textContent = track.title;
@@ -149,8 +171,10 @@ class UIManager {
       const duration = clonedElement.querySelector(".track-duration");
       duration.textContent = this.playerManager.formatSeconds(track.duration);
 
-      this.dom.tracks.appendChild(clonedElement);
+      fragment.appendChild(clonedElement);
     }
+
+    this.dom.tracks.appendChild(fragment);
   }
 }
 

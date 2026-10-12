@@ -1,8 +1,14 @@
 ---
 import ExternalLink from "./ExternalLink.astro";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
 ---
 
-<section class="message">
+<section class:list={["message", className]}>
   <details open>
     <summary>はじめに</summary>
     <p class="lead">

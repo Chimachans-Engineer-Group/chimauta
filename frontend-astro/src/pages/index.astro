@@ -11,9 +11,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   <SiteHeader />
 
   <main>
-    <YoutubeSection />
-    <MessageSection />
-    <SongTableSection />
+    <YoutubeSection class="youtube-area" />
+    <MessageSection class="message-area" />
+    <SongTableSection class="song-table-area" />
   </main>
 
   <PlayingBar />
@@ -38,17 +38,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   @media (960px <= width) {
-    :global(.youtube) {
+    .youtube-area {
       grid-row: 1 / 2;
       grid-column: 1 / 2;
     }
 
-    :global(.message) {
+    .message-area {
       grid-row: 2 / 3;
       grid-column: 1 / 2;
     }
 
-    :global(.song-table) {
+    .song-table-area {
       grid-row: 1 / 3;
       grid-column: 2 / 3;
     }

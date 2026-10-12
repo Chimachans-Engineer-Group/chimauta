@@ -5,9 +5,15 @@ import SearchIcon from "./icons/SearchIcon.astro";
 import TwitterXIcon from "./icons/TwitterXIcon.astro";
 import ExternalLink from "./ExternalLink.astro";
 import "./SongTableSection.css";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
 ---
 
-<section class="song-table">
+<section class:list={["song-table", className]}>
   <form class="search" id="searchForm">
     <div class="search-icon search-loupe"><SearchIcon /></div>
     <input type="search" class="search-input" id="searchText" placeholder="検索" disabled />
